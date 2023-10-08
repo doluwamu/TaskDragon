@@ -1,0 +1,8 @@
+20230930	20:20:53	7fc80ca2-a1d4-4343-8fc4-ed8580513ab5	undefined: undefined	undefined	undefined
+20230930	21:20:32	26eceb00-1cdb-4a4c-9ad8-a64f70d27034	undefined: ETIMEOUT	querySrv	_mongodb._tcp.cluster0.aafiioh.mongodb.net
+20231002	20:28:00	70b3cfe5-5ca4-4a1b-a5e8-0bf14addf3e7	undefined: ECONNREFUSED	querySrv	_mongodb._tcp.cluster0.aafiioh.mongodb.net
+20231002	20:31:13	6c40dead-0647-4d89-b47a-58a53e765fce	undefined: ECONNREFUSED	querySrv	_mongodb._tcp.cluster0.aafiioh.mongodb.net
+20231002	20:32:53	f075eae8-4d7f-46b0-8517-8f5cbd4bbfc4	undefined: ECONNREFUSED	querySrv	_mongodb._tcp.cluster0.aafiioh.mongodb.net
+20231002	20:52:19	4841b067-549c-4ff8-a926-52a1ab57146a	undefined: ECONNREFUSED	querySrv	_mongodb._tcp.cluster0.aafiioh.mongodb.net
+20231002	22:10:35	c3a5a263-e960-44c6-924e-8f6408f35503	undefined: ECONNREFUSED	querySrv	_mongodb._tcp.cluster0.aafiioh.mongodb.net
+20231008	14:06:27	0304b609-d4a1-4197-9661-018aca8746e4	undefined: undefined	undefined	undefined
