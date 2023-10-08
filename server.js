@@ -12,6 +12,9 @@ import { logger, logEvents } from "./middleware/logger.js";
 import corsOptions from "./config/corsOptions.js";
 import connectDB from "./config/dbconnection.js";
 
+// Routes
+import AuthRoutes from "./routes/user.js";
+
 dotenv.config();
 
 connectDB();
@@ -34,6 +37,7 @@ app.use(express.json());
 app.use("/", express.static(path.join(__dirname, "public")));
 
 // Routes
+app.use("/api/v1/auth", AuthRoutes);
 
 app.all("*", (req, res) => {
   res.status(404);

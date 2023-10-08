@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Task as task, User as user } from "../constants";
+import { Task as task, User as user } from "../constants/index.js";
 
 const {
   TASK,
@@ -36,7 +36,7 @@ const taskSchema = new Schema(
       default: important,
       enum: [normal, important, veryImportant],
     },
-    "start-time": {
+    startTime: {
       type: Date,
       default: null,
     },

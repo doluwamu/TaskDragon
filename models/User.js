@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { User as user } from "../constants";
+import { User as user } from "../constants/index.js";
 
 const { USER, role } = user;
 
@@ -24,11 +24,10 @@ const userSchema = new Schema(
     },
     verified: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     role: {
-      type: Boolean,
-      required: true,
+      type: String,
       default: role.user,
       enum: [role.admin, role.user],
     },
