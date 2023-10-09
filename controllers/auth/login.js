@@ -3,6 +3,9 @@ import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
+// @desc Refresh
+// @route GET /api/v1/auth/login
+// @access Public
 const login = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -12,7 +15,8 @@ const login = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
 
   const foundUser =
-    (await User.findOne({ username })) || (await User.findOne({ email }));
+    (await User.findOne({ username }).exec()) ||
+    (await User.findOne({ email }).exec());
 
   if (!foundUser)
     return res.status(400).json({ message: "User does not exist" });

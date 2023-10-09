@@ -1,1 +1,12 @@
 20231009	00:30:48	ec3fe335-b0bc-4268-bb5a-dea137a96079	POST	/api/v1/auth/login	undefined
+20231009	22:18:56	1947ce3d-a21e-446d-95d7-89e02ec8fe66	GET	/api/v1/auth/refresh	undefined
+20231009	22:20:05	b362f9c7-d389-493a-a4ab-bf0ff5a595b5	GET	/api/v1/auth/refresh	undefined
+20231009	22:24:55	ced1aad0-ff5a-41f5-a498-b72c230013fc	GET	/api/v1/auth/refresh	undefined
+20231009	22:46:41	724dae60-51f0-495f-b5a9-1b67bb78d26b	POST	/api/v1/auth/logout	undefined
+20231009	22:46:46	2f2d8e03-1968-46f1-92bf-e24aaec9fa75	GET	/api/v1/auth/refresh	undefined
+20231009	22:54:13	7b5a973c-367f-444d-9aa2-45745ee19d15	POST	/api/v1/auth/login	undefined
+20231009	22:54:28	e8fa7978-eada-44cd-a7bf-94e2301cbcf5	POST	/api/v1/auth/login	undefined
+20231009	22:55:13	5daa77c0-ec8e-46fc-8725-d357bd6b0037	GET	/api/v1/auth/refresh	undefined
+20231009	22:55:24	26a56a0b-7838-4fdd-8874-c14a8cabe173	POST	/api/v1/auth/logout	undefined
+20231009	22:55:32	bcb2b38d-cf94-4b14-9e43-d0e625676b83	POST	/api/v1/auth/logout	undefined
+20231009	22:55:37	f1f3bec6-301b-4f71-87a7-55967ad7f526	GET	/api/v1/auth/refresh	undefined

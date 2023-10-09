@@ -2,6 +2,9 @@ import User from "../../models/User.js";
 import asyncHandler from "express-async-handler";
 import bcrypt from "bcryptjs";
 
+// @desc Refresh
+// @route GET /api/v1/auth/signup
+// @access Public
 const signup = asyncHandler(async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
 
@@ -29,7 +32,7 @@ const signup = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
-  return res.json({
+  return res.status(201).json({
     message: "Account created. Please login",
     user: newUser._id,
   });
