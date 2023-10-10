@@ -8,8 +8,12 @@ import asyncHandler from "express-async-handler";
 const setUserSecrets = asyncHandler(async (req, res) => {
   const { userId } = req.params;
   const { color, DOB, food } = req.body;
+  const { user } = req;
 
   if (!userId) return res.status(400).json({ message: "No user id found" });
+
+  if (user._id !== userId)
+    return res.status(400).json({ message: "This is not your id" });
 
   if (!color || !DOB || !food)
     return res.status(400).json({ message: "All fields are required" });
