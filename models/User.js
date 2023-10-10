@@ -38,6 +38,7 @@ const userSchema = new Schema(
         food: { type: String, lowercase: true },
       },
       required: true,
+      lowercase: true,
       default: {
         color: "",
         DOB: null,

@@ -1,15 +1,11 @@
 import express from "express";
-import signup from "../controllers/auth/signup.js";
-import login from "../controllers/auth/login.js";
-import refreshSession from "../controllers/auth/refresh.js";
-import logout from "../controllers/auth/logout.js";
+import getUser from "../controllers/user/getUser.js";
+import setUserSecrets from "../controllers/user/setUserSecrets.js";
 
 const router = express.Router();
 
-// Auth
-router.post("/login", login);
-router.post("/signup", signup);
-router.get("/refresh", refreshSession);
-router.post("/logout", logout);
+// User
+router.post("/secret/:userId", setUserSecrets);
+router.get("/:userId", getUser);
 
 export default router;

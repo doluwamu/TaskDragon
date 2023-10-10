@@ -13,7 +13,8 @@ import corsOptions from "./config/corsOptions.js";
 import connectDB from "./config/dbconnection.js";
 
 // Routes
-import AuthRoutes from "./routes/user.js";
+import AuthRoutes from "./routes/auth.js";
+import UserRoutes from "./routes/user.js";
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/user", UserRoutes);
 
 app.all("*", (req, res) => {
   res.status(404);

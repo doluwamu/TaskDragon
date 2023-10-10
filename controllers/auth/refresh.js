@@ -18,7 +18,7 @@ const refreshSession = asyncHandler(async (req, res) => {
     refreshToken,
     REFRESH_TOKEN_SECRET,
     asyncHandler(async (err, decoded) => {
-      if (err) return res.json(err);
+      if (err) return res.status(400).json(err);
 
       const foundUser =
         (await User.findOne({ username: decoded.username }).exec()) ||
@@ -37,7 +37,7 @@ const refreshSession = asyncHandler(async (req, res) => {
         { expiresIn: "10m" }
       );
 
-      return res.json({ accessToken });
+      return res.json({ accessToken, user: foundUser._id });
     })
   );
 });

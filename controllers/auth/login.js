@@ -61,7 +61,7 @@ const login = asyncHandler(async (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
   });
 
-  return res.json({ accessToken });
+  return res.json({ accessToken, user: foundUser._id });
 });
 
 export default login;
