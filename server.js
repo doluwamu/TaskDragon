@@ -39,7 +39,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/api/v1/auth", AuthRoutes);
-app.use("/api/v1/user", UserRoutes);
+app.use("/api/v1/users", UserRoutes);
 
 app.all("*", (req, res) => {
   res.status(404);

@@ -1,10 +1,10 @@
 import User from "../../models/User.js";
 import asyncHandler from "express-async-handler";
+import moment from "moment";
 
 // @desc Set User Secrets
-// @route POST /api/v1/user/secret/:userId
+// @route POST /api/v1/users/secret/:userId
 // @access Private
-
 const setUserSecrets = asyncHandler(async (req, res) => {
   const { userId } = req.params;
   const { color, DOB, food } = req.body;
@@ -12,7 +12,7 @@ const setUserSecrets = asyncHandler(async (req, res) => {
 
   if (!userId) return res.status(400).json({ message: "No user id found" });
 
-  if (user._id !== userId)
+  if (user.id !== userId)
     return res.status(400).json({ message: "This is not your id" });
 
   if (!color || !DOB || !food)
@@ -33,12 +33,14 @@ const setUserSecrets = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "User does not exist" });
 
   foundUser.userSecrets.color = color;
-  foundUser.userSecrets.DOB = Date(DOB);
+  foundUser.userSecrets.DOB = new Date(DOB);
   foundUser.userSecrets.food = food;
 
   await foundUser.save();
 
-  return res.status(201).json({ message: "Secrets successfully uploaded" });
+  return res
+    .status(201)
+    .json({ message: "Secrets successfully uploaded", user: foundUser });
 });
 
 export default setUserSecrets;

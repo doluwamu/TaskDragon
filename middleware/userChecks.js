@@ -12,6 +12,8 @@ export const userLoggedIn = (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
+  jwt.decode();
+
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
     if (err) return res.status(403).json({ message: "Forbidden" });
     req.username = decoded.username;
@@ -49,17 +51,6 @@ export const isAdmin = (req, res, next) => {
     return res
       .status(400)
       .json({ message: "You are not authorized(Admins only)" });
-
-  next();
-};
-
-export const allowReset = (req, res, next) => {
-  const {
-    user: { allowPasswordReset },
-  } = req;
-
-  if (allowPasswordReset === false)
-    return res.status(400).json({ message: "You can't reset password" });
 
   next();
 };

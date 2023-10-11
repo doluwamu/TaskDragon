@@ -2,9 +2,8 @@ import User from "../../models/User.js";
 import asyncHandler from "express-async-handler";
 
 // @desc Get a user
-// @route POST /api/v1/user/:userId
+// @route POST /api/v1/users/:userId
 // @access Private
-
 const getUser = asyncHandler(async (req, res) => {
   const { userId } = req.params;
   const { user } = req;
