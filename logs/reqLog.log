@@ -70,3 +70,10 @@
 20231011	07:07:14	d1981a6f-6f8e-402d-9f91-10a9ce64def6	POST	/api/v1/auth/logout	undefined
 20231011	07:22:22	fe4c3225-ffcb-4a2b-a0d8-9c9fc132e730	POST	/api/v1/users/admin/create	undefined
 20231011	07:23:13	7830dc21-1b85-4f22-87f6-e52cbcb0531c	POST	/api/v1/users/admin/create	undefined
+20231011	07:25:50	95317616-4041-4bd4-bb6a-1c4091faa5c4	POST	/api/v1/users/admin/create	undefined
+20231011	07:26:08	b77c55e8-5ef0-4152-878a-693f352b4726	POST	/api/v1/auth/login	undefined
+20231011	07:26:36	cfdc53c1-c36a-4872-a4e6-688297435395	POST	/api/v1/users/admin/create	undefined
+20231011	07:27:08	b7069bbd-aef7-4f3a-882b-571726e6da6c	POST	/api/v1/auth/signup	undefined
+20231011	07:27:28	d079ceae-d918-4c3b-ab5e-af8afa254308	POST	/api/v1/auth/login	undefined
+20231011	07:27:54	0884bf71-1e0b-4d06-818a-3cf2b24a0c27	POST	/api/v1/users/admin/create	undefined
+20231011	07:28:49	379c47c9-7dfc-4edb-8e8f-47f98f98d2fe	DELETE	/api/v1/users	undefined
