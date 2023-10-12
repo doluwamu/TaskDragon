@@ -35,11 +35,10 @@ const userSchema = new Schema(
     userSecrets: {
       type: {
         color: { type: String, lowercase: true },
-        DOB: { type: Date },
+        DOB: { type: String },
         food: { type: String, lowercase: true },
       },
       required: true,
-      lowercase: true,
       default: {
         color: "",
         DOB: null,
