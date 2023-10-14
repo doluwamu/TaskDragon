@@ -42,6 +42,10 @@ const taskSchema = new Schema(
       type: Date,
       default: null,
     },
+    endTime: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

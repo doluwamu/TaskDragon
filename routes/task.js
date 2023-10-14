@@ -1,5 +1,9 @@
 import express from "express";
 import addTask from "../controllers/tasks/addTask.js";
+import {
+  editTaskDetails,
+  editTaskStatus,
+} from "../controllers/tasks/editTask.js";
 import getUserTasks from "../controllers/tasks/getUserTasks.js";
 import { userIsVerified, userLoggedIn } from "../middleware/userChecks.js";
 
@@ -8,6 +12,8 @@ router.use(userLoggedIn);
 router.use(userIsVerified);
 
 router.post("/new", addTask);
-router.get("/:userId", getUserTasks);
+router.get("/mine", getUserTasks);
+router.route("/:taskId").put(editTaskDetails);
+router.put("/:taskId/status", editTaskStatus);
 
 export default router;

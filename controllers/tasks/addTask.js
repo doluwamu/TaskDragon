@@ -30,7 +30,7 @@ const addTask = asyncHandler(async (req, res) => {
     priority,
   });
 
-  return res.json({ message: "Task successfully added", task: newTask });
+  return res.json({ message: "Task successfully added" });
 });
 
 export default addTask;
