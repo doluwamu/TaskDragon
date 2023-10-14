@@ -6,15 +6,18 @@ import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// Middlewares
 import errorHandler from "./middleware/errorHandler.js";
 import { logger, logEvents } from "./middleware/logger.js";
 
+// Configs
 import corsOptions from "./config/corsOptions.js";
 import connectDB from "./config/dbconnection.js";
 
 // Routes
 import AuthRoutes from "./routes/auth.js";
 import UserRoutes from "./routes/user.js";
+import TaskRoutes from "./routes/task.js";
 
 dotenv.config();
 
@@ -40,6 +43,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 // Routes
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/users", UserRoutes);
+app.use("/api/v1/tasks", TaskRoutes);
 
 app.all("*", (req, res) => {
   res.status(404);

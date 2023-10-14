@@ -15,8 +15,8 @@ const login = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
 
   const foundUser =
-    (await User.findOne({ username }).exec()) ||
-    (await User.findOne({ email }).exec());
+    (await User.findOne({ username }).select("+password").exec()) ||
+    (await User.findOne({ email }).select("+password").exec());
 
   if (!foundUser)
     return res.status(400).json({ message: "User does not exist" });

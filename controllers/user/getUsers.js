@@ -6,13 +6,13 @@ import asyncHandler from "express-async-handler";
 // @access Private(Admin only)
 const getUsers = asyncHandler(async (req, res) => {
   const { number } = req.query;
-  const defNum = 50;
+  const baseNumber = 50;
 
-  const foundUser = await User.find({}).limit(number || defNum);
+  const foundUser = await User.find({}).limit(Number(number) || baseNumber);
 
   return res.json({
     users: foundUser,
-    info: { number: Number(number) || foundUser.length },
+    number: foundUser.length,
   });
 });
 

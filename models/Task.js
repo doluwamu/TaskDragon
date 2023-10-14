@@ -15,9 +15,10 @@ const taskSchema = new Schema(
       ref: USER,
       required: true,
     },
-    name: {
+    title: {
       type: String,
       required: true,
+      maxLength: 200,
     },
     description: {
       type: String,
@@ -33,6 +34,7 @@ const taskSchema = new Schema(
     },
     priority: {
       type: String,
+      required: true,
       default: important,
       enum: [normal, important, veryImportant],
     },

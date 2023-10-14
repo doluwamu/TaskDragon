@@ -21,9 +21,7 @@ export const userLoggedIn = (req, res, next) => {
     req.verified = decoded.verified;
     req.role = decoded.role;
     try {
-      req.user = await User.findOne({ username: req.username }).select(
-        "-password -userSecrets"
-      );
+      req.user = await User.findOne({ username: req.username }).exec();
     } catch (error) {
       res.json(error);
     }

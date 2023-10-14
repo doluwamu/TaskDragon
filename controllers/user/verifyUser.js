@@ -1,6 +1,9 @@
 import User from "../../models/User.js";
 import asyncHandler from "express-async-handler";
 
+// @desc Set User Secrets
+// @route POST /api/v1/users/verify/:userId
+// @access Private
 const verifyUser = asyncHandler(async (req, res) => {
   const {
     user: { id, verified },
@@ -18,9 +21,9 @@ const verifyUser = asyncHandler(async (req, res) => {
 
   foundUser.verified = true;
 
-  const verifiedUser = await foundUser.save();
+  await foundUser.save();
 
-  return res.json({ message: "User verified", user: verifiedUser });
+  return res.json({ message: "User verified" });
 });
 
 export default verifyUser;

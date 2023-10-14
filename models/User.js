@@ -21,6 +21,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     verified: {
       type: Boolean,
@@ -44,6 +45,7 @@ const userSchema = new Schema(
         DOB: null,
         food: "",
       },
+      select: false,
     },
     allowPasswordReset: {
       type: Boolean,
