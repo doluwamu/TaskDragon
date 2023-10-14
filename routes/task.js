@@ -1,5 +1,6 @@
 import express from "express";
 import addTask from "../controllers/tasks/addTask.js";
+import deleteTask from "../controllers/tasks/deleteTask.js";
 import {
   editTaskDetails,
   editTaskStatus,
@@ -13,7 +14,7 @@ router.use(userIsVerified);
 
 router.post("/new", addTask);
 router.get("/mine", getUserTasks);
-router.route("/:taskId").put(editTaskDetails);
+router.route("/:taskId").put(editTaskDetails).delete(deleteTask);
 router.put("/:taskId/status", editTaskStatus);
 
 export default router;

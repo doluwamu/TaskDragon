@@ -7,9 +7,6 @@ import { Task as task } from "../../constants/index.js";
 // @access Private
 const editTaskDetails = asyncHandler(async (req, res) => {
   const { title, description, favorite, priority } = req.body;
-  const {
-    Priority: { normal, important, veryImportant },
-  } = task;
   const { user } = req;
   const { taskId } = req.params;
 

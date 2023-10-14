@@ -254,3 +254,15 @@
 20231014	23:25:28	67eaf6de-914d-4e5b-8be3-f66c1e918ca0	POST	/api/v1/auth/logout	undefined
 20231014	23:25:41	f8c5446f-07a8-4533-9dd8-5d81f15d6c84	POST	/api/v1/auth/login	undefined
 20231014	23:26:01	c2538b59-0571-411e-8186-05f76f146ed8	GET	/api/v1/tasks/mine	undefined
+20231014	23:48:48	7b771d56-b973-4c99-b92e-627de6b4d873	POST	/api/v1/auth/logout	undefined
+20231014	23:48:57	0d586c6d-9bd3-44a9-b25e-836edfcc6945	POST	/api/v1/auth/login	undefined
+20231014	23:50:06	b4d11d78-a415-4378-9451-875159028566	GET	/api/v1/tasks/mine	undefined
+20231014	23:50:11	6c60ae5a-b6ae-45a9-a31f-75907e0c5aa0	GET	/api/v1/auth/refresh	undefined
+20231014	23:50:43	53406fd2-5938-4be1-a164-1cac7005c9d2	GET	/api/v1/tasks/mine	undefined
+20231014	23:51:10	4bf0d70a-9889-44f1-aee1-50b386b1bdd2	DELETE	/api/v1/tasks/652ae22bacad2e35f8cf2386	undefined
+20231014	23:53:16	7731ceda-3f53-438b-b2bc-4bac3d28f342	DELETE	/api/v1/tasks/652ae22bacad2e35f8cf2386	undefined
+20231015	00:00:04	d1586ffc-17cb-40ab-90db-b993a46a2bb4	DELETE	/api/v1/tasks/652ae22bacad2e35f8cf2386	undefined
+20231015	00:00:09	cc3da629-54dc-486c-bece-6a89723f3616	GET	/api/v1/auth/refresh	undefined
+20231015	00:00:30	432be127-b0c1-4527-9be7-f57fd04256d2	DELETE	/api/v1/tasks/652ae22bacad2e35f8cf2386	undefined
+20231015	00:00:38	2a21323c-f01c-44ce-a965-2cc0963456d5	GET	/api/v1/tasks/mine	undefined
+20231015	00:00:48	0cbd10b5-af0f-45d9-b3c5-983ea03a30bd	GET	/api/v1/tasks/mine	undefined
