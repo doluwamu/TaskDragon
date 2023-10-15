@@ -5,6 +5,7 @@ import {
   editTaskDetails,
   editTaskStatus,
 } from "../controllers/tasks/editTask.js";
+import getTask from "../controllers/tasks/getTask.js";
 import getUserTasks from "../controllers/tasks/getUserTasks.js";
 import { userIsVerified, userLoggedIn } from "../middleware/userChecks.js";
 
@@ -14,7 +15,7 @@ router.use(userIsVerified);
 
 router.post("/new", addTask);
 router.get("/mine", getUserTasks);
-router.route("/:taskId").put(editTaskDetails).delete(deleteTask);
+router.route("/:taskId").get(getTask).put(editTaskDetails).delete(deleteTask);
 router.put("/:taskId/status", editTaskStatus);
 
 export default router;

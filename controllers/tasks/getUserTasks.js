@@ -24,11 +24,16 @@ const getUserTasks = asyncHandler(async (req, res) => {
       }
     : { user };
 
+  const count = await Task.countDocuments({ user });
   const foundTasks = await Task.find({ ...search }).limit(
     Number(number) || baseNumber
   );
 
-  return res.json({ tasks: foundTasks, number: foundTasks.length });
+  return res.json({
+    tasks: foundTasks,
+    number: foundTasks.length,
+    total: count,
+  });
 });
 
 export default getUserTasks;
