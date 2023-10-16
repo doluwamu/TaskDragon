@@ -27,4 +27,14 @@ body {
     sans-serif;
   max-width: 1440px;
   margin: 0 auto;
+  background: rgb(12, 11, 41);
+  background: radial-gradient(
+    circle,
+    rgba(12, 11, 41, 1) 0%,
+    rgb(0, 2, 22) 55%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  max-width: 1440px;
+  margin: 0 auto;
+  /* color: rgb(125, 243, 253); */
 }
