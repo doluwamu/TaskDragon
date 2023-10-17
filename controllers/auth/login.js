@@ -11,8 +11,14 @@ const login = asyncHandler(async (req, res) => {
 
   const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 
+  const regex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   if ((!username && !email) || !password)
     return res.status(400).json({ message: "All fields are required" });
+
+  if (!email.match(regex))
+    return res.status(400).json({ message: "Invalid email" });
 
   const foundUser =
     (await User.findOne({ username }).select("+password").exec()) ||

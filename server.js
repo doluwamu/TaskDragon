@@ -34,7 +34,7 @@ const __dirname = path.dirname(__filename);
 app.use(cookieParser());
 app.use(logger);
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
