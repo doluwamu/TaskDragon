@@ -12,8 +12,8 @@
       "@/*": ["./src/*"],
       "@components/*": ["components/*"],
       "@views/*": ["views/*"],
-      "@stores/*": ["stores/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@router/*": ["router/*"]
     },
     "types": ["node", "jsdom"]
   }

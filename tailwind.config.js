@@ -12,8 +12,7 @@ module.exports = {
     },
     extend: {
       colors: {
-        'brown-500': 'hsla(25, 100%, 7%, 1)',
-        'black-800': '#0008'
+        main: 'rgb(0, 2, 22)'
       }
     }
   },

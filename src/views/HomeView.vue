@@ -19,12 +19,12 @@ import Navbar from '../components/app/Navbar.vue'
         </p>
         <a
           href="/signup"
-          class="button px-4 py-2 bg-white text-blue-900 text-center rounded-lg font-medium mx-auto md:mx-0"
+          class="button px-4 py-2 bg-white text-black text-center rounded-lg font-medium mx-auto md:mx-0"
           >Get started</a
         >
       </div>
 
-      <div class="image-container md:w-2/5">
+      <div class="image-container flex justify-center items-center md:w-2/5">
         <img src="../assets/imgs/taskDragon.svg" alt="task_dragon" width="350" />
       </div>
     </div>
