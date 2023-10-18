@@ -5,7 +5,7 @@
 
       <p class="text-red-700 text-center font-bold text-xl pb-6">{{ errMsg }}</p>
 
-      <form class="flex flex-col gap-6">
+      <form class="flex flex-col gap-6" @submit.prevent="handleSubmit">
         <div class="flex flex-col gap-2">
           <label>Username:</label>
           <input
@@ -50,11 +50,7 @@
           />
         </div>
 
-        <button
-          type="submit"
-          @click.prevent="handleSubmit"
-          class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg"
-        >
+        <button type="submit" class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg">
           Signup
         </button>
 
@@ -70,9 +66,9 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
+// import { ref } from 'vue'
 import { useAuthStore } from '../stores/auth'
-import VueRouter, { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router'
 
 export default {
   name: 'Signup',
@@ -112,8 +108,6 @@ export default {
       }
 
       if (res === 'fail') {
-        console.log('Signup fail')
-        console.log(authStore.errorMsg)
         this.errMsg = authStore.errorMsg
       }
     }

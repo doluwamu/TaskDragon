@@ -1,84 +1,53 @@
-import { ref, computed } from 'vue'
-import { defineStore, Store } from 'pinia'
-import axios from 'axios'
+// import { ref, computed } from 'vue'
+import { defineStore } from 'pinia'
+import { axiosConfig } from './axiosConfig'
+import Cookie from 'js-cookie'
+// import { useAuthStore } from './auth'
 
-type CakesDummy = {
-  readonly id: string | number
-  readonly type: string
-  readonly image?: string
+// const authStore = useAuthStore()
+
+// const { token } = authStore
+
+type secrets = {
+  color: string
+  DOB: string
+  food: string
 }
 
-const cakesDummy: CakesDummy[] = [
-  {
-    id: 'KXA4ZPADX9',
-    type: 'Vanilla',
-    image: 'cakeImg'
-  },
-  {
-    id: 'X70RSEEWL3',
-    type: 'Strawberry',
-    image: 'cakeImg'
-  },
-  {
-    id: 'RFME4EM9BQ',
-    type: 'Banana',
-    image: 'cakeImg'
-  }
-]
-
-const topFlavours: CakesDummy[] = [
-  {
-    id: '0TUFQLUJ2F',
-    type: 'Cup cakes',
-    image: 'cupcakes'
-  },
-  {
-    id: 'C0QZTHGLHP',
-    type: 'Muffins',
-    image: 'muffins'
-  },
-  {
-    id: 'HB37G5HC09',
-    type: 'Tripple mix',
-    image: 'tripplemix'
-  }
-]
-
-type State = {
-  cakes: unknown[]
-  loadingFetch: boolean
-  flavours: unknown[]
+type headers = {
+  'Content-Type': string
+  Authorization?: string
 }
 
-// const state = (): State => ({
-//   cakes: cakesDummy,
-//   loadingFetch: false,
-//   flavours: topFlavours
-// })
-
-// const actions = {
-//   async getCakes() {
-//     // state().cakes
-//   }
+// const authenticatedHeaders: headers = {
+//   'Content-Type': 'application/json',
+//   Authorization: `Bearer ${token}`
 // }
 
-export const useCakeStore = defineStore('cake', {
+export const useUserStore = defineStore('user', {
   state: () => ({
-    cakes: cakesDummy,
-    loadingFetch: false,
-    flavours: topFlavours
+    token: '',
+    errorMsg: '',
+    sucessMsg: ''
   }),
   actions: {
-    async getCakes(num: number = 6) {
+    async setUserSecrets(
+      secrets: secrets,
+      userId: string,
+      token: string
+    ): Promise<'success' | 'fail'> {
       try {
-        this.loadingFetch = true
-        const { data } = await axios.get(`http://localhost:3000/api/v1/cakes?number=${num}`)
-        this.loadingFetch = false
-        return (this.cakes = data)
-      } catch (error) {
-        // debugger
-        this.loadingFetch = false
-        throw error
+        const { data } = await axiosConfig({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }).post(`users/secret/${userId}`, secrets)
+
+        this.sucessMsg = data.message
+
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        return 'fail'
       }
     }
   }

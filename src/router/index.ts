@@ -18,6 +18,23 @@ const router = createRouter({
       name: 'login',
       component: () => import('@views/LoginView.vue'),
       props: true
+    },
+    {
+      path: '/user/secret/:userId',
+      name: 'secret',
+      component: () => import('@views/UserSecretsView.vue')
+    },
+    {
+      path: '/user/verify/:userId',
+      name: 'verify-user',
+      component: () => import('@views/VerifyUserView.vue'),
+      props: true
+    },
+    {
+      path: '/tasks',
+      name: 'tasks',
+      component: () => import('@views/TasksView.vue'),
+      props: true
     }
   ]
 })

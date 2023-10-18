@@ -2,7 +2,15 @@
   <section class="flex items-center justify-center">
     <div id="signin" class="text-white w-full my-4 p-5 rounded-3xl max-w-[600px] md:p-10">
       <h1 class="text-4xl pb-8 text-center">Login to TaskDragon</h1>
-      <form class="flex flex-col gap-6">
+
+      <p class="text-green-400 text-center font-bold text-xl pb-6" v-if="signupRes.length > 0">
+        {{ signupRes }}
+      </p>
+
+      <!-- Errors -->
+      <p class="text-red-700 text-center font-bold text-xl pb-6">{{ errMsg }}</p>
+
+      <form class="flex flex-col gap-6" @submit.prevent="handleSubmit">
         <div class="flex flex-col gap-2">
           <label>Username:</label>
           <input
@@ -25,12 +33,8 @@
           />
         </div>
 
-        <button
-          type="submit"
-          @click.prevent="handleSubmit"
-          class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg"
-        >
-          Signin
+        <button type="submit" class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg">
+          Login
         </button>
 
         <p class="text-center">
@@ -45,22 +49,63 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
 
 export default {
   name: 'Signup',
   components: {
     RouterLink
   },
-  data() {},
-  props: ['message'],
+  data() {
+    return {
+      username: '',
+      password: '',
+      signupRes: '',
+      errMsg: ''
+    }
+  },
   mounted() {
-    console.log(this.message)
+    const authStore = useAuthStore()
+    const { signupRes } = authStore
+    this.signupRes = signupRes
   },
   methods: {
-    handleSubmit() {
-      console.log('clicked')
+    async handleSubmit() {
+      const authStore = useAuthStore()
+
+      const loginData = {
+        username: this.username,
+        password: this.password
+      }
+
+      const { login } = authStore
+
+      const res = await login(loginData)
+      if (
+        res === 'success' &&
+        authStore.userInfo?.verified &&
+        authStore.userInfo.verified === true
+      ) {
+        this.$router.push({
+          name: 'tasks'
+        })
+      } else if (
+        res === 'success' &&
+        (!authStore.userInfo?.verified || authStore.userInfo.verified === false)
+      ) {
+        this.$router.push({
+          name: 'secret',
+          path: `/user/secret/`,
+          params: {
+            userId: authStore.userInfo?.id
+          }
+        })
+      }
+
+      if (res === 'fail') {
+        this.errMsg = authStore.errorMsg
+      }
     }
   }
 }
