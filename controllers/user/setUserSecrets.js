@@ -18,7 +18,7 @@ const setUserSecrets = asyncHandler(async (req, res) => {
   if (!color || !DOB || !food)
     return res.status(400).json({ message: "All fields are required" });
 
-  const foundUser = await User.findById(userId).exec();
+  const foundUser = await User.findById(userId);
 
   const setSecrets = foundUser.userSecrets;
 
@@ -33,14 +33,23 @@ const setUserSecrets = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "User does not exist" });
 
   foundUser.userSecrets.color = color;
-  foundUser.userSecrets.DOB = new Date(DOB); //format to pass in req.body= MM-DD-YYYY
+  foundUser.userSecrets.DOB = DOB; //format to pass in req.body= YYYY-MM-DD
   foundUser.userSecrets.food = food;
 
-  await foundUser.save();
+  const userSecretsSet = await foundUser.save();
+
+  if (userSecretsSet) {
+    foundUser.secretSet = true;
+    await foundUser.save();
+  }
 
   return res.status(201).json({
     message: "Secrets successfully uploaded",
-    user: foundUser,
+    user: {
+      id: foundUser.id,
+      verified: foundUser.verified,
+      secretSet: foundUser.secretSet,
+    },
   });
 });
 

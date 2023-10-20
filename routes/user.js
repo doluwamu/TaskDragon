@@ -14,18 +14,10 @@ const router = express.Router();
 
 // User
 router.post("/secret/:userId", userLoggedIn, setUserSecrets);
-router.get("/:userId", userLoggedIn, getUser);
-router.get("/", getUsers);
+router.get("/me", userLoggedIn, getUser);
 router.post("/verify/:userId", userLoggedIn, verifyUser);
 
-// danger zone(Admin only)
-router.delete("/", userLoggedIn, userIsVerified, isAdmin, clearDB);
-router.post(
-  "/admin/create",
-  userLoggedIn,
-  userIsVerified,
-  isAdmin,
-  createAdmin
-);
+// Admin only
+router.get("/", userLoggedIn, userIsVerified, isAdmin, getUsers);
 
 export default router;

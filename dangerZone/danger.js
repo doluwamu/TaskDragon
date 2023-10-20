@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Task from "../models/Task.js";
 import asyncHandler from "express-async-handler";
 import bcrypt from "bcryptjs";
 import { User as user } from "../constants/index.js";
@@ -6,8 +7,9 @@ import { User as user } from "../constants/index.js";
 // Clear DB
 const clearDB = asyncHandler(async (req, res) => {
   await User.deleteMany({});
+  await Task.deleteMany({});
 
-  return res.json({ message: "All users cleared" });
+  return res.json({ message: "DB cleared" });
 });
 
 // Create Base Admin User
@@ -27,6 +29,12 @@ const createAdmin = asyncHandler(async (req, res) => {
     email: "admin@gmail.com",
     password: await bcrypt.hash("adminUser", 10),
     verified: true,
+    userSecrets: {
+      color: "yellow",
+      DOB: "2003-06-23",
+      food: "bread",
+    },
+    secretSet: true,
     role: admin,
   };
 

@@ -4,18 +4,24 @@ import User from "../models/User.js";
 import { User as user } from "../constants/index.js";
 
 export const userLoggedIn = (req, res, next) => {
-  const authHeader = req.headers.authorization || req.headers.Authorization;
+  const { cookies } = req;
+  // const authHeader = req.headers.authorization || req.headers.Authorization;
 
-  if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "You are not logged in" });
-  }
+  // if (!authHeader?.startsWith("Bearer ")) {
+  //   return res.status(403).json({ message: "You are not logged in" });
+  // }
 
-  const token = authHeader.split(" ")[1];
+  if (!cookies?.access)
+    return res.status(401).json({ message: "Unauthorized" });
+
+  const token = cookies.access;
+
+  // const token = authHeader.split(" ")[1];
 
   jwt.decode();
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
-    if (err) return res.status(403).json({ message: "Forbidden" });
+    if (err) return res.status(401).json({ message: "Forbidden" });
     req.username = decoded.username;
     req.email = decoded.email;
     req.verified = decoded.verified;

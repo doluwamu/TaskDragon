@@ -18,6 +18,7 @@ import connectDB from "./config/dbconnection.js";
 import AuthRoutes from "./routes/auth.js";
 import UserRoutes from "./routes/user.js";
 import TaskRoutes from "./routes/task.js";
+import DangerRoutes from "./routes/danger.js";
 
 dotenv.config();
 
@@ -31,10 +32,20 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
+const origin =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5173"
+    : "http://example.com";
+
 app.use(cookieParser());
 app.use(logger);
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin,
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -44,6 +55,9 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/users", UserRoutes);
 app.use("/api/v1/tasks", TaskRoutes);
+
+// Danger zone(Remove after development)
+app.use("/api/v1/danger", DangerRoutes);
 
 app.all("*", (req, res) => {
   res.status(404);

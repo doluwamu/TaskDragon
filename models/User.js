@@ -47,10 +47,15 @@ const userSchema = new Schema(
       },
       select: false,
     },
+    secretSet: {
+      type: Boolean,
+      default: false,
+    },
     allowPasswordReset: {
       type: Boolean,
       required: true,
       default: false,
+      select: false,
     },
   },
   {
