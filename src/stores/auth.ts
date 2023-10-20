@@ -19,9 +19,12 @@ export const useAuthStore = defineStore('auth', {
     // token: '',
     signupRes: '',
     errorMsg: '',
-    userInfo: {},
+    userInfo: null,
     loggedIn: false
   }),
+  getters: {
+    getUserInfo: (state) => state.userInfo
+  },
   actions: {
     async signup(signupData: signupData): Promise<'success' | 'fail'> {
       try {

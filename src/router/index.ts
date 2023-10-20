@@ -26,7 +26,7 @@ const router = createRouter({
     },
     {
       path: '/user/verify/:userId',
-      name: 'verify-user',
+      name: 'verify',
       component: () => import('@views/VerifyUserView.vue'),
       props: true
     },

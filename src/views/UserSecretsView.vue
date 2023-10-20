@@ -38,7 +38,6 @@
 
 <script lang="ts">
 import { useUserStore } from '../stores/users'
-import { useAuthStore } from '../stores/auth'
 import Navbar from '../components/app/Navbar.vue'
 
 export default {
@@ -57,6 +56,7 @@ export default {
   methods: {
     async handleSubmit() {
       const userStore = useUserStore()
+      const { setUserSecrets } = userStore
 
       const userId: string = this.$route.params.userId.toString()
 
@@ -66,18 +66,16 @@ export default {
         food: this.food
       }
 
-      const { setUserSecrets } = userStore
-
       try {
         const res = await setUserSecrets(secrets, userId)
         // debugger
         if (res === 'success') {
-          // this.$router.push({
-          //   name: 'verify-user',
-          //   params: {
-          //     userId
-          //   }
-          // })
+          this.$router.push({
+            name: 'verify-user',
+            params: {
+              userId
+            }
+          })
           console.log(res)
         }
         // })

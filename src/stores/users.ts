@@ -17,9 +17,6 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     async setUserSecrets(secrets: secrets, userId: string): Promise<'success' | 'fail'> {
-      console.log(secrets)
-      console.log(userId)
-
       try {
         const { data } = await axiosJwt.post(`users/secret/${userId}`, secrets, {
           headers: {

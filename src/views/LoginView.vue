@@ -51,6 +51,7 @@
 <script lang="ts">
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import Cookies from 'js-cookie'
 
 export default {
   name: 'Signup',
@@ -82,35 +83,29 @@ export default {
       const { login } = authStore
 
       const res = await login(loginData)
-      if (
-        res === 'success' &&
-        authStore.userInfo?.verified &&
-        authStore.userInfo.verified === true &&
-        authStore.userInfo?.setSecret &&
-        authStore.userInfo.setSecret === true
-      ) {
+      const userInfo = authStore.userInfo
+
+      if (res === 'success' && userInfo?.verified === true && userInfo?.secretSet === true) {
         this.$router.push({
           name: 'tasks'
         })
-      } else if (
-        res === 'success' &&
-        (!authStore.userInfo?.setSecret || authStore.userInfo.setSecret === false)
-      ) {
+      } else if (res === 'success' && userInfo?.secretSet === false) {
         this.$router.push({
           name: 'secret',
           path: `/user/secret/`,
           params: {
-            userId: authStore.userInfo?.id
+            userId: userInfo?.id
           }
         })
       } else if (
-        (authStore.userInfo.setSecret === true && !authStore.userInfo?.verified) ||
-        authStore.userInfo.verified === false
+        res === 'success' &&
+        userInfo?.secretSet === true &&
+        userInfo?.verified === false
       ) {
         this.$router.push({
-          name: 'verify-user',
+          name: 'verify',
           params: {
-            userId: authStore.userInfo?.id
+            userId: userInfo.id
           }
         })
       }
