@@ -65,11 +65,11 @@ export default {
       errMsg: ''
     }
   },
-  mounted() {
-    const authStore = useAuthStore()
-    const { signupRes } = authStore
-    this.signupRes = signupRes
-  },
+  // mounted() {
+  //   const authStore = useAuthStore()
+  //   const { signupRes } = authStore
+  //   this.signupRes = signupRes
+  // },
   methods: {
     async handleSubmit() {
       const authStore = useAuthStore()
@@ -85,14 +85,16 @@ export default {
       if (
         res === 'success' &&
         authStore.userInfo?.verified &&
-        authStore.userInfo.verified === true
+        authStore.userInfo.verified === true &&
+        authStore.userInfo?.setSecret &&
+        authStore.userInfo.setSecret === true
       ) {
         this.$router.push({
           name: 'tasks'
         })
       } else if (
         res === 'success' &&
-        (!authStore.userInfo?.verified || authStore.userInfo.verified === false)
+        (!authStore.userInfo?.setSecret || authStore.userInfo.setSecret === false)
       ) {
         this.$router.push({
           name: 'secret',
@@ -101,8 +103,17 @@ export default {
             userId: authStore.userInfo?.id
           }
         })
+      } else if (
+        (authStore.userInfo.setSecret === true && !authStore.userInfo?.verified) ||
+        authStore.userInfo.verified === false
+      ) {
+        this.$router.push({
+          name: 'verify-user',
+          params: {
+            userId: authStore.userInfo?.id
+          }
+        })
       }
-
       if (res === 'fail') {
         this.errMsg = authStore.errorMsg
       }

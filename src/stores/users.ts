@@ -1,28 +1,13 @@
 // import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { axiosConfig } from './axiosConfig'
-import Cookie from 'js-cookie'
-// import { useAuthStore } from './auth'
-
-// const authStore = useAuthStore()
-
-// const { token } = authStore
+import { axiosJwt } from './axiosConfig'
+// import Cookie from 'js-cookie'
 
 type secrets = {
-  color: string
-  DOB: string
-  food: string
+  color: string | any
+  DOB: string | any
+  food: string | any
 }
-
-type headers = {
-  'Content-Type': string
-  Authorization?: string
-}
-
-// const authenticatedHeaders: headers = {
-//   'Content-Type': 'application/json',
-//   Authorization: `Bearer ${token}`
-// }
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -31,16 +16,16 @@ export const useUserStore = defineStore('user', {
     sucessMsg: ''
   }),
   actions: {
-    async setUserSecrets(
-      secrets: secrets,
-      userId: string,
-      token: string
-    ): Promise<'success' | 'fail'> {
+    async setUserSecrets(secrets: secrets, userId: string): Promise<'success' | 'fail'> {
+      console.log(secrets)
+      console.log(userId)
+
       try {
-        const { data } = await axiosConfig({
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        }).post(`users/secret/${userId}`, secrets)
+        const { data } = await axiosJwt.post(`users/secret/${userId}`, secrets, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
 
         this.sucessMsg = data.message
 

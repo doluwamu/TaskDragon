@@ -1,6 +1,6 @@
 // import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { axiosConfig } from './axiosConfig'
+import axios from './axiosConfig'
 import Cookie from 'js-cookie'
 
 type signupData = {
@@ -14,32 +14,20 @@ type loginData = {
   password: string
 }
 
-type headers = {
-  'Content-Type': string
-  Authorization?: string
-}
-
-const unauthenticatedHeaders: headers = {
-  'Content-Type': 'application/json'
-}
-
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: '',
+    // token: '',
     signupRes: '',
     errorMsg: '',
     userInfo: {},
     loggedIn: false
   }),
-  getters: {
-    getToken: (state) => state.token.length > 0 && state.token
-  },
   actions: {
     async signup(signupData: signupData): Promise<'success' | 'fail'> {
       try {
-        const { data } = await axiosConfig(unauthenticatedHeaders).post('auth/signup', signupData)
+        const { data } = await axios.post('auth/signup', signupData)
         this.signupRes = data.message
-        setTimeout(() => (this.signupRes = ''), 2000)
+        setTimeout(() => (this.signupRes = ''), 4000)
         return 'success'
       } catch (error: any) {
         this.errorMsg = error.response.data.message || error.response.message || error.message
@@ -48,29 +36,14 @@ export const useAuthStore = defineStore('auth', {
     },
     async login(loginData: loginData): Promise<'success' | 'fail'> {
       try {
-        const { data } = await axiosConfig(unauthenticatedHeaders).post('auth/login', loginData)
-        this.token = data.accessToken
+        const { data } = await axios.post('auth/login', loginData)
+        // this.token = data.accessToken
         this.userInfo = data.user
         this.loggedIn = true
         Cookie.set('auth-stat', 'logged-in', { expires: 7 })
-        Cookie.set('auth_session', this.token.slice(1, 10))
+        // Cookie.set('auth_session', this.token.slice(50, 80))
         Cookie.set('auth_info', JSON.stringify(this.userInfo))
         return 'success'
-      } catch (error: any) {
-        this.errorMsg = error.response.data.message || error.response.message || error.message
-        return 'fail'
-      }
-    },
-    async refreshSession() {
-      try {
-        await axiosConfig()
-          .get('auth/refresh')
-          .then(({ data }) => {
-            // this.token = data.accessToken
-            this.userInfo = data.user
-            this.loggedIn = true
-            return (this.token = data.accessToken)
-          })
       } catch (error: any) {
         this.errorMsg = error.response.data.message || error.response.message || error.message
         return 'fail'
@@ -78,3 +51,16 @@ export const useAuthStore = defineStore('auth', {
     }
   }
 })
+
+// async refreshSession() {
+//   try {
+//     const { data } = await axiosConfig().get('auth/refresh')
+//     // this.token = data.accessToken
+//     this.userInfo = data.user
+//     this.loggedIn = true
+//     return (this.token = data.accessToken)
+//   } catch (error: any) {
+//     this.errorMsg = error.response.data.message || error.response.message || error.message
+//     return 'fail'
+//   }
+// }

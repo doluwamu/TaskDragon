@@ -1,8 +1,6 @@
 import axios from 'axios'
-// import {useAuthStore} from '../auth'
-
-// const authStore = useAuthStore()
-// const {token} = authStore
+import { useAuthStore } from '../auth'
+import Cookie from 'js-cookie'
 
 type headers = {
   'Content-Type': string
@@ -10,19 +8,37 @@ type headers = {
 }
 
 axios.defaults.withCredentials = true
+axios.defaults.baseURL = 'http://localhost:5000/api/v1/'
 
-const axiosConfig = (headers?: headers) => {
-  return !headers
-    ? axios.create({
-        baseURL: 'http://localhost:5000/api/v1/'
-        // withCredentials: true
-      })
-    : axios.create({
-        baseURL: 'http://localhost:5000/api/v1/',
-        headers
+const axiosJwt = axios.create({})
 
-        // withCredentials: true
-      })
-}
+axiosJwt.interceptors.response.use(
+  (response) => {
+    return response
+  },
+  async (error) => {
+    if (error.response.status === 401) {
+      var response = await axios
+        .get('auth/refresh', {
+          withCredentials: true
+        })
+        .catch((err) => {
+          return Promise.reject(err)
+        })
+      if (response && response.data) {
+        console.log(response.data)
+        Cookie.set('auth_info', JSON.stringify(response.data.user))
+        return axios(error.config)
+      } else {
+        console.log('error')
+        return Promise.reject(error)
+      }
+    } else {
+      return Promise.reject(error)
+    }
+  }
+)
 
-export { axiosConfig }
+export { axiosJwt }
+
+export default axios

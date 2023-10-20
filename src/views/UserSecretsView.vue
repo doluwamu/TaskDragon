@@ -2,8 +2,8 @@
   <section>
     <Navbar />
 
-    <div class="text-white max-w-[600px] mx-auto">
-      <h1 class="text-center py-5 md:text-4xl">Set your secrets</h1>
+    <div class="text-white max-w-[600px] mx-auto p-2">
+      <h1 class="text-center py-5 text-xl sm:text-3xl md:text-4xl">Set your secrets</h1>
       <p class="text-center font-light">
         You will be asked for these things in the events that you forget your password. Please enter
         each data carefully and always remember what you set here as you will only be able to set it
@@ -56,15 +56,9 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      const authStore = useAuthStore()
       const userStore = useUserStore()
 
-      const {
-        token,
-        userInfo: { id }
-      } = authStore
-
-      console.log(this.DOB)
+      const userId: string = this.$route.params.userId.toString()
 
       const secrets = {
         color: this.color,
@@ -75,18 +69,21 @@ export default {
       const { setUserSecrets } = userStore
 
       try {
-        const res = await setUserSecrets(secrets, id, token)
-        if (res === 'success')
-          this.$router.push({
-            name: 'verify-user',
-            params: {
-              userId: id
-            }
-          })
-
+        const res = await setUserSecrets(secrets, userId)
+        // debugger
+        if (res === 'success') {
+          // this.$router.push({
+          //   name: 'verify-user',
+          //   params: {
+          //     userId
+          //   }
+          // })
+          console.log(res)
+        }
+        // })
         if (res === 'fail') this.errMsg = userStore.errorMsg
       } catch (error) {
-        console.log(err)
+        console.error(error)
       }
     }
   }
