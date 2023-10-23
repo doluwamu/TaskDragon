@@ -76,7 +76,6 @@ export default {
               userId
             }
           })
-          console.log(res)
         }
         // })
         if (res === 'fail') this.errMsg = userStore.errorMsg

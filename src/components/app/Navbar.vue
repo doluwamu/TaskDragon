@@ -28,7 +28,7 @@
           <a href="/tasks">Tasks</a>
         </div>
 
-        <div class="flex flex-col gap-8 md:gap-5 md:flex-row">
+        <div v-if="!userInfo?._id" class="flex flex-col gap-8 md:gap-5 md:flex-row">
           <a href="/signup" class="button bg-white px-4 py-2 rounded-lg font-medium">Get started</a>
 
           <a
@@ -40,14 +40,14 @@
           </a>
         </div>
 
-        <!-- <div v-if="isAuthenticated" class="flex flex-col gap-8 md:gap-5 md:flex-row">
-            <button
-              class="button border border-white text-white font-medium px-4 py-2 rounded-lg hover:bg-orange-600 hover:border-orange-600"
-              style="transition: 0.5s"
-            >
-              Logout
-            </button>
-          </div> -->
+        <div v-if="userInfo?._id" class="flex flex-col gap-8 md:gap-5 md:flex-row">
+          <button
+            class="button border border-white text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-600"
+            style="transition: 0.5s"
+          >
+            Logout
+          </button>
+        </div>
 
         <!-- <div class="flex flex-col gap-1 justify-center items-center">
             <img :src="user.picture" :alt="user.nickname" width="35" class="rounded-full" />
@@ -59,8 +59,17 @@
 </template>
 
 <script lang="ts">
+import Cookies from 'js-cookie'
+
 export default {
   name: 'NavBar',
+  setup() {
+    const userInfo = Cookies.get('auth_info') && JSON.parse(Cookies.get('auth_info'))
+
+    if (userInfo) {
+      return { userInfo }
+    }
+  },
   mounted() {
     const navbar = document.getElementById('navbar')
 

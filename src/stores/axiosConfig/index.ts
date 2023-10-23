@@ -26,7 +26,6 @@ axiosJwt.interceptors.response.use(
           return Promise.reject(err)
         })
       if (response && response.data) {
-        console.log(response.data)
         Cookie.set('auth_info', JSON.stringify(response.data.user))
         return axios(error.config)
       } else {

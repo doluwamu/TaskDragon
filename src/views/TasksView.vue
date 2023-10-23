@@ -1,9 +1,18 @@
 <template>
-  <div class="text-white">tasks</div>
+  <section class="text-white">
+    <Navbar />
+
+    <div>tasks</div>
+  </section>
 </template>
 
-<script>
+<script lang="ts">
+import Navbar from '../components/app/Navbar.vue'
+
 export default {
-  name: 'Tasks'
+  name: 'Tasks',
+  components: {
+    Navbar
+  }
 }
 </script>
