@@ -66,34 +66,23 @@ export default {
         food: this.food
       }
 
-      try {
-        const res = await setUserSecrets(secrets, userId)
-        // debugger
-        if (res === 'success') {
-          this.$router.push({
-            name: 'verify-user',
-            params: {
-              userId
-            }
-          })
-        }
-        // })
-        if (res === 'fail') this.errMsg = userStore.errorMsg
-      } catch (error) {
-        console.error(error)
+      const res: string = await setUserSecrets(secrets, userId)
+      if (res === 'success') {
+        this.$router.push({
+          name: 'verify',
+          params: {
+            userId
+          }
+        })
       }
+      // })
+      if (res === 'fail') this.errMsg = userStore.errorMsg
     }
   }
 }
 </script>
 
 <style scoped>
-.month input,
-.day input,
-.year input {
-  max-width: 100px;
-}
-
 input {
   color: #000;
   border-radius: 10px;

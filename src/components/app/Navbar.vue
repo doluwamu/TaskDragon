@@ -25,7 +25,7 @@
       <div class="nav-links flex flex-col gap-10 items-center md:flex-row">
         <div class="flex flex-col justify-center gap-10 text-white md:flex-row">
           <a href="/">Home</a>
-          <a href="/tasks">Tasks</a>
+          <a href="/tasks" v-if="userInfo?._id">Tasks</a>
         </div>
 
         <div v-if="!userInfo?._id" class="flex flex-col gap-8 md:gap-5 md:flex-row">

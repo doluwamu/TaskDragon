@@ -27,9 +27,9 @@ export default {
       const userId: string = this.$route.params.userId.toString()
       console.log(userId)
 
-      const res = await verifyUserAccount(userId)
+      const res: string = await verifyUserAccount(userId)
       if (res === 'success') {
-        this.$router.push({
+        return this.$router.push({
           name: 'tasks'
         })
       }

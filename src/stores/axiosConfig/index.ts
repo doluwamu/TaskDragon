@@ -1,11 +1,5 @@
 import axios from 'axios'
-import { useAuthStore } from '../auth'
 import Cookie from 'js-cookie'
-
-type headers = {
-  'Content-Type': string
-  Authorization?: string
-}
 
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = 'http://localhost:5000/api/v1/'

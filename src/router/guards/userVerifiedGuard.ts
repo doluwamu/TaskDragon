@@ -1,7 +1,7 @@
 import * as router from 'vue-router'
 import Cookies from 'js-cookie'
 
-const userSecretGuard = (
+const userVerifiedGuard = (
   to: router.RouteLocationNormalized,
   from: router.RouteLocationNormalized,
   next: router.NavigationGuardNext
@@ -15,9 +15,9 @@ const userSecretGuard = (
     })
   }
 
-  if (isAuth === 'logged-in' && userInfo?.secretSet === true && userInfo?.verified === false) {
+  if (isAuth === 'logged-in' && userInfo?.secretSet === false) {
     return next({
-      name: 'verify',
+      name: 'secret',
       params: {
         userId: userInfo._id
       }
@@ -33,4 +33,4 @@ const userSecretGuard = (
   return next()
 }
 
-export default userSecretGuard
+export default userVerifiedGuard

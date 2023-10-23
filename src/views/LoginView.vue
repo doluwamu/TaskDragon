@@ -82,9 +82,8 @@ export default {
 
       const { login } = authStore
 
-      const res = await login(loginData)
+      const res: string = await login(loginData)
       const { userInfo } = authStore
-      console.log(userInfo)
 
       if (res === 'success' && userInfo?.verified === true && userInfo?.secretSet === true) {
         this.$router.push({
@@ -106,7 +105,7 @@ export default {
         this.$router.push({
           name: 'verify',
           params: {
-            userId: userInfo._id
+            userId: userInfo?._id
           }
         })
       }

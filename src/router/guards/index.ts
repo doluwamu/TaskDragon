@@ -1,6 +1,9 @@
 import userSecretGuard from './useSecretGuards'
+import userVerifiedGuard from './userVerifiedGuard'
+import notAuthGuard from './notAuthGuard'
+import authGuard from './authGuard'
 
-export { userSecretGuard }
+export { userSecretGuard, userVerifiedGuard, notAuthGuard, authGuard }
 
 // beforeEnter: (to, from, next) => {
 //   const isAuth = Cookies.get('auth-stat')

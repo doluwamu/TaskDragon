@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Cookies from 'js-cookie'
+import { authGuard, notAuthGuard, userSecretGuard, userVerifiedGuard } from './guards'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,45 +12,37 @@ const router = createRouter({
     {
       path: '/signup',
       name: 'signup',
-      component: () => import('../views/SignupView.vue')
+      component: () => import('../views/SignupView.vue'),
+      beforeEnter: notAuthGuard
       // meta: { requiredAuth: false }
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue')
+      component: () => import('../views/LoginView.vue'),
+      beforeEnter: notAuthGuard
     },
     {
       path: '/user/secret/:userId',
       name: 'secret',
-      component: () => import('../views/UserSecretsView.vue')
+      component: () => import('../views/UserSecretsView.vue'),
+      beforeEnter: userSecretGuard
     },
     {
       path: '/user/verify/:userId',
       name: 'verify',
       // meta: { requiredAuth: true },
-      component: () => import('../views/VerifyUserView.vue')
+      component: () => import('../views/VerifyUserView.vue'),
+      beforeEnter: userVerifiedGuard
     },
     {
       path: '/tasks',
       name: 'tasks',
       // meta: { requiredAuth: true },
-      component: () => import('../views/TasksView.vue')
+      component: () => import('../views/TasksView.vue'),
+      beforeEnter: authGuard
     }
   ]
 })
-
-// router.beforeEach(async (to, from, next) => {
-//   if (to.meta.requiredAuth) {
-//     // if (userProfile.id === 0) {
-//     //   return next({ path: "/login" });
-//     // }
-//   } else {
-//     // if (userProfile.id !== 0) {
-//     //   return next({ path: "/dashboard" });
-//     // }
-//   }
-//   return next()
-// })
 
 export default router

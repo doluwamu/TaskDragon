@@ -96,7 +96,7 @@ export default {
       const authStore = useAuthStore()
       const { signup } = authStore
 
-      const res = await signup(data)
+      const res: string = await signup(data)
       console.log(res)
       if (res === 'success') {
         this.$router.push({
