@@ -6,8 +6,8 @@ import asyncHandler from "express-async-handler";
 // @route POST /api/v1/users/secret/:userId
 // @access Private
 const setUserSecrets = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
   const { color, DOB, food } = req.body;
+  const { userId } = req.params;
   const { user } = req;
 
   if (!userId) return res.status(400).json({ message: "No user id found" });
@@ -18,7 +18,10 @@ const setUserSecrets = asyncHandler(async (req, res) => {
   if (!color || !DOB || !food)
     return res.status(400).json({ message: "All fields are required" });
 
-  const foundUser = await User.findById(userId);
+  const foundUser = await User.findById(userId).select("+userSecrets").exec();
+
+  if (!foundUser)
+    return res.status(404).json({ message: "User does not exist" });
 
   const setSecrets = foundUser.userSecrets;
 
@@ -29,27 +32,20 @@ const setUserSecrets = asyncHandler(async (req, res) => {
   )
     return res.status(400).json({ message: "Secrets are already set" });
 
-  if (!foundUser)
-    return res.status(404).json({ message: "User does not exist" });
+  console.log(color, DOB, food);
 
-  foundUser.userSecrets.color = color;
-  foundUser.userSecrets.DOB = DOB; //format to pass in req.body= YYYY-MM-DD
-  foundUser.userSecrets.food = food;
+  foundUser.userSecrets.color = color && color;
+  foundUser.userSecrets.DOB = DOB && DOB; //format to pass in req.body= YYYY-MM-DD
+  foundUser.userSecrets.food = food && food;
+  foundUser.secretSet = true;
 
-  const userSecretsSet = await foundUser.save();
+  await foundUser.save();
 
-  if (userSecretsSet) {
-    foundUser.secretSet = true;
-    await foundUser.save();
-  }
+  const userToReturn = await User.findById(userId).exec();
 
   return res.status(201).json({
     message: "Secrets successfully uploaded",
-    user: {
-      id: foundUser.id,
-      verified: foundUser.verified,
-      secretSet: foundUser.secretSet,
-    },
+    user: userToReturn,
   });
 });
 

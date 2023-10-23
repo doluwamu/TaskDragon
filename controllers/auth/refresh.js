@@ -34,23 +34,19 @@ const refreshSession = asyncHandler(async (req, res) => {
           verified: foundUser.verified,
         },
         ACCESS_TOKEN_SECRET,
-        { expiresIn: "30s" }
+        { expiresIn: "2m" }
       );
 
       res.cookie("access", accessToken, {
         httpOnly: true, //accessible only by web server
         // secure: false, //https
         // sameSite: "none", //cross-site cookie
-        maxAge: 1 * 1 * 10 * 60 * 1000, //cookie expiry: set to match rT
+        maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
       });
 
       return res.json({
         // accessToken,
-        user: {
-          id: foundUser.id,
-          verified: foundUser.verified,
-          secretSet: foundUser.secretSet,
-        },
+        user: foundUser,
       });
     })
   );

@@ -23,7 +23,10 @@ const verifyUser = asyncHandler(async (req, res) => {
 
   await foundUser.save();
 
-  return res.json({ message: "User verified" });
+  return res.json({
+    message: "User verified",
+    user: foundUser,
+  });
 });
 
 export default verifyUser;

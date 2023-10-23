@@ -3,7 +3,6 @@ import getUser from "../controllers/user/getUser.js";
 import getUsers from "../controllers/user/getUsers.js";
 import setUserSecrets from "../controllers/user/setUserSecrets.js";
 import verifyUser from "../controllers/user/verifyUser.js";
-import { clearDB, createAdmin } from "../dangerZone/danger.js";
 import {
   isAdmin,
   userIsVerified,

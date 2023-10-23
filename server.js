@@ -11,7 +11,7 @@ import errorHandler from "./middleware/errorHandler.js";
 import { logger, logEvents } from "./middleware/logger.js";
 
 // Configs
-import corsOptions from "./config/corsOptions.js";
+// import corsOptions from "./config/corsOptions.js";
 import connectDB from "./config/dbconnection.js";
 
 // Routes
@@ -33,9 +33,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const origin =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5173"
-    : "http://example.com";
+  process.env.NODE_ENV === "development" && "http://localhost:5173";
 
 app.use(cookieParser());
 app.use(logger);
