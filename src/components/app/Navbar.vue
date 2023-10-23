@@ -23,6 +23,11 @@
       </div>
 
       <div class="nav-links flex flex-col gap-10 items-center md:flex-row">
+        <div class="flex flex-col text-white text-sm" v-if="userInfo?._id">
+          <p>Welcome:</p>
+          <p>{{ userInfo?.username }}</p>
+        </div>
+
         <div class="flex flex-col justify-center gap-10 text-white md:flex-row">
           <a href="/">Home</a>
           <a href="/tasks" v-if="userInfo?._id">Tasks</a>
@@ -44,6 +49,7 @@
           <button
             class="button border border-white text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-600"
             style="transition: 0.5s"
+            @click="logoutUser"
           >
             Logout
           </button>
@@ -60,6 +66,8 @@
 
 <script lang="ts">
 import Cookies from 'js-cookie'
+import { userInfo } from 'os'
+import { useAuthStore } from '../../stores/auth'
 
 export default {
   name: 'NavBar',
@@ -90,6 +98,16 @@ export default {
 
       const navbar = document.getElementById('navbar')
       navbar.classList.toggle('h-24')
+    },
+    async logoutUser() {
+      const authStore = useAuthStore()
+      const { logout } = authStore
+
+      const res: string = await logout()
+
+      if (res === 'success') {
+        return window.location.replace('/')
+      }
     }
   }
 }

@@ -51,6 +51,17 @@ export const useAuthStore = defineStore('auth', {
         this.errorMsg = error.response.data.message || error.response.message || error.message
         return 'fail'
       }
+    },
+    async logout(): Promise<'success' | 'fail'> {
+      try {
+        await axios.post('auth/logout')
+        Cookie.remove('auth-stat')
+        Cookie.remove('auth_info')
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        return 'fail'
+      }
     }
   }
 })

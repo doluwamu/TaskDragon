@@ -3,7 +3,7 @@
     <Navbar />
 
     <div class="h-screen flex justify-center items-center">
-      <button @click="verifyAccount" class="p-2 max-h-[50px] bg-blue-700 rounded-md">
+      <button @click="verifyAccount" class="p-2 max-h-[50px] bg-blue-700 rounded-md text-white">
         Verify your account
       </button>
     </div>
