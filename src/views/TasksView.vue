@@ -3,15 +3,21 @@
     <Navbar />
 
     <div class="flex flex-col mt-10">
-      <button class="button p-2 mx-auto bg-blue-700 text-white w-[200px] text-center">
+      <RouterLink
+        :to="`/tasks?add=${true}`"
+        @click="openModal"
+        class="button p-2 mx-auto bg-blue-700 text-white w-[200px] text-center"
+      >
         Add task
-      </button>
+      </RouterLink>
+
+      <h1 class="text-5xl text-center pt-9 pb-4">Your Tasks</h1>
 
       <!-- Task lists -->
       <div class="flex flex-row gap-5 px-4 py-10 overflow-x-auto md:p-10 lg:justify-center">
         <!-- All tasks: -->
         <!-- Undone -->
-        <div class="undone flex flex-col">
+        <div class="undone flex flex-col gap-2">
           <div
             class="flex items-center justify-between text-white bg-red-600 rounded-lg p-3 h-[70px] w-[300px] md:w-[350px]"
           >
@@ -22,7 +28,7 @@
         </div>
 
         <!-- Doing -->
-        <div class="doing flex flex-col">
+        <div class="doing flex flex-col gap-2">
           <div
             class="flex items-center justify-between text-white bg-orange-600 rounded-lg p-3 h-[70px] w-[300px] md:w-[350px]"
           >
@@ -33,7 +39,7 @@
         </div>
 
         <!-- Done -->
-        <div class="doing flex flex-col">
+        <div class="doing flex flex-col gap-2">
           <div
             class="flex items-center justify-between text-white bg-green-800 rounded-lg p-3 h-[70px] w-[300px] md:w-[350px]"
           >
@@ -44,6 +50,8 @@
         </div>
       </div>
     </div>
+
+    <AddTaskModal :add="add" />
   </section>
 </template>
 
@@ -51,12 +59,16 @@
 import Navbar from '../components/app/Navbar.vue'
 import { useTaskStore } from '../stores/tasks'
 import TaskList from '../components/tasks/TaskList.vue'
+import { RouterLink } from 'vue-router'
+import AddTaskModal from '../components/tasks/AddTaskModal.vue'
 
 export default {
   name: 'Tasks',
   components: {
     Navbar,
-    TaskList
+    TaskList,
+    RouterLink,
+    AddTaskModal
   },
   data() {
     return {
@@ -69,38 +81,56 @@ export default {
         undone: 0,
         doing: 0,
         done: 0
-      }
+      },
+      add: false
     }
   },
   async mounted() {
+    if (this.$route.query.add && Boolean(this.$route.query.add) === true) {
+      console.log(true)
+
+      this.add = true
+    }
+
     const taskStore = useTaskStore()
 
     const { getUndoneTasks, getDoingTasks, getDoneTasks } = taskStore
 
-    console.log(taskStore.loadingFetch)
     const undoneRes = await getUndoneTasks()
     const doingRes = await getDoingTasks()
     const doneRes = await getDoneTasks()
 
     if (undoneRes === 'success') {
-      console.log(taskStore?.tasks)
       this.tasks.undone = taskStore?.tasks.undone
       this.number.undone = taskStore.number.undone
-      console.log(this.tasks.undone)
     }
 
     if (doingRes === 'success') {
-      console.log(taskStore?.tasks.doing)
       this.tasks.done = taskStore?.tasks.doing
       this.number.doing = taskStore.number.doing
-      console.log(this.tasks.doing)
     }
 
     if (doneRes === 'success') {
-      console.log(taskStore?.tasks.doing)
       this.tasks.done = taskStore?.tasks.done
       this.number.done = taskStore.number.done
-      console.log(this.tasks.done)
+    }
+  },
+  methods: {
+    openModal() {
+      this.add = true
+    }
+  },
+  updated() {
+    if (this.$route.query.add && Boolean(this.$route.query.add) === true) {
+      console.log(true)
+
+      this.add = true
+    }
+
+    if (!this.$route.query.add && Boolean(this.$route.query.add) !== true) {
+      console.log(true)
+
+      this.add = false
     }
   }
 }

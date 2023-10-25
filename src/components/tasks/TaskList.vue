@@ -1,7 +1,7 @@
 <template>
-  <div v-if="tasks.length > 0">
+  <div class="flex flex-col gap-2" v-if="tasks.length > 0">
     <div class="tasks-list" v-for="(task, i) in tasks" :key="i">
-      <div class="flex justify-between items-center p-3">
+      <div class="flex justify-between items-center p-3 border rounded-lg">
         <p class="task-name text-center">{{ task?.title }}</p>
         <i
           :class="`fa-solid fa-heart ${task?.favorite === true ? 'text-red-600' : 'text-white'}`"
