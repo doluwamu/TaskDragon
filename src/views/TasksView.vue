@@ -3,15 +3,21 @@
     <Navbar />
 
     <div class="flex flex-col mt-10">
-      <RouterLink
-        :to="`/tasks?add=${true}`"
-        @click="openModal"
-        class="button p-2 mx-auto bg-blue-700 text-white w-[200px] text-center"
+      <div
+        class="flex flex-col-reverse gap-5 justify-between items-center mx-auto md:flex-row md:w-[750px]"
       >
-        Add task
-      </RouterLink>
+        <div></div>
 
-      <h1 class="text-5xl text-center pt-9 pb-4">Your Tasks</h1>
+        <h1 class="text-4xl text-center">Your Tasks</h1>
+
+        <RouterLink
+          :to="`/tasks?add=${true}`"
+          @click="openModal"
+          class="button p-2 bg-blue-700 text-white w-[200px] text-center"
+        >
+          Add task
+        </RouterLink>
+      </div>
 
       <!-- Task lists -->
       <div class="flex flex-row gap-5 px-4 py-10 overflow-x-auto md:p-10 lg:justify-center">
@@ -87,37 +93,39 @@ export default {
   },
   async mounted() {
     if (this.$route.query.add && Boolean(this.$route.query.add) === true) {
-      console.log(true)
-
       this.add = true
     }
 
-    const taskStore = useTaskStore()
-
-    const { getUndoneTasks, getDoingTasks, getDoneTasks } = taskStore
-
-    const undoneRes = await getUndoneTasks()
-    const doingRes = await getDoingTasks()
-    const doneRes = await getDoneTasks()
-
-    if (undoneRes === 'success') {
-      this.tasks.undone = taskStore?.tasks.undone
-      this.number.undone = taskStore.number.undone
-    }
-
-    if (doingRes === 'success') {
-      this.tasks.done = taskStore?.tasks.doing
-      this.number.doing = taskStore.number.doing
-    }
-
-    if (doneRes === 'success') {
-      this.tasks.done = taskStore?.tasks.done
-      this.number.done = taskStore.number.done
-    }
+    // fetch tasks
+    this.fetchTasks()
   },
   methods: {
     openModal() {
       this.add = true
+    },
+    async fetchTasks() {
+      const taskStore = useTaskStore()
+
+      const { getUndoneTasks, getDoingTasks, getDoneTasks } = taskStore
+
+      const undoneRes = await getUndoneTasks()
+      const doingRes = await getDoingTasks()
+      const doneRes = await getDoneTasks()
+
+      if (undoneRes === 'success') {
+        this.tasks.undone = taskStore?.tasks.undone
+        this.number.undone = taskStore.number.undone
+      }
+
+      if (doingRes === 'success') {
+        this.tasks.done = taskStore?.tasks.doing
+        this.number.doing = taskStore.number.doing
+      }
+
+      if (doneRes === 'success') {
+        this.tasks.done = taskStore?.tasks.done
+        this.number.done = taskStore.number.done
+      }
     }
   },
   updated() {
@@ -128,10 +136,11 @@ export default {
     }
 
     if (!this.$route.query.add && Boolean(this.$route.query.add) !== true) {
-      console.log(true)
-
       this.add = false
     }
+
+    // fetch tasks
+    this.fetchTasks()
   }
 }
 </script>

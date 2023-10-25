@@ -26,7 +26,8 @@ export const useTaskStore = defineStore('task', {
       done: 0
     },
     errorMsg: '',
-    loadingFetch: false
+    loadingFetch: false,
+    successMsg: ''
   }),
   actions: {
     async getUndoneTasks(): Promise<'success' | 'fail'> {
@@ -68,6 +69,24 @@ export const useTaskStore = defineStore('task', {
       } catch (error: any) {
         // debugger
         this.errorMsg = error.response.data.message || error.response.message || error.message
+        return 'fail'
+      }
+    },
+    async addTask(taskDetails: {
+      title: string
+      description: string
+      priority: string
+    }): Promise<'success' | 'fail'> {
+      try {
+        const { data } = await axiosJwt.post('tasks/new', taskDetails, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        this.successMsg = data.message
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
         return 'fail'
       }
     }
