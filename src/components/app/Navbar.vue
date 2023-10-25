@@ -66,7 +66,6 @@
 
 <script lang="ts">
 import Cookies from 'js-cookie'
-import { userInfo } from 'os'
 import { useAuthStore } from '../../stores/auth'
 
 export default {

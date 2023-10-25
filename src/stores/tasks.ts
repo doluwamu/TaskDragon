@@ -1,54 +1,5 @@
-import { ref, computed } from 'vue'
-import { defineStore, Store } from 'pinia'
-import axios from 'axios'
-
-type CakesDummy = {
-  readonly id: string | number
-  readonly type: string
-  readonly image?: string
-}
-
-const cakesDummy: CakesDummy[] = [
-  {
-    id: 'KXA4ZPADX9',
-    type: 'Vanilla',
-    image: 'cakeImg'
-  },
-  {
-    id: 'X70RSEEWL3',
-    type: 'Strawberry',
-    image: 'cakeImg'
-  },
-  {
-    id: 'RFME4EM9BQ',
-    type: 'Banana',
-    image: 'cakeImg'
-  }
-]
-
-const topFlavours: CakesDummy[] = [
-  {
-    id: '0TUFQLUJ2F',
-    type: 'Cup cakes',
-    image: 'cupcakes'
-  },
-  {
-    id: 'C0QZTHGLHP',
-    type: 'Muffins',
-    image: 'muffins'
-  },
-  {
-    id: 'HB37G5HC09',
-    type: 'Tripple mix',
-    image: 'tripplemix'
-  }
-]
-
-type State = {
-  cakes: unknown[]
-  loadingFetch: boolean
-  flavours: unknown[]
-}
+import { defineStore } from 'pinia'
+import { axiosJwt } from './axiosConfig'
 
 // const state = (): State => ({
 //   cakes: cakesDummy,
@@ -62,23 +13,62 @@ type State = {
 //   }
 // }
 
-export const useCakeStore = defineStore('cake', {
+export const useTaskStore = defineStore('task', {
   state: () => ({
-    cakes: cakesDummy,
-    loadingFetch: false,
-    flavours: topFlavours
+    tasks: {
+      undone: [],
+      doing: [],
+      done: []
+    },
+    number: {
+      undone: 0,
+      doing: 0,
+      done: 0
+    },
+    errorMsg: '',
+    loadingFetch: false
   }),
   actions: {
-    async getCakes(num: number = 6) {
+    async getUndoneTasks(): Promise<'success' | 'fail'> {
       try {
         this.loadingFetch = true
-        const { data } = await axios.get(`http://localhost:3000/api/v1/cakes?number=${num}`)
+        const { data } = await axiosJwt.get('tasks/mine?status=undone')
         this.loadingFetch = false
-        return (this.cakes = data)
-      } catch (error) {
+        this.tasks.undone = data.tasks
+        this.number.undone = data.number
+        return 'success'
+      } catch (error: any) {
         // debugger
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        return 'fail'
+      }
+    },
+    async getDoingTasks(): Promise<'success' | 'fail'> {
+      try {
+        this.loadingFetch = true
+        const { data } = await axiosJwt.get('tasks/mine?status=doing')
         this.loadingFetch = false
-        throw error
+        this.tasks.doing = data.tasks
+        this.number.doing = data.number
+        return 'success'
+      } catch (error: any) {
+        // debugger
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        return 'fail'
+      }
+    },
+    async getDoneTasks(): Promise<'success' | 'fail'> {
+      try {
+        this.loadingFetch = true
+        const { data } = await axiosJwt.get('tasks/mine?status=done')
+        this.loadingFetch = false
+        this.tasks.done = data.tasks
+        this.number.done = data.number
+        return 'success'
+      } catch (error: any) {
+        // debugger
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        return 'fail'
       }
     }
   }
