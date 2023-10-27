@@ -100,9 +100,13 @@ export default {
         this.description = ''
         setTimeout(() => {
           this.$router.push({
-            name: 'tasks'
+            path: `tasks`,
+            query: {
+              added: true
+            }
           })
           this.successMsg = ''
+          this.errMsg = ''
         }, 1000)
       }
 

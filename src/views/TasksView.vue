@@ -31,6 +31,12 @@
             <p>{{ number.undone }}</p>
           </div>
           <TaskList :tasks="tasks.undone" />
+          <LoadMoreTasksBtn
+            :tasks="tasks.undone"
+            status="undone"
+            :fetchMoreTasks="fetchMoreTasks"
+            btnColor="bg-red-600 w-[100px]"
+          />
         </div>
 
         <!-- Doing -->
@@ -42,6 +48,12 @@
             <p>{{ number.doing }}</p>
           </div>
           <TaskList :tasks="tasks.doing" />
+          <LoadMoreTasksBtn
+            :tasks="tasks.doing"
+            status="doing"
+            :fetchMoreTasks="fetchMoreTasks"
+            btnColor="bg-orange-600 w-[100px]"
+          />
         </div>
 
         <!-- Done -->
@@ -53,6 +65,12 @@
             <p>{{ number.done }}</p>
           </div>
           <TaskList :tasks="tasks.done" />
+          <LoadMoreTasksBtn
+            :tasks="tasks.done"
+            status="done"
+            :fetchMoreTasks="fetchMoreTasks"
+            btnColor="bg-green-800 w-[100px]"
+          />
         </div>
       </div>
     </div>
@@ -67,6 +85,7 @@ import { useTaskStore } from '../stores/tasks'
 import TaskList from '../components/tasks/TaskList.vue'
 import { RouterLink } from 'vue-router'
 import AddTaskModal from '../components/tasks/AddTaskModal.vue'
+import LoadMoreTasksBtn from '../components/tasks/LoadMoreTasksBtn.vue'
 
 export default {
   name: 'Tasks',
@@ -74,7 +93,8 @@ export default {
     Navbar,
     TaskList,
     RouterLink,
-    AddTaskModal
+    AddTaskModal,
+    LoadMoreTasksBtn
   },
   data() {
     return {
@@ -87,6 +107,11 @@ export default {
         undone: 0,
         doing: 0,
         done: 0
+      },
+      displayNumbers: {
+        undone: 10,
+        doing: 10,
+        done: 10
       },
       add: false
     }
@@ -108,9 +133,9 @@ export default {
 
       const { getUndoneTasks, getDoingTasks, getDoneTasks } = taskStore
 
-      const undoneRes = await getUndoneTasks()
-      const doingRes = await getDoingTasks()
-      const doneRes = await getDoneTasks()
+      const undoneRes = await getUndoneTasks(this.displayNumbers.undone)
+      const doingRes = await getDoingTasks(this.displayNumbers.doing)
+      const doneRes = await getDoneTasks(this.displayNumbers.done)
 
       if (undoneRes === 'success') {
         this.tasks.undone = taskStore?.tasks.undone
@@ -126,21 +151,54 @@ export default {
         this.tasks.done = taskStore?.tasks.done
         this.number.done = taskStore.number.done
       }
+    },
+    async fetchMoreTasks(status: string, number: number) {
+      const taskStore = useTaskStore()
+      const { getUndoneTasks, getDoingTasks, getDoneTasks } = taskStore
+
+      if (status === 'undone') {
+        const res = await getUndoneTasks(this.displayNumbers.undone + number)
+        if (res === 'success') {
+          this.displayNumbers.undone = this.displayNumbers.undone + number
+          this.tasks.undone = taskStore?.tasks.undone
+          this.number.undone = taskStore.number.undone
+        }
+      } else if (status === 'doing') {
+        const res = await getDoingTasks(this.displayNumbers.doing + number)
+        if (res === 'success') {
+          this.displayNumbers.doing = this.displayNumbers.doing + number
+          this.tasks.doing = taskStore?.tasks.doing
+          this.number.doing = taskStore.number.doing
+        }
+      } else {
+        const res = await getDoneTasks(this.displayNumbers.done + number)
+        if (res === 'success') {
+          this.displayNumbers.done = this.displayNumbers.done + number
+          this.tasks.done = taskStore?.tasks.done
+          this.number.done = taskStore.number.done
+        }
+      }
     }
   },
   updated() {
     if (this.$route.query.add && Boolean(this.$route.query.add) === true) {
-      console.log(true)
-
       this.add = true
     }
 
-    if (!this.$route.query.add && Boolean(this.$route.query.add) !== true) {
+    if (!this.$route.query.add || Boolean(this.$route.query.add) !== true) {
       this.add = false
     }
 
-    // fetch tasks
-    this.fetchTasks()
+    if (this.$route.query.added && Boolean(this.$route.query.added) === true) {
+      // fetch tasks
+      this.fetchTasks().then((_) => {
+        // setTimeout(() => {
+        this.$router.push({
+          name: 'tasks'
+        })
+        // }, 1000)
+      })
+    }
   }
 }
 </script>

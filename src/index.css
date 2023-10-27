@@ -39,6 +39,6 @@ body {
   margin: 0 auto;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%;
+  min-height: 100vh;
   /* color: rgb(125, 243, 253); */
 }

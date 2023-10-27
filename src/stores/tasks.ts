@@ -30,10 +30,12 @@ export const useTaskStore = defineStore('task', {
     successMsg: ''
   }),
   actions: {
-    async getUndoneTasks(): Promise<'success' | 'fail'> {
+    async getUndoneTasks(number: number): Promise<'success' | 'fail'> {
       try {
         this.loadingFetch = true
-        const { data } = await axiosJwt.get('tasks/mine?status=undone')
+        const { data } = await axiosJwt.get(
+          `tasks/mine?status=undone${typeof number === 'number' && `&number=${number}`}`
+        )
         this.loadingFetch = false
         this.tasks.undone = data.tasks
         this.number.undone = data.number
@@ -44,10 +46,12 @@ export const useTaskStore = defineStore('task', {
         return 'fail'
       }
     },
-    async getDoingTasks(): Promise<'success' | 'fail'> {
+    async getDoingTasks(number: number): Promise<'success' | 'fail'> {
       try {
         this.loadingFetch = true
-        const { data } = await axiosJwt.get('tasks/mine?status=doing')
+        const { data } = await axiosJwt.get(
+          `tasks/mine?status=doing${typeof number === 'number' && `&number=${number}`}`
+        )
         this.loadingFetch = false
         this.tasks.doing = data.tasks
         this.number.doing = data.number
@@ -58,10 +62,12 @@ export const useTaskStore = defineStore('task', {
         return 'fail'
       }
     },
-    async getDoneTasks(): Promise<'success' | 'fail'> {
+    async getDoneTasks(number: number): Promise<'success' | 'fail'> {
       try {
         this.loadingFetch = true
-        const { data } = await axiosJwt.get('tasks/mine?status=done')
+        const { data } = await axiosJwt.get(
+          `tasks/mine?status=done${typeof number === 'number' && `&number=${number}`}`
+        )
         this.loadingFetch = false
         this.tasks.done = data.tasks
         this.number.done = data.number
@@ -78,11 +84,13 @@ export const useTaskStore = defineStore('task', {
       priority: string
     }): Promise<'success' | 'fail'> {
       try {
+        this.loadingFetch = true
         const { data } = await axiosJwt.post('tasks/new', taskDetails, {
           headers: {
             'Content-Type': 'application/json'
           }
         })
+        this.loadingFetch = false
         this.successMsg = data.message
         return 'success'
       } catch (error: any) {
