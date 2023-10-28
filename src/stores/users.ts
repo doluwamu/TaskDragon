@@ -14,17 +14,22 @@ export const useUserStore = defineStore('user', {
     token: '',
     errorMsg: '',
     sucessMsg: '',
-    userInfo: {}
+    userInfo: {},
+    loaders: {
+      loading: false
+    }
   }),
   actions: {
     async setUserSecrets(secrets: secrets, userId: string): Promise<'success' | 'fail'> {
       try {
+        this.loaders.loading = true
         const { data } = await axiosJwt.post(`users/secret/${userId}`, secrets, {
           headers: {
             'Content-Type': 'application/json'
           }
         })
 
+        this.loaders.loading = false
         this.sucessMsg = data.message
         this.userInfo = data.user
         Cookie.set('auth_info', JSON.stringify(this.userInfo), { expires: 7 })
@@ -32,13 +37,16 @@ export const useUserStore = defineStore('user', {
         return 'success'
       } catch (error: any) {
         this.errorMsg = error.response.data.message || error.response.message || error.message
+        this.loaders.loading = false
         return 'fail'
       }
     },
     async verifyUserAccount(userId: string): Promise<'success' | 'fail'> {
       try {
+        this.loaders.loading = true
         const { data } = await axiosJwt.post(`users/verify/${userId}`)
 
+        this.loaders.loading = false
         this.sucessMsg = data.message
         this.userInfo = data.user
         Cookie.set('auth_info', JSON.stringify(this.userInfo), { expires: 7 })
@@ -46,6 +54,7 @@ export const useUserStore = defineStore('user', {
         return 'success'
       } catch (error: any) {
         this.errorMsg = error.response.data.message || error.response.message || error.message
+        this.loaders.loading = false
         return 'fail'
       }
     }

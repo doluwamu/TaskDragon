@@ -20,7 +20,10 @@ export const useAuthStore = defineStore('auth', {
     signupRes: '',
     errorMsg: '',
     userInfo: null,
-    loggedIn: false
+    loggedIn: false,
+    loaders: {
+      loading: false
+    }
   }),
   getters: {
     getUserInfo: (state) => state.userInfo
@@ -28,19 +31,24 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async signup(signupData: signupData): Promise<'success' | 'fail'> {
       try {
+        this.loaders.loading = true
         const { data } = await axios.post('auth/signup', signupData)
         this.signupRes = data.message
+        this.loaders.loading = false
         setTimeout(() => (this.signupRes = ''), 4000)
         return 'success'
       } catch (error: any) {
         this.errorMsg = error.response.data.message || error.response.message || error.message
+        this.loaders.loading = false
         return 'fail'
       }
     },
     async login(loginData: loginData): Promise<'success' | 'fail'> {
       try {
+        this.loaders.loading = true
         const { data } = await axios.post('auth/login', loginData)
         // this.token = data.accessToken
+        this.loaders.loading = false
         this.userInfo = data.user
         this.loggedIn = true
         Cookie.set('auth-stat', 'logged-in', { expires: 7 })
@@ -49,6 +57,7 @@ export const useAuthStore = defineStore('auth', {
         return 'success'
       } catch (error: any) {
         this.errorMsg = error.response.data.message || error.response.message || error.message
+        this.loaders.loading = false
         return 'fail'
       }
     },

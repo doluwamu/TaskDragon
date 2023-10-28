@@ -50,7 +50,14 @@
           />
         </div>
 
-        <button type="submit" class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg">
+        <button
+          v-if="authStore.loaders.loading"
+          type="button"
+          class="bg-blue-400 text-lg py-2 px-4 mx-auto rounded-lg"
+        >
+          Loading...
+        </button>
+        <button v-else type="submit" class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg">
           Signup
         </button>
 
@@ -70,13 +77,15 @@
 import { useAuthStore } from '../stores/auth'
 import { RouterLink } from 'vue-router'
 
+const authStore = useAuthStore()
+
 export default {
   name: 'Signup',
   components: {
     RouterLink
   },
   data() {
-    return { username: '', email: '', password: '', confirmPassword: '', errMsg: '' }
+    return { username: '', email: '', password: '', confirmPassword: '', errMsg: '', authStore }
   },
   setup() {
     // const username = ref('')
@@ -93,7 +102,6 @@ export default {
         confirmPassword: this.confirmPassword
       }
 
-      const authStore = useAuthStore()
       const { signup } = authStore
 
       const res: string = await signup(data)

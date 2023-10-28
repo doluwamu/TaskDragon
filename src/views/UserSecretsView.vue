@@ -28,7 +28,14 @@
           <input type="text" placeholder="Write here" v-model="food" />
         </div>
 
-        <button type="submit" class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg">
+        <button
+          v-if="userStore.loaders.loading"
+          type="button"
+          class="bg-blue-400 text-lg py-2 px-4 mx-auto rounded-lg"
+        >
+          Submitting...
+        </button>
+        <button v-else type="submit" class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg">
           Submit
         </button>
       </form>
@@ -40,6 +47,8 @@
 import { useUserStore } from '../stores/users'
 import Navbar from '../components/app/Navbar.vue'
 
+const userStore = useUserStore()
+
 export default {
   name: 'UserSecrets',
   components: {
@@ -50,12 +59,12 @@ export default {
       color: '',
       DOB: '',
       food: '',
-      errMsg: ''
+      errMsg: '',
+      userStore
     }
   },
   methods: {
     async handleSubmit() {
-      const userStore = useUserStore()
       const { setUserSecrets } = userStore
 
       const userId: string = this.$route.params.userId.toString()

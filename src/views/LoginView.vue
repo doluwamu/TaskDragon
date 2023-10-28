@@ -33,7 +33,14 @@
           />
         </div>
 
-        <button type="submit" class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg">
+        <button
+          v-if="authStore.loaders.loading"
+          type="button"
+          class="bg-blue-400 text-lg py-2 px-4 mx-auto rounded-lg"
+        >
+          Loading...
+        </button>
+        <button v-else type="submit" class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg">
           Login
         </button>
 
@@ -51,7 +58,9 @@
 <script lang="ts">
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
+
+const authStore = useAuthStore()
 
 export default {
   name: 'Signup',
@@ -63,7 +72,8 @@ export default {
       username: '',
       password: '',
       signupRes: '',
-      errMsg: ''
+      errMsg: '',
+      authStore
     }
   },
   // mounted() {
@@ -73,7 +83,7 @@ export default {
   // },
   methods: {
     async handleSubmit() {
-      const authStore = useAuthStore()
+      // const authStore = useAuthStore()
 
       const loginData = {
         username: this.username,
