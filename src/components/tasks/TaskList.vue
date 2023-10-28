@@ -1,20 +1,35 @@
 <template>
-  <div class="flex flex-col gap-2" v-if="tasks.length > 0">
+  <div v-if="taskStore.loaders.tasks" class="text-center">Loading...</div>
+  <div class="flex flex-col gap-2" v-else-if="tasks.length > 0">
     <div class="tasks-list" v-for="(task, i) in tasks" :key="i">
-      <div class="flex justify-between items-center p-3 border rounded-lg hover:bg-[#fff2]">
+      <RouterLink
+        :to="`/tasks?edit=${true}&tid=${task._id}`"
+        @click="fetchTask(task._id)"
+        class="flex justify-between items-center p-3 border rounded-lg hover:bg-[#fff2]"
+      >
         <p class="task-name text-center">{{ task?.title }}</p>
         <i
           :class="`fa-solid fa-heart ${task?.favorite === true ? 'text-red-600' : 'text-white'}`"
         ></i>
-      </div>
+      </RouterLink>
     </div>
   </div>
   <div v-else class="text-white text-center">No tasks</div>
 </template>
 
 <script lang="ts">
+import { RouterLink } from 'vue-router'
+
 export default {
   name: 'TaskList',
-  props: ['tasks']
+  props: ['tasks', 'fetchTask', 'taskStore', 'status'],
+  data() {
+    return {
+      n: ''
+    }
+  },
+  components: {
+    RouterLink
+  }
 }
 </script>

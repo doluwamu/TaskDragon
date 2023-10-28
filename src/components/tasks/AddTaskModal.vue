@@ -1,11 +1,11 @@
 <template>
   <div
     v-if="add === true"
-    class="add-task-modal flex justify-center items-center text-black absolute top-0 left-0 h-full w-full"
+    class="add-task-modal flex justify-center z-50 items-center text-black fixed top-0 left-0 h-full w-full"
   >
-    <RouterLink to="/tasks" class="fixed top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
+    <RouterLink to="/tasks" class="absolute top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
     <div
-      class="modal-form bg-gray-800 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
+      class="modal-form bg-gray-800 z-50 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
     >
       <h1 class="mb-3 text-center text-3xl">Add a new task</h1>
 

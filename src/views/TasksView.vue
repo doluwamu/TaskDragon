@@ -30,7 +30,12 @@
             <p class="text-3xl">Undone</p>
             <p>{{ number.undone }}</p>
           </div>
-          <TaskList :tasks="tasks.undone" />
+          <TaskList
+            status="undone"
+            :taskStore="taskStore"
+            :fetchTask="fetchTask"
+            :tasks="tasks.undone"
+          />
           <LoadMoreTasksBtn
             :tasks="tasks.undone"
             status="undone"
@@ -47,7 +52,12 @@
             <p class="text-3xl">Doing</p>
             <p>{{ number.doing }}</p>
           </div>
-          <TaskList :tasks="tasks.doing" />
+          <TaskList
+            status="doing"
+            :taskStore="taskStore"
+            :fetchTask="fetchTask"
+            :tasks="tasks.doing"
+          />
           <LoadMoreTasksBtn
             :tasks="tasks.doing"
             status="doing"
@@ -64,7 +74,12 @@
             <p class="text-3xl">Done</p>
             <p>{{ number.done }}</p>
           </div>
-          <TaskList :tasks="tasks.done" />
+          <TaskList
+            status="done"
+            :taskStore="taskStore"
+            :fetchTask="fetchTask"
+            :tasks="tasks.done"
+          />
           <LoadMoreTasksBtn
             :tasks="tasks.done"
             status="done"
@@ -75,7 +90,9 @@
       </div>
     </div>
 
+    <!-- Modals -->
     <AddTaskModal :add="add" />
+    <EditTaskModal :edit="edit" :task="task" :taskStore="taskStore" :fetchTask="fetchTask" />
   </section>
 </template>
 
@@ -85,7 +102,10 @@ import { useTaskStore } from '../stores/tasks'
 import TaskList from '../components/tasks/TaskList.vue'
 import { RouterLink } from 'vue-router'
 import AddTaskModal from '../components/tasks/AddTaskModal.vue'
+import EditTaskModal from '../components/tasks/EditTaskModal.vue'
 import LoadMoreTasksBtn from '../components/tasks/LoadMoreTasksBtn.vue'
+
+const taskStore = useTaskStore()
 
 export default {
   name: 'Tasks',
@@ -94,6 +114,7 @@ export default {
     TaskList,
     RouterLink,
     AddTaskModal,
+    EditTaskModal,
     LoadMoreTasksBtn
   },
   data() {
@@ -113,7 +134,11 @@ export default {
         doing: 10,
         done: 10
       },
-      add: false
+      add: false,
+      edit: false,
+      task: {},
+      fetchTaskLoading: false,
+      taskStore
     }
   },
   async mounted() {
@@ -129,7 +154,7 @@ export default {
       this.add = true
     },
     async fetchTasks() {
-      const taskStore = useTaskStore()
+      // const taskStore = useTaskStore()
 
       const { getUndoneTasks, getDoingTasks, getDoneTasks } = taskStore
 
@@ -143,7 +168,7 @@ export default {
       }
 
       if (doingRes === 'success') {
-        this.tasks.done = taskStore?.tasks.doing
+        this.tasks.doing = taskStore?.tasks.doing
         this.number.doing = taskStore.number.doing
       }
 
@@ -153,7 +178,7 @@ export default {
       }
     },
     async fetchMoreTasks(status: string, number: number) {
-      const taskStore = useTaskStore()
+      // const taskStore = useTaskStore()
       const { getUndoneTasks, getDoingTasks, getDoneTasks } = taskStore
 
       if (status === 'undone') {
@@ -178,6 +203,26 @@ export default {
           this.number.done = taskStore.number.done
         }
       }
+    },
+    async fetchTask(id: string) {
+      // const taskStore = useTaskStore()
+      const { getTask } = taskStore
+      console.log('kkk')
+      this.task = {}
+
+      // const id = this.$route.query.tid
+      this.fetchTaskLoading = taskStore.loadingFetch
+
+      const res = await getTask(id)
+      this.fetchTaskLoading = taskStore.loadingFetch
+      console.log(taskStore.loadingFetch)
+
+      if (res === 'success') {
+        console.log(taskStore.task)
+        this.task = taskStore.task
+      }
+
+      console.log(id)
     }
   },
   updated() {
@@ -198,6 +243,14 @@ export default {
         })
         // }, 1000)
       })
+    }
+
+    if (this.$route.query.edit && Boolean(this.$route.query.edit) === true) {
+      this.edit = true
+    }
+
+    if (!this.$route.query.edit || Boolean(this.$route.query.edit) !== true) {
+      this.edit = false
     }
   }
 }
