@@ -7,7 +7,9 @@
         @click="fetchTask(task._id)"
         class="flex justify-between items-center p-3 border rounded-lg hover:bg-[#fff2]"
       >
-        <p class="task-name text-center">{{ task?.title }}</p>
+        <p class="task-name text-center">
+          {{ task?.title.length > 20 ? task?.title.substring(0, 20) + '...' : task?.title }}
+        </p>
         <i
           :class="`fa-solid fa-heart ${task?.favorite === true ? 'text-red-600' : 'text-white'}`"
         ></i>

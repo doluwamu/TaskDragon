@@ -7,9 +7,9 @@
     <div
       class="modal-form bg-gray-800 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
     >
-      <div class="flex justify-between gap-4">
+      <div class="flex justify-evenly items-center md:gap-4">
         <div></div>
-        <h1 class="mb-3 text-center text-3xl">{{ task?.title }}</h1>
+        <h1 class="text-center text-3xl">{{ task?.title }}</h1>
         <i
           :class="`fa-solid fa-heart ${task?.favorite === true ? 'text-red-600' : 'text-white'}`"
         ></i>
@@ -21,17 +21,17 @@
       <p class="text-center py-5 px-2 max-w-4/5">{{ task?.description }}</p>
 
       <div class="details p-2 flex flex-col gap-4">
-        <div class="flex flex-col justify-evenly md:flex-row">
-          <div class="flex flex-col justify-center gap-5 sm:flex-row">
+        <div class="flex flex-col justify-evenly gap-5 sm:gap-1 md:flex-row">
+          <div class="flex justify-center gap-5 flex-row sm:justify-center">
             <!-- Priority -->
-            <div class="flex gap-1 text-xs">
+            <div class="flex flex-col gap-1 text-xs sm:flex-row">
               <p>Priority:</p>
               <p>{{ task?.priority }}</p>
             </div>
 
             <!-- Status -->
             <div
-              :class="`flex gap-1 text-xs ${
+              :class="`flex flex-col gap-1 text-xs sm:flex-row ${
                 task?.status === 'undone'
                   ? 'text-red-600'
                   : task?.status === 'doing'
@@ -44,15 +44,15 @@
             </div>
           </div>
 
-          <div class="foot flex justify-center gap-5">
+          <div class="foot flex justify-center gap-5 sm:justify-center">
             <!-- Start time -->
-            <div class="flex text-xs gap-1">
+            <div class="flex flex-col text-xs gap-1 sm:flex-row">
               <p>Started on:</p>
               <p>{{ !task.startTime ? 'null' : moment(task?.startTime).format('MMM Do, YYYY') }}</p>
             </div>
 
             <!-- End time -->
-            <div class="flex text-xs gap-1">
+            <div class="flex flex-col text-xs gap-1 sm:flex-row">
               <p>Ended on:</p>
               <p>{{ !task.endTime ? 'null' : moment(task?.endTime).format('MMM Do, YYYY') }}</p>
             </div>

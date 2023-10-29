@@ -25,7 +25,7 @@
         <!-- Undone -->
         <div class="undone flex flex-col gap-2">
           <div
-            class="flex items-center justify-between text-white bg-red-600 rounded-lg p-3 h-[70px] w-[300px] md:w-[350px]"
+            class="flex items-center justify-between text-white bg-red-600 rounded-lg p-3 h-[70px] w-[250px] sm:w-[300px] md:w-[350px]"
           >
             <p class="text-3xl">Undone</p>
             <p>{{ number.undone }}</p>
@@ -47,7 +47,7 @@
         <!-- Doing -->
         <div class="doing flex flex-col gap-2">
           <div
-            class="flex items-center justify-between text-white bg-orange-600 rounded-lg p-3 h-[70px] w-[300px] md:w-[350px]"
+            class="flex items-center justify-between text-white bg-orange-600 rounded-lg p-3 h-[70px] w-[250px] sm:w-[300px] md:w-[350px]"
           >
             <p class="text-3xl">Doing</p>
             <p>{{ number.doing }}</p>
@@ -69,7 +69,7 @@
         <!-- Done -->
         <div class="doing flex flex-col gap-2">
           <div
-            class="flex items-center justify-between text-white bg-green-800 rounded-lg p-3 h-[70px] w-[300px] md:w-[350px]"
+            class="flex items-center justify-between text-white bg-green-800 rounded-lg p-3 h-[70px] w-[250px] sm:w-[300px] md:w-[350px]"
           >
             <p class="text-3xl">Done</p>
             <p>{{ number.done }}</p>
