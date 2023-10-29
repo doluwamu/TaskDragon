@@ -3,7 +3,7 @@
   <div class="flex flex-col gap-2" v-else-if="tasks.length > 0">
     <div class="tasks-list" v-for="(task, i) in tasks" :key="i">
       <RouterLink
-        :to="`/tasks?edit=${true}&tid=${task._id}`"
+        :to="`/tasks?details=${true}&tid=${task._id}`"
         @click="fetchTask(task._id)"
         class="flex justify-between items-center p-3 border rounded-lg hover:bg-[#fff2]"
       >
@@ -23,11 +23,6 @@ import { RouterLink } from 'vue-router'
 export default {
   name: 'TaskList',
   props: ['tasks', 'fetchTask', 'taskStore', 'status'],
-  data() {
-    return {
-      n: ''
-    }
-  },
   components: {
     RouterLink
   }

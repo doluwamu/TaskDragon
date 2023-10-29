@@ -51,7 +51,14 @@
         </div>
 
         <div class="p-5">
-          <button type="submit" class="button bg-black text-white w-[150px] px-3 py-2">
+          <button
+            v-if="taskStore.loaders.addTask"
+            type="submit"
+            class="button bg-gray-600 text-white w-[150px] px-3 py-2"
+          >
+            Submitting...
+          </button>
+          <button v-else type="submit" class="button bg-black text-white w-[150px] px-3 py-2">
             Submit
           </button>
         </div>
@@ -63,6 +70,8 @@
 <script lang="ts">
 import { RouterLink } from 'vue-router'
 import { useTaskStore } from '../../stores/tasks'
+
+const taskStore = useTaskStore()
 
 export default {
   name: 'AddTaskModal',
@@ -76,12 +85,12 @@ export default {
       priority: '',
       description: '',
       successMsg: '',
-      errMsg: ''
+      errMsg: '',
+      taskStore
     }
   },
   methods: {
     async addNewTask() {
-      const taskStore = useTaskStore()
       const { addTask } = taskStore
 
       const taskDetails = {

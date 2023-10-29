@@ -1,0 +1,132 @@
+<template>
+  <div
+    v-if="showDetails === true"
+    class="add-task-modal flex justify-center items-center z-50 text-black fixed top-0 left-0 h-full w-full"
+  >
+    <RouterLink to="/tasks" class="absolute top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
+    <div
+      class="modal-form bg-gray-800 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
+    >
+      <div class="flex justify-between gap-4">
+        <div></div>
+        <h1 class="mb-3 text-center text-3xl">{{ task?.title }}</h1>
+        <i
+          :class="`fa-solid fa-heart ${task?.favorite === true ? 'text-red-600' : 'text-white'}`"
+        ></i>
+      </div>
+
+      <!-- <p class="text-red-600 text-center" v-if="errMsg.length > 0">{{ errMsg }}</p>
+      <p class="text-green-700 text-center" v-if="successMsg.length > 0">{{ successMsg }}</p> -->
+
+      <p class="text-center py-5 px-2 max-w-4/5">{{ task?.description }}</p>
+
+      <div class="details p-2 flex flex-col gap-4">
+        <div class="flex flex-col justify-evenly md:flex-row">
+          <div class="flex flex-col justify-center gap-5 sm:flex-row">
+            <!-- Priority -->
+            <div class="flex gap-1 text-xs">
+              <p>Priority:</p>
+              <p>{{ task?.priority }}</p>
+            </div>
+
+            <!-- Status -->
+            <div
+              :class="`flex gap-1 text-xs ${
+                task?.status === 'undone'
+                  ? 'text-red-600'
+                  : task?.status === 'doing'
+                  ? 'text-orange-400'
+                  : 'text-green-300'
+              }`"
+            >
+              <p>Status:</p>
+              <p>{{ task?.status }}</p>
+            </div>
+          </div>
+
+          <div class="foot flex justify-center gap-5">
+            <!-- Start time -->
+            <div class="flex text-xs gap-1">
+              <p>Started on:</p>
+              <p>{{ !task.startTime ? 'null' : moment(task?.startTime).format('MMM Do, YYYY') }}</p>
+            </div>
+
+            <!-- End time -->
+            <div class="flex text-xs gap-1">
+              <p>Ended on:</p>
+              <p>{{ !task.endTime ? 'null' : moment(task?.endTime).format('MMM Do, YYYY') }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center gap-5 pt-5">
+          <!-- Start time -->
+          <div v-if="task?.createdAt" class="flex text-xs gap-1">
+            <p>Created on:</p>
+            <p>{{ moment(task?.createdAt).format('MMM Do, YYYY') }}</p>
+          </div>
+        </div>
+
+        <div class="p-2 flex items-center justify-center">
+          <button
+            v-if="taskStore.loaders.getTask"
+            type="button"
+            class="button bg-gray-600 text-white w-[150px] px-3 py-2"
+          >
+            Loading...
+          </button>
+          <button v-else type="button" class="button bg-black text-white w-[150px] px-3 py-2">
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import moment from 'moment'
+
+export default {
+  name: 'TaskDetailsModal',
+  props: ['showDetails', 'task', 'taskStore', 'fetchTask'],
+  data() {
+    return {
+      title: '',
+      priority: '',
+      description: '',
+      moment
+    }
+  },
+  mounted() {
+    this.fetchTask(this.$route.query.tid)
+  }
+}
+</script>
+
+<style scoped>
+.modal-form {
+  animation-fill-mode: forwards;
+  animation: modalOpen 0.2s linear;
+}
+
+@keyframes modalOpen {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+input,
+select,
+textarea {
+  background-color: rgb(31 41 55);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #cdcdcd;
+}
+</style>
