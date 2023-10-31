@@ -29,7 +29,8 @@ export const useTaskStore = defineStore('task', {
     loaders: {
       tasks: false,
       addTask: false,
-      getTask: false
+      getTask: false,
+      updateTask: false
     },
     successMsg: '',
     task: {}
@@ -118,6 +119,28 @@ export const useTaskStore = defineStore('task', {
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
         this.loaders.getTask = false
+        return 'fail'
+      }
+    },
+    async updateTask(
+      taskId: string,
+      taskDetails: { title?: string; description?: string; favorite?: string; priority?: string }
+    ): Promise<'success' | 'fail'> {
+      try {
+        this.loaders.updateTask = true
+        this.task = {}
+        const { data } = await axiosJwt.put(`tasks/${taskId}`, taskDetails, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        this.loaders.updateTask = false
+        this.task = data.task
+        this.successMsg = data.message
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
+        this.loaders.updateTask = false
         return 'fail'
       }
     }

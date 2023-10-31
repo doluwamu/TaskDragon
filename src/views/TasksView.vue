@@ -98,6 +98,7 @@
       :taskStore="taskStore"
       :fetchTask="fetchTask"
     />
+    <EditTaskModal :edit="edit" :task="task" :taskStore="taskStore" :fetchTask="fetchTask" />
   </section>
 </template>
 
@@ -107,6 +108,7 @@ import { useTaskStore } from '../stores/tasks'
 import TaskList from '../components/tasks/TaskList.vue'
 import { RouterLink } from 'vue-router'
 import AddTaskModal from '../components/tasks/AddTaskModal.vue'
+import EditTaskModal from '../components/tasks/EditTaskModal.vue'
 import TaskDetailsModal from '../components/tasks/TaskDetailsModal.vue'
 import LoadMoreTasksBtn from '../components/tasks/LoadMoreTasksBtn.vue'
 
@@ -119,6 +121,7 @@ export default {
     TaskList,
     RouterLink,
     AddTaskModal,
+    EditTaskModal,
     TaskDetailsModal,
     LoadMoreTasksBtn
   },
@@ -257,6 +260,14 @@ export default {
 
     if (!this.$route.query.details || Boolean(this.$route.query.details) !== true) {
       this.showDetails = false
+    }
+
+    if (this.$route.query.edit && Boolean(this.$route.query.edit) === true) {
+      this.edit = true
+    }
+
+    if (!this.$route.query.edit || Boolean(this.$route.query.edit) !== true) {
+      this.edit = false
     }
   }
 }

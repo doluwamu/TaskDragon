@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="showDetails === true"
+    v-if="edit === true"
     class="add-task-modal flex justify-center items-center z-50 text-black fixed top-0 left-0 h-full w-full"
   >
     <RouterLink to="/tasks" class="absolute top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
@@ -77,7 +77,6 @@
           </button>
           <RouterLink
             :to="`/tasks?edit=${true}&tid=${task?._id}`"
-            @click="fetchTask(task?._id)"
             v-else
             type="button"
             class="button bg-black text-white text-center w-[150px] px-3 py-2"
@@ -92,19 +91,12 @@
 
 <script lang="ts">
 import moment from 'moment'
-import { RouterLink } from 'vue-router'
 
 export default {
-  name: 'TaskDetailsModal',
-  props: ['showDetails', 'task', 'taskStore', 'fetchTask'],
-  components: {
-    RouterLink
-  },
+  name: 'EditTaskModal',
+  props: ['edit', 'task', 'taskStore', 'fetchTask'],
   data() {
     return {
-      title: '',
-      priority: '',
-      description: '',
       moment
     }
   },
@@ -114,29 +106,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.modal-form {
-  animation-fill-mode: forwards;
-  animation: modalOpen 0.2s linear;
-}
-
-@keyframes modalOpen {
-  from {
-    transform: scale(0.9);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-input,
-select,
-textarea {
-  background-color: rgb(31 41 55);
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #cdcdcd;
-}
-</style>
+<style scoped></style>
