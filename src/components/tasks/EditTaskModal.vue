@@ -118,7 +118,6 @@
               Loading...
             </button>
             <button
-              :to="`/tasks?edit=${true}&tid=${task?._id}`"
               v-else
               type="submit"
               class="button bg-black text-white text-center w-[150px] px-3 py-2"
@@ -179,9 +178,9 @@ export default {
       const res = await updateTask(taskId, taskDetails)
 
       if (res === 'success') {
-        this.successMsgs.updateStats = taskStore.successMsgs.updateStatus
+        this.successMsgs.updateTask = taskStore.successMsgs.updateTask
 
-        setTimeout(() => window.location.replace('/tasks'), 1000)
+        // setTimeout(() => window.location.reload(), 4000)
       }
     },
     async editTaskStatus(taskId: string) {
@@ -192,9 +191,9 @@ export default {
 
       const res = await updateTaskStatus(taskId, status)
       if (res === 'success') {
-        this.successMsgs.updateTask = taskStore.successMsgs.updateTask
+        this.successMsgs.updateStats = taskStore.successMsgs.updateStatus
 
-        setTimeout(() => window.location.reload(), 2000)
+        // setTimeout(() => window.location.reload(), 2000)
       }
     }
   }
