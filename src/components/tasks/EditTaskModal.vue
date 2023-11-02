@@ -5,42 +5,85 @@
   >
     <RouterLink to="/tasks" class="absolute top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
     <div
-      class="modal-form bg-gray-800 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
+      class="modal-form bg-gray-800 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto max-h-[500px] md:w-2/3 md:px-5"
     >
       <div class="flex justify-evenly items-center md:gap-4">
         <div></div>
-        <h1 class="text-center text-3xl">{{ task?.title }}</h1>
+        <h1 class="text-4xl font-semibold">Edit Task</h1>
         <i
           :class="`fa-solid fa-heart ${task?.favorite === true ? 'text-red-600' : 'text-white'}`"
         ></i>
       </div>
 
+      <p class="text-center text-lg text-green-600">
+        {{ successMsgs.updateTask }}
+      </p>
+      <p class="text-center text-lg text-green-600">
+        {{ successMsgs.updateStats }}
+      </p>
+
+      <div v-if="taskStore.loaders.getTask" class="text-lg text-center py-4">Loading...</div>
+
       <!-- <p class="text-red-600 text-center" v-if="errMsg.length > 0">{{ errMsg }}</p>
       <p class="text-green-700 text-center" v-if="successMsg.length > 0">{{ successMsg }}</p> -->
 
-      <p class="text-center py-5 px-2 max-w-4/5">{{ task?.description }}</p>
+      <form @submit.prevent="editTask(task?._id)">
+        <!-- Title -->
+        <div class="flex flex-col py-5">
+          <label>Title</label>
+          <input type="text" v-model="title" class="text-3xl w-full text-white" />
+        </div>
 
-      <div class="details p-2 flex flex-col gap-4">
-        <div class="flex flex-col justify-evenly gap-5 sm:gap-1 md:flex-row">
-          <div class="flex justify-center gap-5 flex-row sm:justify-center">
-            <!-- Priority -->
-            <div class="flex flex-col gap-1 text-xs sm:flex-row">
-              <p>Priority:</p>
-              <p>{{ task?.priority }}</p>
-            </div>
+        <!-- Description -->
+        <div class="flex flex-col py-5">
+          <label>Description</label>
+          <textarea
+            name="description"
+            v-model="description"
+            class="p-2 max-w-4/5 resize-none w-full my-4"
+            cols="30"
+            rows="6"
+          ></textarea>
+        </div>
 
-            <!-- Status -->
-            <div
-              :class="`flex flex-col gap-1 text-xs sm:flex-row ${
-                task?.status === 'undone'
-                  ? 'text-red-600'
-                  : task?.status === 'doing'
-                  ? 'text-orange-400'
-                  : 'text-green-300'
-              }`"
-            >
-              <p>Status:</p>
-              <p>{{ task?.status }}</p>
+        <div class="details p-2 flex flex-col gap-4">
+          <div class="flex flex-col justify-evenly gap-5 sm:gap-1 md:flex-row">
+            <div class="flex justify-center gap-5 flex-row sm:justify-center">
+              <!-- Priority -->
+              <div class="flex flex-col gap-1 text-lg">
+                <p>Priority:</p>
+                <select name="priority" v-model="priority">
+                  <!-- <option class="text-gray-600" value="">{{ priority }}</option> -->
+                  <option value="normal" class="text-gray-800">Normal</option>
+                  <option value="important" class="text-gray-800">Important</option>
+                  <option value="very-important" class="text-gray-800">Very important</option>
+                </select>
+              </div>
+
+              <!-- Status -->
+              <div class="flex flex-col gap-1 text-lg">
+                <p class="text-white">Status:</p>
+                <select name="priority" v-model="status">
+                  <!-- <option class="text-gray-600" value="">{{ priority }}</option> -->
+                  <option value="undone" class="text-red-600">Undone</option>
+                  <option value="doing" class="text-orange-400">Doing</option>
+                  <option value="done" class="text-green-300">Done</option>
+                </select>
+                <button
+                  v-if="taskStore.loaders.updateStatus"
+                  class="button p-2 text-sm bg-green-400"
+                >
+                  Loading...
+                </button>
+                <button
+                  v-else
+                  type="button"
+                  @click="editTaskStatus(task?._id)"
+                  class="button p-2 text-sm bg-green-600"
+                >
+                  Update status
+                </button>
+              </div>
             </div>
           </div>
 
@@ -57,53 +100,112 @@
               <p>{{ !task.endTime ? 'null' : moment(task?.endTime).format('MMM Do, YYYY') }}</p>
             </div>
           </div>
-        </div>
 
-        <div class="flex justify-center gap-5 pt-5">
-          <!-- Start time -->
-          <div v-if="task?.createdAt" class="flex text-xs gap-1">
-            <p>Created on:</p>
-            <p>{{ moment(task?.createdAt).format('MMM Do, YYYY') }}</p>
+          <div class="flex justify-center gap-5 pt-5">
+            <!-- Start time -->
+            <div v-if="task?.createdAt" class="flex text-xs gap-1">
+              <p>Created on:</p>
+              <p>{{ moment(task?.createdAt).format('MMM Do, YYYY') }}</p>
+            </div>
+          </div>
+
+          <div class="p-2 flex items-center justify-center">
+            <button
+              v-if="taskStore.loaders.updateTask"
+              type="button"
+              class="button bg-gray-600 text-white w-[150px] px-3 py-2"
+            >
+              Loading...
+            </button>
+            <button
+              :to="`/tasks?edit=${true}&tid=${task?._id}`"
+              v-else
+              type="submit"
+              class="button bg-black text-white text-center w-[150px] px-3 py-2"
+            >
+              Update
+            </button>
           </div>
         </div>
-
-        <div class="p-2 flex items-center justify-center">
-          <button
-            v-if="taskStore.loaders.getTask"
-            type="button"
-            class="button bg-gray-600 text-white w-[150px] px-3 py-2"
-          >
-            Loading...
-          </button>
-          <RouterLink
-            :to="`/tasks?edit=${true}&tid=${task?._id}`"
-            v-else
-            type="button"
-            class="button bg-black text-white text-center w-[150px] px-3 py-2"
-          >
-            Edit
-          </RouterLink>
-        </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import moment from 'moment'
+import { useTaskStore } from '../../stores/tasks'
+
+const taskStore = useTaskStore()
 
 export default {
   name: 'EditTaskModal',
   props: ['edit', 'task', 'taskStore', 'fetchTask'],
   data() {
     return {
-      moment
+      moment,
+      taskStore,
+      title: this.$props.task?.title,
+      description: this.$props.task?.description,
+      priority: this.$props.task?.priority,
+      status: this.$props.task?.status,
+      favorite: this.$props.task?.favorite,
+      successMsgs: {
+        updateTask: '',
+        updateStats: '',
+        updateFavorite: ''
+      }
     }
   },
-  mounted() {
-    this.fetchTask(this.$route.query.tid)
+  async mounted() {
+    await this.fetchTask(this.$route.query.tid)
+
+    this.title = this.taskStore.task.title
+    this.description = this.taskStore.task.description
+    this.priority = this.taskStore.task.priority
+    this.status = this.taskStore.task.status
+    this.favorite = this.taskStore.task.favorite
+  },
+  methods: {
+    async editTask(taskId: string) {
+      const { updateTask } = taskStore
+
+      const taskDetails = {
+        title: this.title,
+        description: this.description,
+        priority: this.priority
+      }
+
+      const res = await updateTask(taskId, taskDetails)
+
+      if (res === 'success') {
+        this.successMsgs.updateStats = taskStore.successMsgs.updateStatus
+
+        setTimeout(() => window.location.replace('/tasks'), 1000)
+      }
+    },
+    async editTaskStatus(taskId: string) {
+      const status = this.status
+      console.log(status)
+
+      const { updateTaskStatus } = taskStore
+
+      const res = await updateTaskStatus(taskId, status)
+      if (res === 'success') {
+        this.successMsgs.updateTask = taskStore.successMsgs.updateTask
+
+        setTimeout(() => window.location.reload(), 2000)
+      }
+    }
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+input,
+textarea,
+option,
+select {
+  background-color: inherit;
+}
+</style>

@@ -30,9 +30,14 @@ export const useTaskStore = defineStore('task', {
       tasks: false,
       addTask: false,
       getTask: false,
-      updateTask: false
+      updateTask: false,
+      updateStatus: false
     },
-    successMsg: '',
+    successMsgs: {
+      addTask: '',
+      updateTask: '',
+      updateStatus: ''
+    },
     task: {}
   }),
   actions: {
@@ -100,7 +105,7 @@ export const useTaskStore = defineStore('task', {
           }
         })
         this.loaders.addTask = false
-        this.successMsg = data.message
+        this.successMsgs.addTask = data.message
         return 'success'
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
@@ -136,11 +141,36 @@ export const useTaskStore = defineStore('task', {
         })
         this.loaders.updateTask = false
         this.task = data.task
-        this.successMsg = data.message
+        this.successMsgs.updateTask = data.message
         return 'success'
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
         this.loaders.updateTask = false
+        return 'fail'
+      }
+    },
+    async updateTaskStatus(taskId: string, status: string): Promise<'success' | 'fail'> {
+      try {
+        this.loaders.updateStatus = true
+
+        console.log(status)
+        const { data } = await axiosJwt.put(
+          `tasks/${taskId}/status`,
+          { status },
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+        // debugger
+        this.successMsgs.updateStatus = data.message
+        this.loaders.updateStatus = false
+        this.task = data.task
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
+        this.loaders.updateStatus = false
         return 'fail'
       }
     }

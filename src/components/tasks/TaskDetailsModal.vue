@@ -75,15 +75,15 @@
           >
             Loading...
           </button>
-          <RouterLink
-            :to="`/tasks?edit=${true}&tid=${task?._id}`"
+          <a
+            :href="`/tasks?edit=${true}&tid=${task?._id}`"
             @click="fetchTask(task?._id)"
             v-else
             type="button"
             class="button bg-black text-white text-center w-[150px] px-3 py-2"
           >
             Edit
-          </RouterLink>
+          </a>
         </div>
       </div>
     </div>
@@ -102,14 +102,11 @@ export default {
   },
   data() {
     return {
-      title: '',
-      priority: '',
-      description: '',
       moment
     }
   },
-  mounted() {
-    this.fetchTask(this.$route.query.tid)
+  async mounted() {
+    await this.fetchTask(this.$route.query.tid)
   }
 }
 </script>

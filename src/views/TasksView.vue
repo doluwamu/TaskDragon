@@ -216,7 +216,6 @@ export default {
     async fetchTask(id: string) {
       // const taskStore = useTaskStore()
       const { getTask } = taskStore
-      console.log('kkk')
       this.task = {}
 
       // const id = this.$route.query.tid
@@ -224,10 +223,8 @@ export default {
 
       const res = await getTask(id)
       this.fetchTaskLoading = taskStore.loadingFetch
-      console.log(taskStore.loadingFetch)
 
       if (res === 'success') {
-        console.log(taskStore.task)
         this.task = taskStore.task
       }
 
