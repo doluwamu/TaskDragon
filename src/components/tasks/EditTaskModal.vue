@@ -15,11 +15,17 @@
         ></i>
       </div>
 
+      <!-- Success message -->
       <p class="text-center text-lg text-green-600">
         {{ successMsgs.updateTask }}
       </p>
       <p class="text-center text-lg text-green-600">
         {{ successMsgs.updateStats }}
+      </p>
+
+      <!-- Error message -->
+      <p class="text-red-700 text-lg text-center">
+        {{ errMsg }}
       </p>
 
       <div v-if="taskStore.loaders.getTask" class="text-lg text-center py-4">Loading...</div>
@@ -30,7 +36,12 @@
       <form @submit.prevent="editTask(task?._id)">
         <!-- Title -->
         <div class="flex flex-col py-5">
-          <label>Title</label>
+          <label
+            >Title
+            <span :class="`${title?.length <= 200 ? 'text-green-400' : 'text-red-600'}`">
+              ({{ title?.length }}/200)</span
+            ></label
+          >
           <input type="text" v-model="title" class="text-3xl w-full text-white" />
         </div>
 
@@ -135,7 +146,7 @@
 import moment from 'moment'
 import { useTaskStore } from '../../stores/tasks'
 
-const taskStore = useTaskStore()
+// const taskStore = useTaskStore()
 
 export default {
   name: 'EditTaskModal',
@@ -143,7 +154,7 @@ export default {
   data() {
     return {
       moment,
-      taskStore,
+      taskStore: this.taskStore,
       title: this.$props.task?.title,
       description: this.$props.task?.description,
       priority: this.$props.task?.priority,
@@ -153,7 +164,8 @@ export default {
         updateTask: '',
         updateStats: '',
         updateFavorite: ''
-      }
+      },
+      errMsg: ''
     }
   },
   async mounted() {
@@ -167,7 +179,7 @@ export default {
   },
   methods: {
     async editTask(taskId: string) {
-      const { updateTask } = taskStore
+      const { updateTask } = this.taskStore
 
       const taskDetails = {
         title: this.title,
@@ -178,22 +190,30 @@ export default {
       const res = await updateTask(taskId, taskDetails)
 
       if (res === 'success') {
-        this.successMsgs.updateTask = taskStore.successMsgs.updateTask
+        this.successMsgs.updateTask = this.taskStore.successMsgs.updateTask
 
-        // setTimeout(() => window.location.reload(), 4000)
+        // setTimeout(() => window.location.reload(), 2000)
+      }
+
+      if (res === 'fail') {
+        this.errMsg = this.taskStore.errorMsg
       }
     },
     async editTaskStatus(taskId: string) {
       const status = this.status
       console.log(status)
 
-      const { updateTaskStatus } = taskStore
+      const { updateTaskStatus } = this.taskStore
 
       const res = await updateTaskStatus(taskId, status)
       if (res === 'success') {
-        this.successMsgs.updateStats = taskStore.successMsgs.updateStatus
+        this.successMsgs.updateStats = this.taskStore.successMsgs.updateStatus
 
         // setTimeout(() => window.location.reload(), 2000)
+      }
+
+      if (res === 'fail') {
+        this.errMsg = this.taskStore.errorMsg
       }
     }
   }

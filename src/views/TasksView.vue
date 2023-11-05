@@ -227,8 +227,6 @@ export default {
       if (res === 'success') {
         this.task = taskStore.task
       }
-
-      console.log(id)
     }
   },
   updated() {
