@@ -9,7 +9,7 @@ import bcrypt from "bcryptjs";
 const login = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
-  const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
+  const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, NODE_ENV } = process.env;
 
   const regex =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -47,7 +47,7 @@ const login = asyncHandler(async (req, res) => {
       verified: foundUser.verified,
     },
     ACCESS_TOKEN_SECRET,
-    { expiresIn: "2m" }
+    { expiresIn: "5m" }
   );
 
   const refreshToken = jwt.sign(
@@ -59,20 +59,35 @@ const login = asyncHandler(async (req, res) => {
     { expiresIn: "7d" }
   );
 
-  // Create cookie
-  res.cookie("jwt", refreshToken, {
-    httpOnly: true, //accessible only by web server
-    // secure: false, //https
-    // sameSite: "none", //cross-site cookie
-    maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
-  });
+  if (NODE_ENV === "development") {
+    // Create cookie
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true, //accessible only by web server
+      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+    });
 
-  res.cookie("access", accessToken, {
-    httpOnly: true, //accessible only by web server
-    // secure: false, //https
-    // sameSite: "none", //cross-site cookie
-    maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
-  });
+    res.cookie("access", accessToken, {
+      httpOnly: true, //accessible only by web server
+      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+    });
+  }
+
+  if (NODE_ENV === "production") {
+    // Create cookie
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true, //accessible only by web server
+      secure: true, //https
+      sameSite: "none", //cross-site cookie
+      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+    });
+
+    res.cookie("access", accessToken, {
+      httpOnly: true, //accessible only by web server
+      secure: true, //https
+      sameSite: "none", //cross-site cookie
+      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+    });
+  }
 
   const user =
     (await User.findOne({ username }).select("-password").exec()) ||

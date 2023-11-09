@@ -2,6 +2,10 @@ import Task from "../../models/Task.js";
 import asyncHandler from "express-async-handler";
 import { Task as task } from "../../constants/index.js";
 
+const {
+  Status: { undone, doing, done },
+} = task;
+
 // @desc Edit a task
 // @route PUT /api/v1/tasks/:taskId
 // @access Private
@@ -12,12 +16,22 @@ const editTaskDetails = asyncHandler(async (req, res) => {
 
   //   const priorityOptions = normal || important || veryImportant;
 
+  if (title.length > 200)
+    return res
+      .status(400)
+      .json({ message: "Title cannot be more than 200 characters" });
+
   const foundTask = await Task.findById(taskId).populate("user").exec();
 
   if (!foundTask) return res.status(404).json({ message: "Task not found" });
 
   if (foundTask.user.id !== user.id)
     return res.status(400).json({ message: "This task is not your's" });
+
+  if (foundTask.status === done)
+    return res
+      .status(400)
+      .json({ message: "Update failed: You are done with this task" });
 
   foundTask.title = title || foundTask.title;
   foundTask.description = description || foundTask.description;
@@ -36,10 +50,6 @@ const editTaskStatus = asyncHandler(async (req, res) => {
   const { user } = req;
   const { taskId } = req.params;
   const { status } = req.body;
-
-  const {
-    Status: { undone, doing, done },
-  } = task;
 
   //   const priorityOptions = normal || important || veryImportant;
 
@@ -77,7 +87,9 @@ const editTaskStatus = asyncHandler(async (req, res) => {
   }
 
   if ((status === undone || status === doing) && foundTask.endTime !== null) {
-    return res.status(400).json({ message: "You are done with this task" });
+    return res
+      .status(400)
+      .json({ message: "Update failed: You are done with this task" });
   }
 
   const editedTask = await foundTask.save();

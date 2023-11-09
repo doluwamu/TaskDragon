@@ -8,7 +8,7 @@ import asyncHandler from "express-async-handler";
 const refreshSession = asyncHandler(async (req, res) => {
   const { cookies } = req;
 
-  const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
+  const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, NODE_ENV } = process.env;
 
   if (!cookies?.jwt) return res.status(404).json({ message: "Unauthorized" });
 
@@ -34,15 +34,24 @@ const refreshSession = asyncHandler(async (req, res) => {
           verified: foundUser.verified,
         },
         ACCESS_TOKEN_SECRET,
-        { expiresIn: "2m" }
+        { expiresIn: "5m" }
       );
 
-      res.cookie("access", accessToken, {
-        httpOnly: true, //accessible only by web server
-        // secure: false, //https
-        // sameSite: "none", //cross-site cookie
-        maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
-      });
+      if (NODE_ENV === "development") {
+        res.cookie("access", accessToken, {
+          httpOnly: true, //accessible only by web server
+          maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+        });
+      }
+
+      if (NODE_ENV === "production") {
+        res.cookie("access", accessToken, {
+          httpOnly: true, //accessible only by web server
+          secure: true, //https
+          sameSite: "none", //cross-site cookie
+          maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+        });
+      }
 
       return res.json({
         // accessToken,

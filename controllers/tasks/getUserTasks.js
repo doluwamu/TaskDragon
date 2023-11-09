@@ -7,9 +7,9 @@ import asyncHandler from "express-async-handler";
 const getUserTasks = asyncHandler(async (req, res) => {
   const { user } = req;
   // const { userId } = req.params;
-  const { number } = req.query;
+  const { number, status } = req.query;
 
-  const baseNumber = 20;
+  const baseNumber = 10;
 
   // if (user.id !== userId)
   //   return res.status(400).json({ message: "This is not your id" });
@@ -24,15 +24,16 @@ const getUserTasks = asyncHandler(async (req, res) => {
       }
     : { user };
 
-  const count = await Task.countDocuments({ user });
-  const foundTasks = await Task.find({ ...search }).limit(
-    Number(number) || baseNumber
-  );
+  // const count = await Task.countDocuments({ user });
+  const foundTasks = await Task.find({
+    ...search,
+    status: status && status.length > 0 ? status : "undone",
+  }).limit(Number(number) || baseNumber);
 
   return res.json({
     tasks: foundTasks,
     number: foundTasks.length,
-    total: count,
+    // total: count,
   });
 });
 

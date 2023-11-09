@@ -19,6 +19,9 @@ const addTask = asyncHandler(async (req, res) => {
       .status(400)
       .json({ message: "Title cannot be more than 200 characters" });
 
+  if (!priority || priority.length < 1)
+    return res.status(400).json({ message: "Choose priority" });
+
   const owner = await User.findById(id).exec();
 
   if (!owner) return res.status(404).json({ message: "Unauthorized" });
