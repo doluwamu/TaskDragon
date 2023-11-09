@@ -150,7 +150,7 @@ import moment from 'moment'
 
 export default {
   name: 'EditTaskModal',
-  props: ['edit', 'task', 'taskStore', 'fetchTask'],
+  props: ['edit', 'task', 'taskStore', 'fetchTask', 'fetchTasks'],
   data() {
     return {
       moment,
@@ -191,7 +191,7 @@ export default {
 
       if (res === 'success') {
         this.successMsgs.updateTask = this.taskStore.successMsgs.updateTask
-
+        this.fetchTasks()
         // setTimeout(() => window.location.reload(), 2000)
       }
 
@@ -208,7 +208,7 @@ export default {
       const res = await updateTaskStatus(taskId, status)
       if (res === 'success') {
         this.successMsgs.updateStats = this.taskStore.successMsgs.updateStatus
-
+        this.fetchTasks()
         // setTimeout(() => window.location.reload(), 2000)
       }
 

@@ -98,7 +98,13 @@
       :taskStore="taskStore"
       :fetchTask="fetchTask"
     />
-    <EditTaskModal :edit="edit" :task="task" :taskStore="taskStore" :fetchTask="fetchTask" />
+    <EditTaskModal
+      :edit="edit"
+      :task="task"
+      :taskStore="taskStore"
+      :fetchTask="fetchTask"
+      :fetchTasks="fetchTasks"
+    />
   </section>
 </template>
 
