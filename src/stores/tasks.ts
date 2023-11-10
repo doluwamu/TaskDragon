@@ -155,7 +155,7 @@ export const useTaskStore = defineStore('task', {
       try {
         this.loaders.updateStatus = true
 
-        console.log(status)
+        // console.log(status)
         const { data } = await axiosJwt.put(
           `tasks/${taskId}/status`,
           { status },

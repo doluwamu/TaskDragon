@@ -6,7 +6,7 @@
         @click="fetchTask(task._id)"
         class="flex justify-between items-center p-3 border rounded-lg hover:bg-[#fff2]"
       >
-        <RouterLink :to="`/tasks?details=${true}&tid=${task._id}`" class="task-name text-center">
+        <RouterLink :to="`/tasks?details=${true}&tid=${task._id}`" class="task-name h-full w-full">
           {{ task?.title.length > 20 ? task?.title.substring(0, 20) + '...' : task?.title }}
         </RouterLink>
         <div class="flex items-center gap-3">
@@ -17,7 +17,10 @@
             v-if="taskStore.loaders.deleteTask"
             class="fa-solid fa-trash text-red-600 cursor-not-allowed"
           ></i> -->
-          <button @click="removeTask(task._id)">
+          <button v-if="taskStore.loaders.deleteTask">
+            <i class="fa-solid fa-trash text-gray-200"></i>
+          </button>
+          <button v-else @click="removeTask(task._id)">
             <i class="fa-solid fa-trash cursor-pointer"></i>
           </button>
         </div>

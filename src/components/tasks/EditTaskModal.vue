@@ -78,7 +78,7 @@
                   <!-- <option class="text-gray-600" value="">{{ priority }}</option> -->
                   <option value="undone" class="text-red-600">Undone</option>
                   <option value="doing" class="text-orange-400">Doing</option>
-                  <option value="done" class="text-green-300">Done</option>
+                  <option value="done" class="text-green-500">Done</option>
                 </select>
                 <button
                   v-if="taskStore.loaders.updateStatus"
@@ -201,7 +201,7 @@ export default {
     },
     async editTaskStatus(taskId: string) {
       const status = this.status
-      console.log(status)
+      // console.log(status)
 
       const { updateTaskStatus } = this.taskStore
 

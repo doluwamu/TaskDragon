@@ -4,7 +4,7 @@
 
     <div class="flex flex-col mt-10">
       <div
-        class="flex flex-col-reverse gap-5 justify-between items-center mx-auto md:flex-row md:w-[750px]"
+        class="flex flex-col gap-5 justify-between items-center mx-auto sm:flex-row sm:w-[400px] md:w-[750px]"
       >
         <div></div>
 
@@ -13,9 +13,9 @@
         <RouterLink
           :to="`/tasks?add=${true}`"
           @click="openModal"
-          class="button p-2 bg-blue-700 text-white w-[200px] text-center"
+          class="button bg-blue-700 text-white text-lg px-2 rounded-full text-center"
         >
-          Add task
+          <i class="fa-solid fa-plus"></i>
         </RouterLink>
       </div>
 
@@ -33,7 +33,7 @@
         <!-- Undone -->
         <div class="undone flex flex-col gap-2">
           <div
-            class="flex items-center justify-between text-white bg-red-600 rounded-lg p-3 h-[70px] w-[250px] sm:w-[300px] md:w-[350px]"
+            class="flex items-center justify-between text-white bg-red-600 rounded-lg p-3 h-[70px] w-[250px] sm:w-[300px]"
           >
             <p class="text-3xl">Undone</p>
             <p>{{ number.undone }}</p>
@@ -56,7 +56,7 @@
         <!-- Doing -->
         <div class="doing flex flex-col gap-2">
           <div
-            class="flex items-center justify-between text-white bg-orange-600 rounded-lg p-3 h-[70px] w-[250px] sm:w-[300px] md:w-[350px]"
+            class="flex items-center justify-between text-white bg-orange-600 rounded-lg p-3 h-[70px] w-[250px] sm:w-[300px]"
           >
             <p class="text-3xl">Doing</p>
             <p>{{ number.doing }}</p>
@@ -79,7 +79,7 @@
         <!-- Done -->
         <div class="doing flex flex-col gap-2">
           <div
-            class="flex items-center justify-between text-white bg-green-800 rounded-lg p-3 h-[70px] w-[250px] sm:w-[300px] md:w-[350px]"
+            class="flex items-center justify-between text-white bg-green-800 rounded-lg p-3 h-[70px] w-[250px] sm:w-[300px]"
           >
             <p class="text-3xl">Done</p>
             <p>{{ number.done }}</p>
