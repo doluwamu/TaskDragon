@@ -19,6 +19,14 @@
         </RouterLink>
       </div>
 
+      <!-- Loaders -->
+      <div v-if="taskStore.loaders.deleteTask" class="text-center text-white mt-8">Deleting...</div>
+
+      <!-- Success -->
+      <div v-if="successMsgs.deleteTask.length > 0" class="text-center text-green-400 mt-8">
+        {{ successMsgs.deleteTask }}
+      </div>
+
       <!-- Task lists -->
       <div class="flex flex-row gap-5 px-4 py-10 overflow-x-auto md:p-10 lg:justify-center">
         <!-- All tasks: -->
@@ -35,6 +43,7 @@
             :taskStore="taskStore"
             :fetchTask="fetchTask"
             :tasks="tasks.undone"
+            :removeTask="removeTask"
           />
           <LoadMoreTasksBtn
             :tasks="tasks.undone"
@@ -57,6 +66,7 @@
             :taskStore="taskStore"
             :fetchTask="fetchTask"
             :tasks="tasks.doing"
+            :removeTask="removeTask"
           />
           <LoadMoreTasksBtn
             :tasks="tasks.doing"
@@ -79,6 +89,7 @@
             :taskStore="taskStore"
             :fetchTask="fetchTask"
             :tasks="tasks.done"
+            :removeTask="removeTask"
           />
           <LoadMoreTasksBtn
             :tasks="tasks.done"
@@ -148,6 +159,10 @@ export default {
         doing: 10,
         done: 10
       },
+      successMsgs: {
+        deleteTask: ''
+      },
+      errorMsg: '',
       add: false,
       edit: false,
       task: {},
@@ -225,13 +240,30 @@ export default {
       this.task = {}
 
       // const id = this.$route.query.tid
-      this.fetchTaskLoading = taskStore.loadingFetch
 
       const res = await getTask(id)
-      this.fetchTaskLoading = taskStore.loadingFetch
 
       if (res === 'success') {
         this.task = taskStore.task
+      }
+    },
+    async removeTask(id: string) {
+      const { deleteTask } = taskStore
+
+      const confirm = window.confirm('Do you want to delete this task')
+
+      if (confirm) {
+        const res = await deleteTask(id)
+
+        if (res === 'success') {
+          this.successMsgs.deleteTask = taskStore.successMsgs.deleteTask
+          this.fetchTasks()
+          setTimeout(() => (this.successMsgs.deleteTask = ''), 8000)
+        }
+
+        if (res === 'fail') {
+          this.errorMsg = taskStore.errorMsg
+        }
       }
     }
   },

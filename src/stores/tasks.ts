@@ -31,12 +31,14 @@ export const useTaskStore = defineStore('task', {
       addTask: false,
       getTask: false,
       updateTask: false,
-      updateStatus: false
+      updateStatus: false,
+      deleteTask: false
     },
     successMsgs: {
       addTask: '',
       updateTask: '',
-      updateStatus: ''
+      updateStatus: '',
+      deleteTask: ''
     },
     task: {}
   }),
@@ -171,6 +173,19 @@ export const useTaskStore = defineStore('task', {
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
         this.loaders.updateStatus = false
+        return 'fail'
+      }
+    },
+    async deleteTask(taskId: string): Promise<'success' | 'fail'> {
+      try {
+        this.loaders.deleteTask = true
+        const { data } = await axiosJwt.delete(`tasks/${taskId}`)
+        this.successMsgs.deleteTask = data.message
+        this.loaders.deleteTask = false
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
+        this.loaders.deleteTask = false
         return 'fail'
       }
     }
