@@ -13,6 +13,10 @@ import { axiosJwt } from './axiosConfig'
 //   }
 // }
 
+export type fav = {
+  favorite?: boolean
+}
+
 export const useTaskStore = defineStore('task', {
   state: () => ({
     tasks: {
@@ -131,7 +135,7 @@ export const useTaskStore = defineStore('task', {
     },
     async updateTask(
       taskId: string,
-      taskDetails: { title?: string; description?: string; favorite?: string; priority?: string }
+      taskDetails: { title?: string; description?: string; favorite?: boolean; priority?: string }
     ): Promise<'success' | 'fail'> {
       try {
         this.loaders.updateTask = true
@@ -173,6 +177,29 @@ export const useTaskStore = defineStore('task', {
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
         this.loaders.updateStatus = false
+        return 'fail'
+      }
+    },
+    async updateTaskLike(taskId: string, favorite: boolean) {
+      try {
+        this.loaders.updateTask = true
+        this.task = {}
+        const { data } = await axiosJwt.put(
+          `tasks/${taskId}`,
+          { favorite },
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+        this.loaders.updateTask = false
+        this.task = data.task
+        this.successMsgs.updateTask = data.message
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
+        this.loaders.updateTask = false
         return 'fail'
       }
     },

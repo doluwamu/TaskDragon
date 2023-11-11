@@ -37,7 +37,7 @@
         <!-- Title -->
         <div class="flex flex-col py-5">
           <label
-            >Title
+            >Title:
             <span :class="`${title?.length <= 200 ? 'text-green-400' : 'text-red-600'}`">
               ({{ title?.length }}/200)</span
             ></label
@@ -47,7 +47,7 @@
 
         <!-- Description -->
         <div class="flex flex-col py-5">
-          <label>Description</label>
+          <label>Description:</label>
           <textarea
             name="description"
             v-model="description"

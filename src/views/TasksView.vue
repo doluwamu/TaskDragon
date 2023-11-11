@@ -42,6 +42,7 @@
             status="undone"
             :taskStore="taskStore"
             :fetchTask="fetchTask"
+            :fetchTasks="fetchTasks"
             :tasks="tasks.undone"
             :removeTask="removeTask"
           />
@@ -65,6 +66,7 @@
             status="doing"
             :taskStore="taskStore"
             :fetchTask="fetchTask"
+            :fetchTasks="fetchTasks"
             :tasks="tasks.doing"
             :removeTask="removeTask"
           />
@@ -88,6 +90,7 @@
             status="done"
             :taskStore="taskStore"
             :fetchTask="fetchTask"
+            :fetchTasks="fetchTasks"
             :tasks="tasks.done"
             :removeTask="removeTask"
           />

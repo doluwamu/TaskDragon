@@ -10,9 +10,13 @@
           {{ task?.title.length > 20 ? task?.title.substring(0, 20) + '...' : task?.title }}
         </RouterLink>
         <div class="flex items-center gap-3">
-          <i
-            :class="`fa-solid fa-heart ${task?.favorite === true ? 'text-red-600' : 'text-white'}`"
-          ></i>
+          <button @click="likeTask(task._id, task.favorite)">
+            <i
+              :class="`fa-solid fa-heart ${
+                task?.favorite === true ? 'text-red-600' : 'text-white'
+              }`"
+            ></i>
+          </button>
           <!-- <i
             v-if="taskStore.loaders.deleteTask"
             class="fa-solid fa-trash text-red-600 cursor-not-allowed"
@@ -32,19 +36,32 @@
 
 <script lang="ts">
 import { RouterLink } from 'vue-router'
-import { useTaskStore } from '../../stores/tasks'
+import { useTaskStore, fav } from '../../stores/tasks'
 
 const taskStore = useTaskStore()
 
 export default {
   name: 'TaskList',
-  props: ['tasks', 'fetchTask', 'taskStore', 'status', 'removeTask'],
+  props: ['tasks', 'fetchTask', 'fetchTasks', 'taskStore', 'status', 'removeTask'],
   components: {
     RouterLink
   },
   data() {
     return {
       taskStore
+    }
+  },
+  methods: {
+    async likeTask(taskId: string, fav: boolean) {
+      const { updateTask } = taskStore
+
+      console.log(taskId, fav, !fav)
+
+      const res = await updateTask(taskId, { favorite: !fav })
+
+      if (res === 'success') {
+        this.fetchTasks()
+      }
     }
   }
 }
