@@ -10,13 +10,13 @@ const {
 // @route PUT /api/v1/tasks/:taskId
 // @access Private
 const editTaskDetails = asyncHandler(async (req, res) => {
-  const { title, description, favorite, priority } = req.body;
+  const { title, description, priority } = req.body;
   const { user } = req;
   const { taskId } = req.params;
 
   //   const priorityOptions = normal || important || veryImportant;
 
-  if (title.length > 200)
+  if (title && title.length > 200)
     return res
       .status(400)
       .json({ message: "Title cannot be more than 200 characters" });
@@ -35,7 +35,6 @@ const editTaskDetails = asyncHandler(async (req, res) => {
 
   foundTask.title = title || foundTask.title;
   foundTask.description = description || foundTask.description;
-  foundTask.favorite = favorite || foundTask.favorite;
   foundTask.priority = priority || foundTask.priority;
 
   const editedTask = await foundTask.save();
@@ -100,4 +99,26 @@ const editTaskStatus = asyncHandler(async (req, res) => {
   });
 });
 
-export { editTaskDetails, editTaskStatus };
+// @desc Edit a favorite
+// @route PUT /api/v1/tasks/:taskId/favorite
+// @access Private
+const editFavorite = asyncHandler(async (req, res) => {
+  const { favorite } = req.body;
+  const { taskId } = req.params;
+  const { user } = req;
+
+  const foundTask = await Task.findById(taskId).populate("user").exec();
+
+  if (!foundTask) return res.status(404).json({ message: "Task not found" });
+
+  if (foundTask.user.id !== user.id)
+    return res.status(400).json({ message: "This task is not your's" });
+
+  foundTask.favorite = favorite;
+
+  const tsk = await foundTask.save();
+
+  return res.json({ message: "Favorite updated", task: tsk });
+});
+
+export { editTaskDetails, editTaskStatus, editFavorite };
