@@ -11,7 +11,7 @@
         </RouterLink>
         <div class="flex items-center gap-3">
           <button v-if="task.favorite === true" @click="likeTask(task._id, task.favorite)">
-            <i class="fa-solid fa-heart text-red-600"></i>
+            <i class="fa-solid fa-heart text-pink-500"></i>
           </button>
           <button v-else @click="likeTask(task._id, task.favorite)">
             <i class="fa-solid fa-heart text-white"></i>

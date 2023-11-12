@@ -5,14 +5,16 @@
   >
     <RouterLink to="/tasks" class="absolute top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
     <div
-      class="modal-form bg-gray-800 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
+      class="modal-form bg-gray-800 text-white py-5 px-3 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
     >
-      <div class="flex justify-evenly items-center md:gap-4">
+      <div class="flex justify-between items-center md:gap-4">
         <div></div>
         <h1 class="text-center text-3xl">{{ task?.title }}</h1>
-        <i
-          :class="`fa-solid fa-heart ${task?.favorite === true ? 'text-red-600' : 'text-white'}`"
-        ></i>
+        <!-- <i v-if="task.favorite === true" class="fa-solid fa-heart text-pink-500"></i>
+        <i v-else class="fa-solid fa-heart text-white"></i> -->
+        <RouterLink to="/tasks">
+          <i class="fa-solid fa-times text-xl m-3 text-white font-thin"></i>
+        </RouterLink>
       </div>
 
       <!-- <p class="text-red-600 text-center" v-if="errMsg.length > 0">{{ errMsg }}</p>
@@ -21,8 +23,8 @@
       <p class="text-center py-5 px-2 max-w-4/5">{{ task?.description }}</p>
 
       <div class="details p-2 flex flex-col gap-4">
-        <div class="flex flex-col justify-evenly gap-5 sm:gap-1 md:flex-row">
-          <div class="flex justify-center gap-5 flex-row sm:justify-center">
+        <div class="flex flex-col flex-wrap justify-evenly gap-5 sm:gap-1 md:flex-row">
+          <div class="flex flex-wrap justify-center gap-5 flex-row sm:justify-center">
             <!-- Priority -->
             <div class="flex flex-col gap-1 text-xs sm:flex-row">
               <p>Priority:</p>
@@ -43,19 +45,18 @@
               <p>{{ task?.status }}</p>
             </div>
           </div>
+        </div>
+        <div class="foot flex flex-wrap justify-center gap-5 sm:justify-center">
+          <!-- Start time -->
+          <div class="flex flex-col text-xs gap-1 sm:flex-row">
+            <p>Started on:</p>
+            <p>{{ !task.startTime ? 'null' : moment(task?.startTime).format('MMM Do, YYYY') }}</p>
+          </div>
 
-          <div class="foot flex justify-center gap-5 sm:justify-center">
-            <!-- Start time -->
-            <div class="flex flex-col text-xs gap-1 sm:flex-row">
-              <p>Started on:</p>
-              <p>{{ !task.startTime ? 'null' : moment(task?.startTime).format('MMM Do, YYYY') }}</p>
-            </div>
-
-            <!-- End time -->
-            <div class="flex flex-col text-xs gap-1 sm:flex-row">
-              <p>Ended on:</p>
-              <p>{{ !task.endTime ? 'null' : moment(task?.endTime).format('MMM Do, YYYY') }}</p>
-            </div>
+          <!-- End time -->
+          <div class="flex flex-col text-xs gap-1 sm:flex-row">
+            <p>Ended on:</p>
+            <p>{{ !task.endTime ? 'null' : moment(task?.endTime).format('MMM Do, YYYY') }}</p>
           </div>
         </div>
 

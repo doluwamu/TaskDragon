@@ -5,14 +5,15 @@
   >
     <RouterLink to="/tasks" class="absolute top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
     <div
-      class="modal-form bg-gray-800 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto max-h-[500px] md:w-2/3 md:px-5"
+      class="modal-form bg-gray-800 text-white py-5 px-3 z-50 w-11/12 overflow-y-auto max-h-[500px] md:w-2/3 md:px-5"
     >
-      <div class="flex justify-evenly items-center md:gap-4">
+      <div class="flex justify-between items-center md:gap-4">
         <div></div>
         <h1 class="text-4xl font-semibold">Edit Task</h1>
-        <i
-          :class="`fa-solid fa-heart ${task?.favorite === true ? 'text-red-600' : 'text-white'}`"
-        ></i>
+
+        <RouterLink to="/tasks">
+          <i class="fa-solid fa-times text-xl m-3 text-white font-thin"></i>
+        </RouterLink>
       </div>
 
       <!-- Success message -->
@@ -59,7 +60,7 @@
 
         <div class="details p-2 flex flex-col gap-4">
           <div class="flex flex-col justify-evenly gap-5 sm:gap-1 md:flex-row">
-            <div class="flex justify-center gap-5 flex-row sm:justify-center">
+            <div class="flex flex-wrap justify-center gap-5 flex-row sm:justify-center">
               <!-- Priority -->
               <div class="flex flex-col gap-1 text-lg">
                 <p>Priority:</p>
@@ -144,6 +145,7 @@
 
 <script lang="ts">
 import moment from 'moment'
+import { RouterLink } from 'vue-router'
 // import { useTaskStore } from '../../stores/tasks'
 
 // const taskStore = useTaskStore()
@@ -151,6 +153,9 @@ import moment from 'moment'
 export default {
   name: 'EditTaskModal',
   props: ['edit', 'task', 'taskStore', 'fetchTask', 'fetchTasks'],
+  components: {
+    RouterLink
+  },
   data() {
     return {
       moment,
