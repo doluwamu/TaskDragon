@@ -10,12 +10,11 @@
           {{ task?.title.length > 20 ? task?.title.substring(0, 20) + '...' : task?.title }}
         </RouterLink>
         <div class="flex items-center gap-3">
-          <button @click="likeTask(task._id, task.favorite)">
-            <i
-              :class="`fa-solid fa-heart ${
-                task?.favorite === true ? 'text-red-600' : 'text-white'
-              }`"
-            ></i>
+          <button v-if="task.favorite === true" @click="likeTask(task._id, task.favorite)">
+            <i class="fa-solid fa-heart text-red-600"></i>
+          </button>
+          <button v-else @click="likeTask(task._id, task.favorite)">
+            <i class="fa-solid fa-heart text-white"></i>
           </button>
           <!-- <i
             v-if="taskStore.loaders.deleteTask"
@@ -53,11 +52,9 @@ export default {
   },
   methods: {
     async likeTask(taskId: string, fav: boolean) {
-      const { updateTask } = taskStore
+      const { updateTaskLike } = taskStore
 
-      console.log(taskId, fav, !fav)
-
-      const res = await updateTask(taskId, { favorite: !fav })
+      const res = await updateTaskLike(taskId, !fav)
 
       if (res === 'success') {
         this.fetchTasks()

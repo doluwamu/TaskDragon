@@ -185,7 +185,7 @@ export const useTaskStore = defineStore('task', {
         this.loaders.updateTask = true
         this.task = {}
         const { data } = await axiosJwt.put(
-          `tasks/${taskId}`,
+          `tasks/${taskId}/favorite`,
           { favorite },
           {
             headers: {
