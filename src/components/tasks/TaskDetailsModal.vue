@@ -13,7 +13,7 @@
         <!-- <i v-if="task.favorite === true" class="fa-solid fa-heart text-pink-500"></i>
         <i v-else class="fa-solid fa-heart text-white"></i> -->
         <RouterLink to="/tasks">
-          <i class="fa-solid fa-times text-xl m-3 text-white font-thin"></i>
+          <i class="fa-solid fa-times text-xl p-3 text-white font-thin"></i>
         </RouterLink>
       </div>
 

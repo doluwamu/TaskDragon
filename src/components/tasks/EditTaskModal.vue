@@ -12,7 +12,7 @@
         <h1 class="text-4xl font-semibold">Edit Task</h1>
 
         <RouterLink to="/tasks">
-          <i class="fa-solid fa-times text-xl m-3 text-white font-thin"></i>
+          <i class="fa-solid fa-times text-xl p-3 text-white font-thin"></i>
         </RouterLink>
       </div>
 
