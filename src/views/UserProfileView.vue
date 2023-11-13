@@ -66,7 +66,7 @@ export default {
 
       if (res === 'success') {
         this.userInfo = userStore.$state.userInfo
-        console.log(this.userInfo)
+        // console.log(this.userInfo)
       }
     }
   }
