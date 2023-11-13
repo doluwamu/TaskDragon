@@ -23,10 +23,14 @@
       </div>
 
       <div class="nav-links flex flex-col gap-10 items-center md:flex-row">
-        <div class="flex flex-col text-white text-sm" v-if="userInfo?._id">
+        <RouterLink
+          :to="`/user/profile?uid=${userInfo?._id}`"
+          class="flex flex-col text-white text-sm"
+          v-if="userInfo?._id"
+        >
           <p>Welcome:</p>
           <p>{{ userInfo?.username }}</p>
-        </div>
+        </RouterLink>
 
         <div class="flex flex-col justify-center gap-10 text-white md:flex-row">
           <a href="/">Home</a>
@@ -67,9 +71,15 @@
 <script lang="ts">
 import Cookies from 'js-cookie'
 import { useAuthStore } from '../../stores/auth'
+import { RouterLink } from 'vue-router'
 
 export default {
   name: 'NavBar',
+  data() {
+    return {
+      RouterLink
+    }
+  },
   setup() {
     const userInfo = Cookies.get('auth_info') && JSON.parse(Cookies.get('auth_info'))
 

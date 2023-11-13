@@ -16,7 +16,8 @@ export const useUserStore = defineStore('user', {
     sucessMsg: '',
     userInfo: {},
     loaders: {
-      loading: false
+      loading: false,
+      userProfile: false
     }
   }),
   actions: {
@@ -55,6 +56,20 @@ export const useUserStore = defineStore('user', {
       } catch (error: any) {
         this.errorMsg = error.response.data.message || error.response.message || error.message
         this.loaders.loading = false
+        return 'fail'
+      }
+    },
+    async getUserProfile(): Promise<'success' | 'fail'> {
+      try {
+        this.loaders.userProfile = true
+        const { data } = await axiosJwt.get('users/me')
+        this.userInfo = data
+        // Cookie.set('auth_info', JSON.stringify(this.userInfo), { expires: 7 })
+        this.loaders.userProfile = false
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        this.loaders.userProfile = false
         return 'fail'
       }
     }
