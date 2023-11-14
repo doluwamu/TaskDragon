@@ -27,7 +27,7 @@
 
       <!-- User id -->
       <div class="flex flex-col justify-center items-center w-1/3">
-        <p>User <Input:date></Input:date>:</p>
+        <p>UserID:</p>
         <p>{{ userInfo?._id && userInfo?._id.substring(0, 15) + '...' }}</p>
       </div>
 
