@@ -3,9 +3,11 @@
     v-if="add === true"
     class="add-task-modal flex justify-center z-50 items-center text-black fixed top-0 left-0 h-full w-full"
   >
+    
+
     <RouterLink to="/tasks" class="absolute top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
     <div
-      class="modal-form bg-gray-800 z-50 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
+      class="modal-form bg-gray-800 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
     >
       <h1 class="mb-3 text-center text-3xl">Add a new task</h1>
 
@@ -70,6 +72,7 @@
 <script lang="ts">
 import { RouterLink } from 'vue-router'
 import { useTaskStore } from '../../stores/tasks'
+import ToastNotification from '../toast/ToastNotification.vue'
 
 const taskStore = useTaskStore()
 
@@ -77,7 +80,8 @@ export default {
   name: 'AddTaskModal',
   props: ['add'],
   components: {
-    RouterLink
+    RouterLink,
+    ToastNotification
   },
   data() {
     return {
@@ -100,30 +104,30 @@ export default {
       }
 
       const res = await addTask(taskDetails)
-      console.log(taskDetails)
 
       if (res === 'success') {
-        this.successMsg = taskStore.successMsg
+        this.successMsg = taskStore.successMsgs.addTask
+        console.log(this.successMsg)
+
         this.title = ''
         this.priority = ''
         this.description = ''
         setTimeout(() => {
-          this.$router.push({
-            path: `tasks`,
-            query: {
-              added: true
-            }
-          })
           this.successMsg = ''
-          this.errMsg = ''
-        }, 1000)
+        }, 5000)
+        this.$router.push({
+          path: `tasks`,
+          query: {
+            added: true
+          }
+        })
       }
 
       if (res === 'fail') {
         this.errMsg = taskStore.errorMsg
         setTimeout(() => {
           this.errMsg = ''
-        }, 4000)
+        }, 5000)
       }
     }
   }

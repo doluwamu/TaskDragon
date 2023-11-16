@@ -2,6 +2,15 @@
   <section class="text-white">
     <Navbar />
 
+    <!-- Toasters  -->
+    <div v-if="successMsgs.deleteTask.length > 0">
+      <ToastNotification :message="successMsgs.deleteTask" messageType="success" />
+    </div>
+
+    <div v-if="taskStore.successMsgs.addTask.length > 0">
+      <ToastNotification :message="taskStore.successMsgs.addTask" messageType="success" />
+    </div>
+
     <div class="flex flex-col mt-10">
       <div
         class="flex flex-col gap-5 justify-between items-center mx-auto sm:flex-row sm:w-[400px] md:w-[750px]"
@@ -23,9 +32,9 @@
       <div v-if="taskStore.loaders.deleteTask" class="text-center text-white mt-8">Deleting...</div>
 
       <!-- Success -->
-      <div v-if="successMsgs.deleteTask.length > 0" class="text-center text-green-400 mt-8">
+      <!-- <div v-if="successMsgs.deleteTask.length > 0" class="text-center text-green-400 mt-8">
         {{ successMsgs.deleteTask }}
-      </div>
+      </div> -->
 
       <!-- Task lists -->
       <div class="flex flex-row gap-5 px-4 py-10 overflow-x-auto md:p-10 lg:justify-center">
@@ -132,6 +141,8 @@ import EditTaskModal from '../components/tasks/EditTaskModal.vue'
 import TaskDetailsModal from '../components/tasks/TaskDetailsModal.vue'
 import LoadMoreTasksBtn from '../components/tasks/LoadMoreTasksBtn.vue'
 
+import ToastNotification from '../components/toast/ToastNotification.vue'
+
 const taskStore = useTaskStore()
 
 export default {
@@ -143,7 +154,9 @@ export default {
     AddTaskModal,
     EditTaskModal,
     TaskDetailsModal,
-    LoadMoreTasksBtn
+    LoadMoreTasksBtn,
+    ToastNotification,
+    taskStore
   },
   data() {
     return {
@@ -260,8 +273,9 @@ export default {
 
         if (res === 'success') {
           this.successMsgs.deleteTask = taskStore.successMsgs.deleteTask
+          this.$toast.success('Task deleted successfully')
           this.fetchTasks()
-          setTimeout(() => (this.successMsgs.deleteTask = ''), 8000)
+          setTimeout(() => (this.successMsgs.deleteTask = ''), 5000)
         }
 
         if (res === 'fail') {

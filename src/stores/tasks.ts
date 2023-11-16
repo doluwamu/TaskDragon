@@ -112,6 +112,8 @@ export const useTaskStore = defineStore('task', {
         })
         this.loaders.addTask = false
         this.successMsgs.addTask = data.message
+        console.log(this.successMsgs.addTask)
+
         return 'success'
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
