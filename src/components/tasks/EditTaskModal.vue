@@ -213,10 +213,6 @@ export default {
       const res = await updateTaskStatus(taskId, status)
       if (res === 'success') {
         this.successMsgs.updateStats = this.taskStore.successMsgs.updateStatus
-        this.$toast.success('Update successful', {
-          duration: 5000,
-          position: 'top-right'
-        })
         this.fetchTasks()
         // setTimeout(() => window.location.reload(), 2000)
       }

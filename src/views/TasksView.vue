@@ -273,7 +273,7 @@ export default {
 
         if (res === 'success') {
           this.successMsgs.deleteTask = taskStore.successMsgs.deleteTask
-          this.$toast.success('Task deleted successfully')
+
           this.fetchTasks()
           setTimeout(() => (this.successMsgs.deleteTask = ''), 5000)
         }
