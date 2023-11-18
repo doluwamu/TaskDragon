@@ -5,10 +5,10 @@
       style="max-width: 1200px"
     >
       <div class="flex flex-row justify-between items-center w-full px-4 md:w-28">
-        <a href="/" class="flex flex-col justify-center">
+        <RouterLink to="/" class="flex flex-col justify-center">
           <img src="@/assets/imgs/td_logo.png" alt="img" width="30" class="mx-auto" />
           <span class="text-center text-white font-semibold text-sm">TaskDragon</span>
-        </a>
+        </RouterLink>
 
         <div
           class="flex flex-col items-start justify-center hamburger space-y-2 overflow-hidden cursor-pointer md:hidden"
@@ -33,20 +33,23 @@
         </RouterLink>
 
         <div class="flex flex-col justify-center gap-10 text-white md:flex-row">
-          <a href="/">Home</a>
-          <a href="/tasks" v-if="userInfo?._id">Tasks</a>
+          <RouterLink to="/tasks" v-if="userInfo?._id">Tasks</RouterLink>
         </div>
 
         <div v-if="!userInfo?._id" class="flex flex-col gap-8 md:gap-5 md:flex-row">
-          <a href="/signup" class="button bg-white px-4 py-2 rounded-lg font-medium">Get started</a>
+          <RouterLink to="/">Home</RouterLink>
 
-          <a
-            href="/login"
+          <RouterLink to="/signup" class="button bg-white px-4 py-2 rounded-lg font-medium"
+            >Get started</RouterLink
+          >
+
+          <RouterLink
+            to="/login"
             class="button border border-white text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-600"
             style="transition: 0.5s"
           >
             Login
-          </a>
+          </RouterLink>
         </div>
 
         <div v-if="userInfo?._id" class="flex flex-col gap-8 md:gap-5 md:flex-row">
