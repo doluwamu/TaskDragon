@@ -3,9 +3,9 @@
     @click="toggleToast"
     :class="`${
       isOpen && info ? 'block' : 'hidden'
-    } fixed top-20 right-10 pt-2 space-y-3 min-w-[200px] bg-white rounded-md overflow-hidden`"
+    } fixed top-20 right-10 pt-2 m-1 space-y-3 max-w-[300px] z-50 bg-white rounded-md overflow-hidden`"
   >
-    <p :class="`${type === 'error' ? 'text-red-700' : 'text-green-700'}  px-2`">
+    <p :class="`${type === 'error' ? 'text-red-700' : 'text-green-700'} text-left  px-2`">
       {{ message }}
     </p>
 
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       isOpen: this.message && this.message.length > 0 && true,
-      info: this.message,
+      info: this.message || '',
       type: this.messageType || 'success'
       // types: {
       //   success: 'success'

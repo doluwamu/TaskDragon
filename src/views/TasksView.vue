@@ -2,14 +2,27 @@
   <section class="text-white">
     <Navbar />
 
-    <!-- Toasters  -->
-    <div v-if="successMsgs.deleteTask.length > 0">
-      <ToastNotification :message="successMsgs.deleteTask" messageType="success" />
+    <!-- Toast notifications start  -->
+    <div v-if="taskStore.successMsgs.deleteTask.length > 0">
+      <ToastNotification :message="taskStore.successMsgs.deleteTask" messageType="success" />
     </div>
 
     <div v-if="taskStore.successMsgs.addTask.length > 0">
       <ToastNotification :message="taskStore.successMsgs.addTask" messageType="success" />
     </div>
+
+    <div v-if="taskStore.successMsgs.updateTask.length > 0">
+      <ToastNotification :message="taskStore.successMsgs.updateTask" messageType="success" />
+    </div>
+
+    <div v-if="taskStore.successMsgs.updateStatus.length > 0">
+      <ToastNotification :message="taskStore.successMsgs.updateStatus" messageType="success" />
+    </div>
+
+    <div v-if="taskStore.errorMsg.length > 0">
+      <ToastNotification :message="taskStore.errorMsg" messageType="error" />
+    </div>
+    <!-- Toast notifications end  -->
 
     <div class="flex flex-col mt-10">
       <div
@@ -114,7 +127,7 @@
     </div>
 
     <!-- Modals -->
-    <AddTaskModal :add="add" />
+    <AddTaskModal :add="add" :fetchTasks="fetchTasks" />
     <TaskDetailsModal
       :showDetails="showDetails"
       :task="task"
@@ -295,13 +308,13 @@ export default {
 
     if (this.$route.query.added && Boolean(this.$route.query.added) === true) {
       // fetch tasks
-      this.fetchTasks().then((_) => {
-        // setTimeout(() => {
-        this.$router.push({
-          name: 'tasks'
-        })
-        // }, 1000)
+      // this.fetchTasks().then((_) => {
+      // setTimeout(() => {
+      this.$router.push({
+        name: 'tasks'
       })
+      // }, 1000)
+      // })
     }
 
     if (this.$route.query.details && Boolean(this.$route.query.details) === true) {

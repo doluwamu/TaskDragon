@@ -3,8 +3,6 @@
     v-if="add === true"
     class="add-task-modal flex justify-center z-50 items-center text-black fixed top-0 left-0 h-full w-full"
   >
-    
-
     <RouterLink to="/tasks" class="absolute top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
     <div
       class="modal-form bg-gray-800 text-white py-5 px-1 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
@@ -12,7 +10,7 @@
       <h1 class="mb-3 text-center text-3xl">Add a new task</h1>
 
       <p class="text-red-600 text-center" v-if="errMsg.length > 0">{{ errMsg }}</p>
-      <p class="text-green-700 text-center" v-if="successMsg.length > 0">{{ successMsg }}</p>
+      <!-- <p class="text-green-700 text-center" v-if="successMsg.length > 0">{{ successMsg }}</p> -->
 
       <form class="flex flex-col flex-wrap justify-center sm:flex-row" @submit.prevent="addNewTask">
         <div class="p-4 flex flex-col w-full sm:w-1/2">
@@ -78,7 +76,7 @@ const taskStore = useTaskStore()
 
 export default {
   name: 'AddTaskModal',
-  props: ['add'],
+  props: ['add', 'fetchTasks'],
   components: {
     RouterLink,
     ToastNotification
@@ -107,20 +105,18 @@ export default {
 
       if (res === 'success') {
         this.successMsg = taskStore.successMsgs.addTask
-        console.log(this.successMsg)
+        // console.log(this.successMsg)
 
         this.title = ''
         this.priority = ''
         this.description = ''
-        setTimeout(() => {
-          this.successMsg = ''
-        }, 5000)
         this.$router.push({
           path: `tasks`,
           query: {
             added: true
           }
         })
+        this.fetchTasks()
       }
 
       if (res === 'fail') {

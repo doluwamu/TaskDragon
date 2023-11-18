@@ -1,11 +1,11 @@
 <template>
   <div
     v-if="edit === true"
-    class="add-task-modal flex justify-center items-center z-50 text-black fixed top-0 left-0 h-full w-full"
+    class="add-task-modal flex justify-center items-center z-40 text-black fixed top-0 left-0 h-full w-full"
   >
     <RouterLink to="/tasks" class="absolute top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
     <div
-      class="modal-form bg-gray-800 text-white py-5 px-3 z-50 w-11/12 overflow-y-auto max-h-[500px] md:w-2/3 md:px-5"
+      class="modal-form bg-gray-800 text-white py-5 px-3 z-40 w-11/12 overflow-y-auto max-h-[500px] md:w-2/3 md:px-5"
     >
       <div class="flex justify-between items-center md:gap-4">
         <div></div>
@@ -15,14 +15,6 @@
           <i class="fa-solid fa-times text-xl p-3 text-white font-thin"></i>
         </RouterLink>
       </div>
-
-      <!-- Success message -->
-      <p class="text-center text-lg text-green-600">
-        {{ successMsgs.updateTask }}
-      </p>
-      <p class="text-center text-lg text-green-600">
-        {{ successMsgs.updateStats }}
-      </p>
 
       <!-- Error message -->
       <p class="text-red-700 text-lg text-center">
@@ -197,7 +189,6 @@ export default {
       if (res === 'success') {
         this.successMsgs.updateTask = this.taskStore.successMsgs.updateTask
         this.fetchTasks()
-        // setTimeout(() => window.location.reload(), 2000)
       }
 
       if (res === 'fail') {
@@ -214,7 +205,6 @@ export default {
       if (res === 'success') {
         this.successMsgs.updateStats = this.taskStore.successMsgs.updateStatus
         this.fetchTasks()
-        // setTimeout(() => window.location.reload(), 2000)
       }
 
       if (res === 'fail') {

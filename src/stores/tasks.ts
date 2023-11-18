@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { axiosJwt } from './axiosConfig'
+import timeOutSetter from '@/helper/timeOutSetter'
 
 // const state = (): State => ({
 //   cakes: cakesDummy,
@@ -60,6 +61,7 @@ export const useTaskStore = defineStore('task', {
       } catch (error: any) {
         // debugger
         this.errorMsg = error.response.data.message || error.response.message || error.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.tasks = false
         return 'fail'
       }
@@ -77,6 +79,7 @@ export const useTaskStore = defineStore('task', {
       } catch (error: any) {
         // debugger
         this.errorMsg = error.response.data.message || error.response.message || error.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.tasks = false
         return 'fail'
       }
@@ -94,6 +97,7 @@ export const useTaskStore = defineStore('task', {
       } catch (error: any) {
         // debugger
         this.errorMsg = error.response.data.message || error.response.message || error.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.tasks = false
         return 'fail'
       }
@@ -119,6 +123,7 @@ export const useTaskStore = defineStore('task', {
         return 'success'
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.addTask = false
         return 'fail'
       }
@@ -133,6 +138,7 @@ export const useTaskStore = defineStore('task', {
         return 'success'
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.getTask = false
         return 'fail'
       }
@@ -152,9 +158,11 @@ export const useTaskStore = defineStore('task', {
         this.loaders.updateTask = false
         this.task = data.task
         this.successMsgs.updateTask = data.message
+        setTimeout(() => (this.successMsgs.updateTask = ''), 5000)
         return 'success'
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.updateTask = false
         return 'fail'
       }
@@ -174,12 +182,14 @@ export const useTaskStore = defineStore('task', {
           }
         )
         // debugger
-        this.successMsgs.updateStatus = data.message
         this.loaders.updateStatus = false
+        this.successMsgs.updateStatus = data.message
+        setTimeout(() => (this.successMsgs.updateStatus = ''), 5000)
         this.task = data.task
         return 'success'
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.updateStatus = false
         return 'fail'
       }
@@ -199,10 +209,11 @@ export const useTaskStore = defineStore('task', {
         )
         this.loaders.updateTask = false
         this.task = data.task
-        this.successMsgs.updateTask = data.message
+        // this.successMsgs.updateTask = data.message
         return 'success'
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.updateTask = false
         return 'fail'
       }
@@ -212,10 +223,12 @@ export const useTaskStore = defineStore('task', {
         this.loaders.deleteTask = true
         const { data } = await axiosJwt.delete(`tasks/${taskId}`)
         this.successMsgs.deleteTask = data.message
+        setTimeout(() => (this.successMsgs.deleteTask = ''), 5000)
         this.loaders.deleteTask = false
         return 'success'
       } catch (error: any) {
         this.errorMsg = error?.response?.data?.message || error?.response?.message || error?.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.deleteTask = false
         return 'fail'
       }
