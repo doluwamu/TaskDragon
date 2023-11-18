@@ -188,6 +188,7 @@ export default {
 
       if (res === 'success') {
         this.successMsgs.updateTask = this.taskStore.successMsgs.updateTask
+        this.fetchTask(taskId)
         this.fetchTasks()
       }
 
@@ -204,6 +205,7 @@ export default {
       const res = await updateTaskStatus(taskId, status)
       if (res === 'success') {
         this.successMsgs.updateStats = this.taskStore.successMsgs.updateStatus
+        this.fetchTask(taskId)
         this.fetchTasks()
       }
 

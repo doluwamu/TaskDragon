@@ -1,22 +1,14 @@
 import { defineStore } from 'pinia'
 import { axiosJwt } from './axiosConfig'
-import timeOutSetter from '@/helper/timeOutSetter'
-
-// const state = (): State => ({
-//   cakes: cakesDummy,
-//   loadingFetch: false,
-//   flavours: topFlavours
-// })
-
-// const actions = {
-//   async getCakes() {
-//     // state().cakes
-//   }
-// }
+import { stats, priority } from '../Constants'
 
 export type fav = {
   favorite?: boolean
 }
+
+// Constants
+const { undone, doing, done } = stats
+const { normal, important, veryImportant } = priority
 
 export const useTaskStore = defineStore('task', {
   state: () => ({
@@ -52,7 +44,7 @@ export const useTaskStore = defineStore('task', {
       try {
         this.loaders.tasks = true
         const { data } = await axiosJwt.get(
-          `tasks/mine?status=undone${typeof number === 'number' && `&number=${number}`}`
+          `tasks/mine?status=${undone}${typeof number === 'number' && `&number=${number}`}`
         )
         this.loaders.tasks = false
         this.tasks.undone = data.tasks
@@ -70,7 +62,7 @@ export const useTaskStore = defineStore('task', {
       try {
         this.loaders.tasks = true
         const { data } = await axiosJwt.get(
-          `tasks/mine?status=doing${typeof number === 'number' && `&number=${number}`}`
+          `tasks/mine?status=${doing}${typeof number === 'number' && `&number=${number}`}`
         )
         this.loaders.tasks = false
         this.tasks.doing = data.tasks
@@ -88,7 +80,7 @@ export const useTaskStore = defineStore('task', {
       try {
         this.loaders.tasks = true
         const { data } = await axiosJwt.get(
-          `tasks/mine?status=done${typeof number === 'number' && `&number=${number}`}`
+          `tasks/mine?status=${done}${typeof number === 'number' && `&number=${number}`}`
         )
         this.loaders.tasks = false
         this.tasks.done = data.tasks

@@ -288,7 +288,6 @@ export default {
           this.successMsgs.deleteTask = taskStore.successMsgs.deleteTask
 
           this.fetchTasks()
-          setTimeout(() => (this.successMsgs.deleteTask = ''), 5000)
         }
 
         if (res === 'fail') {
@@ -306,16 +305,16 @@ export default {
       this.add = false
     }
 
-    if (this.$route.query.added && Boolean(this.$route.query.added) === true) {
-      // fetch tasks
-      // this.fetchTasks().then((_) => {
-      // setTimeout(() => {
-      this.$router.push({
-        name: 'tasks'
-      })
-      // }, 1000)
-      // })
-    }
+    // if (this.$route.query.added && Boolean(this.$route.query.added) === true) {
+    //   // fetch tasks
+    //   // this.fetchTasks().then((_) => {
+    //   // setTimeout(() => {
+    //   this.$router.push({
+    //     name: 'tasks'
+    //   })
+    //   // }, 1000)
+    //   // })
+    // }
 
     if (this.$route.query.details && Boolean(this.$route.query.details) === true) {
       this.showDetails = true
