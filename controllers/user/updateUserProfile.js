@@ -15,7 +15,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
   const foundUser = await User.findById(user.id);
 
-  if (foundUser.email === email)
+  if (foundUser.email === email && email !== user.email)
     return res.status(400).json({ message: "User with this email exists" });
 
   if (!foundUser)

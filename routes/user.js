@@ -14,7 +14,7 @@ const router = express.Router();
 
 // User
 router.post("/secret/:userId", userLoggedIn, setUserSecrets);
-router.route("/me", userLoggedIn, userIsVerified, getUser);
+router.get("/me", userLoggedIn, userIsVerified, getUser);
 router.put("/me/edit", userLoggedIn, userIsVerified, updateUserProfile);
 router.post("/verify/:userId", userLoggedIn, verifyUser);
 

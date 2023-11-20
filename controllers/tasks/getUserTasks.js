@@ -28,7 +28,9 @@ const getUserTasks = asyncHandler(async (req, res) => {
   const foundTasks = await Task.find({
     ...search,
     status: status && status.length > 0 ? status : "undone",
-  }).limit(Number(number) || baseNumber);
+  })
+    .sort({ updatedAt: 1 })
+    .limit(Number(number) || baseNumber);
 
   return res.json({
     tasks: foundTasks,

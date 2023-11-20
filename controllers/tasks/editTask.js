@@ -29,9 +29,10 @@ const editTaskDetails = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "This task is not your's" });
 
   if (foundTask.status === done)
-    return res
-      .status(400)
-      .json({ message: "Update failed: You are done with this task" });
+    return res.status(400).json({
+      message:
+        "Update failed: To change a 'done' task, you have to change it's status to 'undone' or 'doing'",
+    });
 
   foundTask.title = title || foundTask.title;
   foundTask.description = description || foundTask.description;
@@ -85,16 +86,21 @@ const editTaskStatus = asyncHandler(async (req, res) => {
     foundTask.endTime = Date.now();
   }
 
-  if ((status === undone || status === doing) && foundTask.endTime !== null) {
-    return res
-      .status(400)
-      .json({ message: "Update failed: You are done with this task" });
+  if (status === undone && foundTask.endTime !== null) {
+    foundTask.status = undone;
+    foundTask.startTime = null;
+    foundTask.endTime = null;
+  }
+
+  if (status === doing && foundTask.endTime !== null) {
+    foundTask.status = doing;
+    foundTask.endTime = null;
   }
 
   const editedTask = await foundTask.save();
 
   return res.json({
-    message: `Task status changed to ${status}`,
+    message: `Task status changed to "${status}"`,
     task: editedTask,
   });
 });
