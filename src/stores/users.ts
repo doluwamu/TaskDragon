@@ -38,6 +38,7 @@ export const useUserStore = defineStore('user', {
         this.userInfo = data.user
         Cookie.set('auth_info', JSON.stringify(this.userInfo), { expires: 7 })
 
+        setTimeout(() => (this.sucessMsg = ''), 5000)
         return 'success'
       } catch (error: any) {
         this.errorMsg = error.response.data.message || error.response.message || error.message
@@ -54,6 +55,8 @@ export const useUserStore = defineStore('user', {
         this.sucessMsg = data.message
         this.userInfo = data.user
         Cookie.set('auth_info', JSON.stringify(this.userInfo), { expires: 7 })
+
+        setTimeout(() => (this.sucessMsg = ''), 5000)
 
         return 'success'
       } catch (error: any) {

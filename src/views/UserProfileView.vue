@@ -2,6 +2,11 @@
   <div class="text-white">
     <Navbar />
 
+    <!-- Toast notifications -->
+    <div v-if="userStore.sucessMsg.length > 0">
+      <ToastNotification :message="userStore.sucessMsg" messageType="success" />
+    </div>
+
     <div
       class="my-8 py-3 px-4 flex flex-col flex-wrap justify-center items-center mx-auto gap-8 md:w-1/2"
     >
@@ -51,6 +56,7 @@ import { useUserStore } from '../stores/users'
 import Navbar from '../components/app/Navbar.vue'
 import EditUserModal from '../components/user/EditUserModal.vue'
 import { RouterLink } from 'vue-router'
+import ToastNotification from '../components/toast/ToastNotification.vue'
 
 const userStore = useUserStore()
 
@@ -59,7 +65,8 @@ export default {
   components: {
     Navbar,
     EditUserModal,
-    RouterLink
+    RouterLink,
+    ToastNotification
   },
   data() {
     return {

@@ -43,10 +43,8 @@
 
 <script lang="ts">
 import { useUserStore } from '../../stores/users'
-import { useAuthStore } from '../../stores/auth'
 
 const userStore = useUserStore()
-const authStore = useAuthStore()
 
 export default {
   name: 'EditUserModal',
@@ -75,8 +73,8 @@ export default {
       const res = await updateUserProfile(userData)
 
       if (res === 'success') {
-        // this.fetchProfile()
-        window.location.reload()
+        this.fetchProfile()
+        // window.location.reload()
       }
     }
   }
