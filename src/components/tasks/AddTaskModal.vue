@@ -131,20 +131,6 @@ export default {
 </script>
 
 <style scoped>
-.modal-form {
-  animation-fill-mode: forwards;
-  animation: modalOpen 0.2s linear;
-}
-
-@keyframes modalOpen {
-  from {
-    transform: scale(0.9);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
 input,
 select,
 textarea {

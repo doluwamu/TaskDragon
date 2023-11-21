@@ -63,3 +63,21 @@ body {
   border-radius: 15px;
   -webkit-border-radius: 15px;
 }
+
+/* Modal animation starts */
+
+.modal-form {
+  animation-fill-mode: forwards;
+  animation: modalOpen 0.2s linear;
+}
+
+@keyframes modalOpen {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Modal animation ends */
