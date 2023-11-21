@@ -15,7 +15,7 @@ const router = express.Router();
 // User
 router.post("/secret/:userId", userLoggedIn, setUserSecrets);
 router.get("/me", userLoggedIn, userIsVerified, getUser);
-router.put("/me/edit", userLoggedIn, userIsVerified, updateUserProfile);
+router.put("/profile/edit", userLoggedIn, userIsVerified, updateUserProfile);
 router.post("/verify/:userId", userLoggedIn, verifyUser);
 
 // Admin only
