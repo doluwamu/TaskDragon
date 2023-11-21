@@ -95,6 +95,14 @@ export default {
 
     navbar.classList.add('h-24')
   },
+  updated() {
+    const userInfo = Cookies.get('auth_info') && JSON.parse(Cookies.get('auth_info'))
+
+    if (userInfo) {
+      console.log('jjfjf')
+      return { userInfo }
+    }
+  },
   methods: {
     openNav() {
       // hamburger bars
