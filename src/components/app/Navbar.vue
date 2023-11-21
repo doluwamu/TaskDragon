@@ -24,7 +24,7 @@
 
       <div class="nav-links flex flex-col gap-10 items-center md:flex-row">
         <RouterLink
-          :to="`/user/profile?uid=${userInfo?._id}`"
+          to="/user/profile"
           class="flex flex-col text-white text-sm"
           v-if="userInfo?._id"
         >

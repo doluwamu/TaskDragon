@@ -35,7 +35,11 @@
       <!-- User id -->
       <div class="flex flex-col justify-center items-center w-1/3">
         <p>UserID:</p>
-        <p>{{ userInfo?._id && userInfo?._id.substring(0, 15) + '...' }}</p>
+        <p>
+          {{
+            userInfo?._id && userInfo?._id.substring(0, 8) + '.....' + userInfo?._id.substring(18)
+          }}
+        </p>
       </div>
 
       <!-- Edit button -->
@@ -47,7 +51,7 @@
       </RouterLink>
     </div>
 
-    <EditUserModal :edit="edit" :fetchProfile="fetchProfile" :editUserProfile="editUserProfile" />
+    <EditUserModal v-if="edit" :edit="edit" :fetchProfile="fetchProfile" />
   </div>
 </template>
 
@@ -87,21 +91,6 @@ export default {
       if (res === 'success') {
         this.userInfo = userStore.$state.userInfo
         // console.log(this.userInfo)
-      }
-    },
-    async editUserProfile(userDetails: { username?: string; email?: string }) {
-      const { updateUserProfile } = userStore
-
-      const userData = {
-        username: userDetails.username,
-        email: userDetails.email
-      }
-
-      const res = await updateUserProfile(userData)
-
-      if (res === 'success') {
-        this.fetchProfile()
-        // window.location.reload()
       }
     }
   },

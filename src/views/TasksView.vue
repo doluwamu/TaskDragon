@@ -127,14 +127,16 @@
     </div>
 
     <!-- Modals -->
-    <AddTaskModal :add="add" :fetchTasks="fetchTasks" />
+    <AddTaskModal v-if="add" :add="add" :fetchTasks="fetchTasks" />
     <TaskDetailsModal
+      v-if="showDetails"
       :showDetails="showDetails"
       :task="task"
       :taskStore="taskStore"
       :fetchTask="fetchTask"
     />
     <EditTaskModal
+      v-if="edit"
       :edit="edit"
       :task="task"
       :taskStore="taskStore"

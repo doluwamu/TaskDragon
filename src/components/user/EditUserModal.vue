@@ -4,7 +4,7 @@
     class="add-task-modal flex justify-center items-center z-40 text-black fixed top-0 left-0 h-full w-full"
   >
     <RouterLink
-      :to="`/user/profile?uid=${userStore.userInfo._id}`"
+      to="/user/profile"
       class="absolute top-0 left-0 bg-[#0007] h-full w-full"
     ></RouterLink>
     <div
@@ -14,7 +14,7 @@
         <div></div>
         <h1 class="text-4xl font-semibold">Edit Task</h1>
 
-        <RouterLink :to="`/user/profile?uid=${userStore.userInfo._id}`">
+        <RouterLink to="/user/profile">
           <i class="fa-solid fa-times text-xl p-3 text-white font-thin"></i>
         </RouterLink>
       </div>
