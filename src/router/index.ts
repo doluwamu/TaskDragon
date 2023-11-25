@@ -43,6 +43,13 @@ const router = createRouter({
       beforeEnter: authGuard
     },
     {
+      path: '/tasks/priority',
+      name: 'priority',
+      // meta: { requiredAuth: true },
+      component: () => import('../views/PriorityView.vue'),
+      beforeEnter: authGuard
+    },
+    {
       path: '/user/profile',
       name: 'userProfile',
       component: () => import('../views/UserProfileView.vue'),

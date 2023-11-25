@@ -36,6 +36,10 @@
           <RouterLink to="/tasks" v-if="userInfo?._id">Tasks</RouterLink>
         </div>
 
+        <div class="flex flex-col justify-center gap-10 text-white md:flex-row">
+          <RouterLink to="/tasks/priority" v-if="userInfo?._id">Priority</RouterLink>
+        </div>
+
         <div v-if="!userInfo?._id" class="flex flex-col gap-8 md:gap-5 md:flex-row">
           <RouterLink to="/">Home</RouterLink>
 
