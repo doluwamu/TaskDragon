@@ -18,6 +18,7 @@ import connectDB from "./config/dbconnection.js";
 import AuthRoutes from "./routes/auth.js";
 import UserRoutes from "./routes/user.js";
 import TaskRoutes from "./routes/task.js";
+import EventRoutes from "./routes/event.js";
 import DangerRoutes from "./routes/danger.js";
 
 dotenv.config();
@@ -53,6 +54,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/users", UserRoutes);
 app.use("/api/v1/tasks", TaskRoutes);
+app.use("/api/v1/events", EventRoutes);
 
 // Danger zone(Remove after development)
 app.use("/api/v1/danger", DangerRoutes);

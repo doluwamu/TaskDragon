@@ -39,4 +39,42 @@ const getUserTasks = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc Get all tasks belonging to a certain user based on priority
+// @route GET /api/v1/tasks/mine/:priority?number
+// @access Private
+export const getUserTasksByPriority = asyncHandler(async (req, res) => {
+  const { user } = req;
+  // const { userId } = req.params;
+  const { number, status } = req.query;
+
+  const baseNumber = 10;
+
+  // if (user.id !== userId)
+  //   return res.status(400).json({ message: "This is not your id" });
+
+  const search = req.query.search
+    ? {
+        user,
+        title: {
+          $regex: req.query.search,
+          $options: "i",
+        },
+      }
+    : { user };
+
+  // const count = await Task.countDocuments({ user });
+  const foundTasks = await Task.find({
+    ...search,
+    priority: status && status.length > 0 ? status : "undone",
+  })
+    .sort({ updatedAt: 1 })
+    .limit(Number(number) || baseNumber);
+
+  return res.json({
+    tasks: foundTasks,
+    number: foundTasks.length,
+    // total: count,
+  });
+});
+
 export default getUserTasks;

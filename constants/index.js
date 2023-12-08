@@ -19,3 +19,12 @@ export const Task = {
     done: "done",
   },
 };
+
+export const Event = {
+  EVENT: "Event",
+  Status: {
+    upcoming: "upcoming",
+    ongoing: "ongoing",
+    ended: "ended",
+  },
+};

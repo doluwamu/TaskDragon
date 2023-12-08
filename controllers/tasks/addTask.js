@@ -26,7 +26,7 @@ const addTask = asyncHandler(async (req, res) => {
 
   if (!owner) return res.status(404).json({ message: "Unauthorized" });
 
-  const newTask = await Task.create({
+  await Task.create({
     user: owner,
     title,
     description,
