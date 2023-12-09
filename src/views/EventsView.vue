@@ -3,7 +3,7 @@
     <Navbar />
 
     <div>
-      <p class="text-white">priority</p>
+      <p class="text-white">events</p>
     </div>
   </div>
 </template>
@@ -12,7 +12,7 @@
 import Navbar from '../components/app/Navbar.vue'
 
 export default {
-  name: 'Priority',
+  name: 'Events',
   components: {
     Navbar
   }
