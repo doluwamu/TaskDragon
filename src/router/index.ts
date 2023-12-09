@@ -14,7 +14,6 @@ const router = createRouter({
       name: 'signup',
       component: () => import('../views/SignupView.vue'),
       beforeEnter: notAuthGuard
-      // meta: { requiredAuth: false }
     },
     {
       path: '/login',
@@ -31,21 +30,18 @@ const router = createRouter({
     {
       path: '/user/verify/:userId',
       name: 'verify',
-      // meta: { requiredAuth: true },
       component: () => import('../views/VerifyUserView.vue'),
       beforeEnter: userVerifiedGuard
     },
     {
       path: '/tasks',
       name: 'tasks',
-      // meta: { requiredAuth: true },
       component: () => import('../views/TasksView.vue'),
       beforeEnter: authGuard
     },
     {
       path: '/events',
       name: 'events',
-      // meta: { requiredAuth: true },
       component: () => import('../views/EventsView.vue'),
       beforeEnter: authGuard
     },
