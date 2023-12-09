@@ -9,15 +9,23 @@ const editEvent = asyncHandler(async (req, res) => {
     user: { id },
   } = req;
   const { eventId } = req.params;
-  const { name, description, reminder } = req.body;
+  const { name, description, reminder, status } = req.body;
 
   const foundEvent = await Event.findById(eventId).exec();
+
+  if (status !== "upcoming" && status !== "ongoing" && status !== "ended")
+    return res.status(400).json({ message: "Enter a valid status" });
 
   if (!foundEvent)
     return res.status(404).json({ message: "Event does not exist" });
 
   if (id !== String(foundEvent.user))
     return res.status(400).json({ message: "This event is not your's" });
+
+  if (reminder === true && foundEvent.status === "ended")
+    return res
+      .status(400)
+      .json({ message: "Can't set reminder on ended event" });
 
   foundEvent.name = name && name.length > 0 ? name : foundEvent.name;
   foundEvent.description =
@@ -26,6 +34,7 @@ const editEvent = asyncHandler(async (req, res) => {
       : foundEvent.description;
   foundEvent.reminder =
     reminder && reminder.length > 0 ? reminder : foundEvent.reminder;
+  foundEvent.status = status && status.length > 0 ? status : foundEvent.status;
 
   await foundEvent.save();
 
