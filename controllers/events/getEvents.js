@@ -7,7 +7,7 @@ import asyncHandler from "express-async-handler";
 const getEvents = asyncHandler(async (req, res) => {
   const { user } = req;
   // const { userId } = req.params;
-  const { number } = req.query;
+  const { number, status } = req.query;
 
   const baseNumber = 20;
 
@@ -22,6 +22,7 @@ const getEvents = asyncHandler(async (req, res) => {
     : { user };
 
   const foundEvents = await Event.find({ ...search })
+    .where({ status })
     .sort({ updatedAt: 1 })
     .limit(Number(number) || baseNumber);
 
