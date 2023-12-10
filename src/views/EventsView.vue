@@ -58,7 +58,6 @@
       <div class="p-2 w-1/4 h-0"></div>
       <div class="p-2 w-1/4 h-0"></div>
       <div class="p-2 w-1/4 h-0"></div>
-      <div class="p-2 w-1/4 h-0"></div>
     </div>
   </div>
 </template>
