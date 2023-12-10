@@ -21,10 +21,18 @@ const getEvents = asyncHandler(async (req, res) => {
       }
     : { user };
 
-  const foundEvents = await Event.find({ ...search })
-    .where({ status })
-    .sort({ updatedAt: 1 })
-    .limit(Number(number) || baseNumber);
+  let foundEvents = null;
+
+  if (status && status.length > 0) {
+    foundEvents = await Event.find({ ...search })
+      .where({ status })
+      .sort({ updatedAt: 1 })
+      .limit(Number(number) || baseNumber);
+  } else {
+    foundEvents = await Event.find({ ...search })
+      .sort({ updatedAt: 1 })
+      .limit(Number(number) || baseNumber);
+  }
 
   return res.json({ events: foundEvents, number: foundEvents.length });
 });
