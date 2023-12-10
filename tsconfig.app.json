@@ -13,7 +13,8 @@
       "@components/*": ["components/*"],
       "@views/*": ["views/*"],
       "@utils/*": ["utils/*"],
-      "@router/*": ["router/*"]
+      "@router/*": ["router/*"],
+      "@assets/*": ["assets/*"]
     },
     "types": ["node", "jsdom"]
   }
