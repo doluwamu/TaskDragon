@@ -33,7 +33,10 @@
     </div>
 
     <!-- Events -->
-    <div class="event-container flex flex-col justify-center flex-wrap py-10 px-5 sm:flex-row">
+    <div
+      v-if="events && events.length > 0"
+      class="event-container flex flex-col justify-center flex-wrap py-10 px-5 sm:flex-row"
+    >
       <div v-for="(event, i) in events" :key="i" class="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
         <div
           class="event-card flex flex-col gap-1 border p-3 rounded-lg hover:bg-[#fff1] cursor-pointer"
@@ -57,20 +60,21 @@
       <div class="p-2 w-1/4 h-0"></div>
       <div class="p-2 w-1/4 h-0"></div>
     </div>
+
+    <div v-else class="text-center py-10 px-2">Loading...</div>
   </div>
 </template>
 
 <script lang="ts">
-import events from '../../assets/data'
 import moment from 'moment'
 
 export default {
   name: 'EventsList',
+  props: ['events'],
   data() {
     return {
       search: '',
       filterOpened: false,
-      events,
       moment
     }
   },

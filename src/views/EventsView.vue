@@ -1,16 +1,16 @@
 <template>
   <div class="text-white">
     <Navbar />
-
-    <EventsList />
+    <EventsList :events="events" />
   </div>
 </template>
 
 <script lang="ts">
 import Navbar from '../components/app/Navbar.vue'
-import events from '../assets/data'
-import moment from 'moment'
 import EventsList from '../components/events/EventsList.vue'
+import { useEventStore } from '../stores/events'
+
+const eventStore = useEventStore()
 
 export default {
   name: 'Events',
@@ -18,22 +18,22 @@ export default {
     Navbar,
     EventsList
   },
+
   data() {
     return {
-      search: '',
-      filterOpened: false,
-      events,
-      moment
+      events: []
     }
   },
-  methods: {
-    openFilter() {
-      this.filterOpened = true
-    },
-    closeFilter() {
-      this.filterOpened = false
+  async mounted() {
+    const { getEvents } = eventStore
+
+    const req = await getEvents()
+
+    if (req === 'success') {
+      this.events = eventStore.$state.events
     }
-  }
+  },
+  methods: {}
 }
 </script>
 
