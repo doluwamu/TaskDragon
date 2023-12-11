@@ -32,6 +32,9 @@
       </div>
     </div>
 
+    <!-- Loader -->
+    <div v-if="eventStore.loaders.getEvents" class="text-center py-10 px-2">Loading...</div>
+
     <!-- Events -->
     <div
       v-if="events && events.length > 0"
@@ -61,7 +64,12 @@
       <div class="p-2 w-1/4 h-0"></div>
     </div>
 
-    <div v-else class="text-center py-10 px-2">Loading...</div>
+    <div
+      v-else-if="events && events.length < 1 && !eventStore.loaders.getEvents"
+      class="text-center py-10 px-2"
+    >
+      No events found
+    </div>
   </div>
 </template>
 
@@ -70,7 +78,7 @@ import moment from 'moment'
 
 export default {
   name: 'EventsList',
-  props: ['events'],
+  props: ['events', 'eventStore'],
   data() {
     return {
       search: '',

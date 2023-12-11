@@ -26,9 +26,16 @@ export const useEventStore = defineStore('event', {
     event: {}
   }),
   actions: {
-    async getEvents(status?: string): Promise<'success' | 'fail'> {
+    async getEvents(params: { status?: string; search?: string }): Promise<'success' | 'fail'> {
       this.loaders.getEvents = true
-      const req = status && status.length > 0 ? `events?status=${status}` : 'events'
+      const req =
+        params.status && params.search && params.status.length > 0 && params.search.length > 0
+          ? `events?status=${params.status}&search=${params.search}`
+          : params.status && params.status.length > 0
+          ? `events?status=${params.status}`
+          : params.search && params.search.length > 0
+          ? `events?search=${params.search}`
+          : 'events'
       try {
         const { data } = await axiosJwt.get(req)
         this.events = data.events

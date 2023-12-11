@@ -1,7 +1,7 @@
 <template>
   <div class="text-white">
     <Navbar />
-    <EventsList :events="events" />
+    <EventsList :events="events" :eventStore="eventStore" />
   </div>
 </template>
 
@@ -21,13 +21,14 @@ export default {
 
   data() {
     return {
-      events: []
+      events: [],
+      eventStore
     }
   },
   async mounted() {
     const { getEvents } = eventStore
 
-    const req = await getEvents()
+    const req = await getEvents({ status: 'ended' })
 
     if (req === 'success') {
       this.events = eventStore.$state.events
