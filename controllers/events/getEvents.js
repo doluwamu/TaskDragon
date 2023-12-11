@@ -14,7 +14,7 @@ const getEvents = asyncHandler(async (req, res) => {
   const search = req.query.search
     ? {
         user,
-        title: {
+        name: {
           $regex: req.query.search,
           $options: "i",
         },
