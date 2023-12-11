@@ -1,7 +1,7 @@
 <template>
   <div class="text-white">
     <Navbar />
-    <EventsList :events="events" :eventStore="eventStore" />
+    <EventsList :events="events" :eventStore="eventStore" :fetchEvents="fetchEvents" />
   </div>
 </template>
 
@@ -26,15 +26,21 @@ export default {
     }
   },
   async mounted() {
-    const { getEvents } = eventStore
-
-    const req = await getEvents({ status: 'ended' })
-
-    if (req === 'success') {
-      this.events = eventStore.$state.events
-    }
+    await this.fetchEvents()
   },
-  methods: {}
+  methods: {
+    async fetchEvents(params?: { status?: string; search?: string }) {
+      const { getEvents } = eventStore
+
+      const args = params ? params : {}
+
+      const req = await getEvents(args)
+
+      if (req === 'success') {
+        this.events = eventStore.$state.events
+      }
+    }
+  }
 }
 </script>
 

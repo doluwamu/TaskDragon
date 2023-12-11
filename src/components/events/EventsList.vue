@@ -23,10 +23,12 @@
           <div
             :class="`flex flex-col absolute px-6 bg-gray-800 ${filterOpened ? 'block' : 'hidden'}`"
           >
-            <button class="py-2 px-4 text-center">All</button>
-            <button class="py-2 px-4 text-center">Upcoming</button>
-            <button class="py-2 px-4 text-center">Ongoing</button>
-            <button class="py-2 px-4 text-center">Ended</button>
+            <button class="py-2 px-4 text-center" @click="filterEvents('')">All</button>
+            <button class="py-2 px-4 text-center" @click="filterEvents('upcoming')">
+              Upcoming
+            </button>
+            <button class="py-2 px-4 text-center" @click="filterEvents('ongoing')">Ongoing</button>
+            <button class="py-2 px-4 text-center" @click="filterEvents('ended')">Ended</button>
           </div>
         </div>
       </div>
@@ -78,7 +80,7 @@ import moment from 'moment'
 
 export default {
   name: 'EventsList',
-  props: ['events', 'eventStore'],
+  props: ['events', 'eventStore', 'fetchEvents'],
   data() {
     return {
       search: '',
@@ -92,6 +94,9 @@ export default {
     },
     closeFilter() {
       this.filterOpened = false
+    },
+    async filterEvents(status: string) {
+      await this.fetchEvents({ status })
     }
   }
 }
