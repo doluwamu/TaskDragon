@@ -43,7 +43,8 @@
       class="event-container flex flex-col justify-center flex-wrap py-10 px-5 sm:flex-row"
     >
       <div v-for="(event, i) in events" :key="i" class="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-        <div
+        <RouterLink
+          :to="`/event/${event._id}`"
           class="event-card flex flex-col gap-1 border p-3 rounded-lg hover:bg-[#fff1] cursor-pointer"
         >
           <p class="font-medium text-2xl">{{ event.name }}</p>
@@ -57,7 +58,7 @@
           <p class="text-sm">{{ event.status }}</p>
           <br />
           <p class="text-xs">{{ moment(event?.startDate).format('MMM Do, YYYY') }}</p>
-        </div>
+        </RouterLink>
       </div>
 
       <!-- extra cards -->
@@ -77,9 +78,13 @@
 
 <script lang="ts">
 import moment from 'moment'
+import { RouterLink } from 'vue-router'
 
 export default {
   name: 'EventsList',
+  components: {
+    RouterLink
+  },
   props: ['events', 'eventStore', 'fetchEvents'],
   data() {
     return {

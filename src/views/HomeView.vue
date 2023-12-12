@@ -10,7 +10,7 @@ import Navbar from '../components/app/Navbar.vue'
     >
       <div class="text-white flex flex-col gap-4 px-2 sm:px-8 md:w-3/5">
         <h1 class="leading-tight text-3xl font-medium text-center md:text-left lg:text-5xl">
-          All you need to organise your tasks in one place
+          Manage your tasks and events easily in one place
         </h1>
         <p class="font-light text-center md:text-left">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veritatis nisi, neque earum hic,

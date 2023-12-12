@@ -47,6 +47,19 @@ export const useEventStore = defineStore('event', {
         this.loaders.getEvents = false
         return 'fail'
       }
+    },
+    async getEvent(eventId: string): Promise<'success' | 'fail'> {
+      this.loaders.getEvent = true
+      try {
+        const { data } = await axiosJwt.get(`events/${eventId}`)
+        this.event = data
+        this.loaders.getEvent = false
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        this.loaders.getEvent = false
+        return 'fail'
+      }
     }
   }
 })
