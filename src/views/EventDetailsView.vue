@@ -2,6 +2,16 @@
   <div class="text-white">
     <Navbar />
 
+    <div v-if="eventData?.status === 'ended'" class="bg-red-600 px-4 py-2 text-lg text-center">
+      This event has ended
+    </div>
+    <div
+      v-else-if="eventData?.status === 'ongoing'"
+      class="bg-red-600 px-4 py-2 text-lg text-center"
+    >
+      This event is currently ongoing
+    </div>
+
     <div
       class="flex justify-center items-center max-w-[1440px] min-h-[150px] bg-blue-900 py-6 px-3"
     >
@@ -16,15 +26,15 @@
         <p class="text-xl font-light">{{ eventData?.description }}</p>
       </div>
 
-      <div class="flex flex-col">
-        <!-- <h1 class="text-2xl">Event Status:</h1> -->
+      <!-- <div class="flex flex-col">
+        <h1 class="text-2xl">Event Status:</h1>
         <p class="text-xl">{{ eventData?.status }}</p>
-      </div>
+      </div> -->
 
-      <div class="flex flex-col">
-        <!-- <h1 class="text-2xl">Event name:</h1> -->
+      <!-- <div class="flex flex-col">
+        <h1 class="text-2xl">Event name:</h1>
         <p class="text-xl">{{ eventData?.name }}</p>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

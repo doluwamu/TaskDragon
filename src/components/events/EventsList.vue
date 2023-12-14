@@ -12,7 +12,7 @@
           class="rounded-xl bg-inherit outline-none border border-white w-[300px]"
         />
         <div
-          class="flex-col justify-center items-center"
+          class="flex-col justify-center items-center relative"
           @mouseover="openFilter()"
           @mouseout="closeFilter()"
         >
@@ -21,7 +21,9 @@
           </button>
 
           <div
-            :class="`flex flex-col absolute px-6 bg-gray-800 ${filterOpened ? 'block' : 'hidden'}`"
+            :class="`flex flex-col absolute px-6 bg-gray-800 ${
+              filterOpened ? 'block' : 'hidden'
+            } left-[-110px] md:left-0`"
           >
             <button class="py-2 px-4 text-center" @click="filterEvents('')">All</button>
             <button class="py-2 px-4 text-center" @click="filterEvents('upcoming')">
