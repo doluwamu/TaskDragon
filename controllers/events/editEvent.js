@@ -13,7 +13,7 @@ const editEvent = asyncHandler(async (req, res) => {
 
   const foundEvent = await Event.findById(eventId).exec();
 
-  if (status !== "upcoming" && status !== "ongoing" && status !== "ended")
+  if (status && status !== "upcoming" && status !== "ongoing" && status !== "ended")
     return res.status(400).json({ message: "Enter a valid status" });
 
   if (!foundEvent)
