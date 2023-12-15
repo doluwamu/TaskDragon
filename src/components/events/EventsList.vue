@@ -75,6 +75,15 @@
     >
       No events found
     </div>
+
+    <div class="flex justify-center items-center">
+      <RouterLink
+        to="/event/add"
+        class="button bg-blue-700 text-white text-lg px-2 rounded-full text-center"
+      >
+        <i class="fa-solid fa-plus"></i>
+      </RouterLink>
+    </div>
   </div>
 </template>
 

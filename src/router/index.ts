@@ -52,6 +52,12 @@ const router = createRouter({
       beforeEnter: authGuard
     },
     {
+      path: '/event/add',
+      name: 'addEvent',
+      component: () => import('../views/AddEventView.vue'),
+      beforeEnter: authGuard
+    },
+    {
       path: '/user/profile',
       name: 'userProfile',
       component: () => import('../views/UserProfileView.vue'),
