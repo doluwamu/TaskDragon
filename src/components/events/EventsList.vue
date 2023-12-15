@@ -1,5 +1,15 @@
 <template>
   <div>
+    <!-- Toast notifications start  -->
+    <div v-if="eventStore.successMsgs.removeEvent.length > 0">
+      <ToastNotification :message="eventStore.successMsgs.removeEvent" messageType="success" />
+    </div>
+
+    <div v-if="eventStore.errorMsg.length > 0">
+      <ToastNotification :message="eventStore.errorMsg" messageType="error" />
+    </div>
+    <!-- Toast notifications ends  -->
+
     <div>
       <!-- Section title -->
       <p class="text-white text-4xl text-center py-5">Your Events</p>
@@ -36,15 +46,29 @@
       </div>
     </div>
 
+    <div class="flex justify-center items-center pt-8">
+      <RouterLink
+        to="/event/add"
+        class="button bg-blue-700 text-white text-lg px-2 rounded-full text-center"
+      >
+        <i class="fa-solid fa-plus"></i>
+      </RouterLink>
+    </div>
+
     <!-- Loader -->
     <div v-if="eventStore.loaders.getEvents" class="text-center py-10 px-2">Loading...</div>
+    <div v-if="eventStore.loaders.removeEvent" class="text-center py-10 px-2">Deleting...</div>
 
     <!-- Events -->
     <div
-      v-if="events && events.length > 0"
-      class="event-container flex flex-col justify-center flex-wrap py-10 px-5 sm:flex-row"
+      v-if="!eventStore.loaders.getEvents && events && events.length > 0"
+      class="event-container flex flex-col justify-center flex-wrap py-8 px-5 sm:flex-row"
     >
-      <div v-for="(event, i) in events" :key="i" class="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+      <div
+        v-for="(event, i) in events"
+        :key="i"
+        class="p-2 w-full relative sm:w-1/2 md:w-1/3 lg:w-1/4"
+      >
         <RouterLink
           :to="`/event/${event._id}`"
           class="event-card flex flex-col gap-1 border p-3 rounded-lg hover:bg-[#fff1] cursor-pointer"
@@ -61,12 +85,25 @@
           <br />
           <p class="text-xs">{{ moment(event?.startDate).format('MMM Do, YYYY') }}</p>
         </RouterLink>
+
+        <div
+          class="flex flex-row-reverse justify-center items-center gap-3 absolute right-5 bottom-5"
+        >
+          <RouterLink to="/event/edit">
+            <i class="fa-solid fa-pen text-white"></i>
+          </RouterLink>
+
+          <button @click="deleteEvent(event._id)">
+            <i class="fa-solid fa-trash text-red-400"></i>
+          </button>
+        </div>
       </div>
 
       <!-- extra cards -->
-      <div class="p-2 w-1/4 h-0"></div>
-      <div class="p-2 w-1/4 h-0"></div>
-      <div class="p-2 w-1/4 h-0"></div>
+      <div class="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-0"></div>
+      <div class="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-0"></div>
+      <div class="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-0"></div>
+      <!-- <div class="p-2 w-1/4 h-0"></div> -->
     </div>
 
     <div
@@ -75,33 +112,30 @@
     >
       No events found
     </div>
-
-    <div class="flex justify-center items-center">
-      <RouterLink
-        to="/event/add"
-        class="button bg-blue-700 text-white text-lg px-2 rounded-full text-center"
-      >
-        <i class="fa-solid fa-plus"></i>
-      </RouterLink>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
 import moment from 'moment'
 import { RouterLink } from 'vue-router'
+import { useEventStore } from '../../stores/events'
+import ToastNotification from '../toast/ToastNotification.vue'
+
+const eventStore = useEventStore()
 
 export default {
   name: 'EventsList',
   components: {
-    RouterLink
+    RouterLink,
+    ToastNotification
   },
   props: ['events', 'eventStore', 'fetchEvents'],
   data() {
     return {
       search: '',
       filterOpened: false,
-      moment
+      moment,
+      eventStore
     }
   },
   methods: {
@@ -113,6 +147,18 @@ export default {
     },
     async filterEvents(status: string) {
       await this.fetchEvents({ status })
+    },
+    async deleteEvent(eventId: string) {
+      const confirm = window.confirm('Do you want to delete this event')
+
+      if (!confirm) return
+
+      const { removeEvent, getEvents } = eventStore
+
+      const res = await removeEvent(eventId)
+      if (res === 'success') {
+        this.fetchEvents({})
+      }
     }
   }
 }

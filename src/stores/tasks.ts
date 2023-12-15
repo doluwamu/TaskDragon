@@ -110,7 +110,7 @@ export const useTaskStore = defineStore('task', {
         this.successMsgs.addTask = data.message
 
         setTimeout(() => (this.successMsgs.addTask = ''), 5000)
-        console.log(this.successMsgs.addTask)
+        
 
         return 'success'
       } catch (error: any) {

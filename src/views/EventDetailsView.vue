@@ -34,7 +34,7 @@
       </div>
 
       <div class="flex flex-col justify-center items-center text-sm font-medium sm:flex-row">
-        <button v-if="eventData?.reminder" class="p-2 rounded-xl bg-red-500">Stop reminder</button>
+        <button v-if="eventData?.reminder" class="p-2 rounded-xl bg-red-700">Stop reminder</button>
         <button v-if="!eventData?.reminder" class="p-2 rounded-xl bg-green-700">
           Set reminder
         </button>

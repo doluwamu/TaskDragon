@@ -1,5 +1,22 @@
 <template>
   <div class="text-white px-7 py-3 w-full md:w-3/4">
+    <!-- Toast notifications start  -->
+    <div v-if="eventStore.successMsgs.addEvent.length > 0">
+      <ToastNotification :message="eventStore.successMsgs.addEvent" messageType="success" />
+    </div>
+
+    <div v-if="eventStore.$state.errorMsg.length > 0">
+      <ToastNotification :message="eventStore.$state.errorMsg" messageType="error" />
+    </div>
+    <!-- Toast notifications ends  -->
+
+    <!-- Back button -->
+    <RouterLink to="/events">
+      <div class="my-7">
+        <i class="fa-solid fa-arrow-left text-2xl"></i>
+      </div>
+    </RouterLink>
+
     <form class="flex flex-col gap-7 w-11/12" @submit.prevent="handleSaveEvent">
       <h1 class="text-4xl">Add an event</h1>
 
@@ -40,8 +57,19 @@
         </div>
 
         <div class="mx-auto w-1/2">
-          <button type="submit" class="button w-full bg-blue-600 p-3 text-lg font-medium">
+          <button
+            v-if="!eventStore.loaders.addEvent"
+            type="submit"
+            class="button w-full bg-blue-600 p-3 text-lg font-medium"
+          >
             Save
+          </button>
+          <button
+            v-else-if="eventStore.loaders.addEvent"
+            type="submit"
+            class="button w-full bg-blue-300 p-3 text-lg font-medium cursor-not-allowed"
+          >
+            Saving...
           </button>
         </div>
       </div>
@@ -50,15 +78,26 @@
 </template>
 
 <script lang="ts">
+import { useEventStore } from '../../stores/events'
+import ToastNotification from '../toast/ToastNotification.vue'
+import { RouterLink } from 'vue-router'
+
+const eventStore = useEventStore()
+
 export default {
   name: 'AddEventForm',
+  components: {
+    ToastNotification,
+    RouterLink
+  },
   data() {
     return {
       name: '',
       description: '',
       startDate: '',
       endDate: '',
-      reminder: false
+      reminder: false,
+      eventStore
     }
   },
   methods: {
@@ -71,7 +110,19 @@ export default {
         reminder: this.reminder
       }
 
-      console.log(eventData)
+      const { addNewEvent } = eventStore
+
+      const res = await addNewEvent(eventData)
+
+      if (res === 'success') {
+        this.name = ''
+        this.description = ''
+        this.startDate = ''
+        this.endDate = ''
+        this.reminder = false
+
+        console.log(eventStore.$state.successMsgs.addEvent)
+      }
     }
   }
 }

@@ -16,12 +16,12 @@ export const useEventStore = defineStore('event', {
       getEvents: false,
       updateEvent: false,
       getEvent: false,
-      deleteEvent: false
+      removeEvent: false
     },
     successMsgs: {
       addEvent: '',
       updateEvent: '',
-      deleteEvent: ''
+      removeEvent: ''
     },
     event: {}
   }),
@@ -58,6 +58,46 @@ export const useEventStore = defineStore('event', {
       } catch (error: any) {
         this.errorMsg = error.response.data.message || error.response.message || error.message
         this.loaders.getEvent = false
+        return 'fail'
+      }
+    },
+    async addNewEvent(eventData: {
+      name: string
+      description?: string
+      startDate: string
+      endDate: string
+      reminder: boolean
+    }): Promise<'success' | 'fail'> {
+      this.loaders.addEvent = true
+      try {
+        const { data } = await axiosJwt.post('events', eventData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        this.successMsgs.addEvent = data.message
+        this.loaders.addEvent = false
+        setTimeout(() => (this.successMsgs.addEvent = ''), 5000)
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
+        this.loaders.addEvent = false
+        return 'fail'
+      }
+    },
+    async removeEvent(eventId: string): Promise<'success' | 'fail'> {
+      this.loaders.removeEvent = false
+      try {
+        const { data } = await axiosJwt.delete(`events/${eventId}`)
+        this.successMsgs.removeEvent = data.message
+        setTimeout(() => (this.successMsgs.removeEvent = ''), 5000)
+        this.loaders.removeEvent = false
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
+        this.loaders.removeEvent = false
         return 'fail'
       }
     }
