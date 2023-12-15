@@ -98,7 +98,6 @@ export default {
 
       if (req === 'success') {
         this.eventData = eventStore.$state.event
-        console.log(this.eventData)
       }
     }
   }
