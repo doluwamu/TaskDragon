@@ -33,7 +33,7 @@
           <div
             :class="`flex flex-col absolute px-6 bg-gray-800 ${
               filterOpened ? 'block' : 'hidden'
-            } left-[-110px] md:left-0`"
+            } left-[-110px] z-40 md:left-0`"
           >
             <button class="py-2 px-4 text-center" @click="filterEvents('')">All</button>
             <button class="py-2 px-4 text-center" @click="filterEvents('upcoming')">
@@ -73,10 +73,12 @@
           :to="`/event/${event._id}`"
           class="event-card flex flex-col gap-1 border p-3 rounded-lg hover:bg-[#fff1] cursor-pointer"
         >
-          <p class="font-medium text-2xl">{{ event.name }}</p>
+          <p class="font-medium text-2xl">
+            {{ event?.name.length > 8 ? event.name.substring(0, 8) + '...' : event?.name }}
+          </p>
           <p class="text-lg">
             {{
-              event?.description.length > 0
+              event?.description.length > 20
                 ? event.description.substring(0, 20) + '...'
                 : event?.description
             }}

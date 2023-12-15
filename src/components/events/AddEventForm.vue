@@ -13,7 +13,7 @@
     <!-- Back button -->
     <RouterLink to="/events">
       <div class="my-7">
-        <i class="fa-solid fa-arrow-left text-2xl"></i>
+        <i class="fa-solid fa-arrow-left text-xl"></i>
       </div>
     </RouterLink>
 
