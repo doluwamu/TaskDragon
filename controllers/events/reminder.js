@@ -24,7 +24,7 @@ const setReminder = asyncHandler(async (req, res) => {
 
   foundEvent.reminder = true;
 
-  foundEvent.save();
+  await foundEvent.save();
 
   return res.json({ message: "Reminder set successfully" });
 });
@@ -49,7 +49,7 @@ const stopReminder = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Reminder not set" });
 
   foundEvent.reminder = false;
-  foundEvent.save();
+  await foundEvent.save();
 
   return res.json({ message: "Reminder stoped" });
 });
