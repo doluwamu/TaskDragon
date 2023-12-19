@@ -91,7 +91,7 @@
         <div
           class="flex flex-row-reverse justify-center items-center gap-3 absolute right-5 bottom-5"
         >
-          <RouterLink to="/event/edit">
+          <RouterLink :to="`/event/edit/${event._id}`">
             <i class="fa-solid fa-pen text-white"></i>
           </RouterLink>
 
@@ -105,7 +105,6 @@
       <div class="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-0"></div>
       <div class="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-0"></div>
       <div class="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-0"></div>
-      <!-- <div class="p-2 w-1/4 h-0"></div> -->
     </div>
 
     <div

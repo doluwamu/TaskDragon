@@ -1,15 +1,5 @@
 <template>
   <div class="text-white px-7 py-3 w-full md:w-3/4">
-    <!-- Toast notifications start  -->
-    <div v-if="eventStore.successMsgs.addEvent.length > 0">
-      <ToastNotification :message="eventStore.successMsgs.addEvent" messageType="success" />
-    </div>
-
-    <div v-if="eventStore.$state.errorMsg.length > 0">
-      <ToastNotification :message="eventStore.$state.errorMsg" messageType="error" />
-    </div>
-    <!-- Toast notifications ends  -->
-
     <!-- Back button -->
     <RouterLink to="/events">
       <div class="my-7">
@@ -17,8 +7,10 @@
       </div>
     </RouterLink>
 
-    <form class="flex flex-col gap-7 w-11/12" @submit.prevent="handleSaveEvent">
-      <h1 class="text-4xl">Add an event</h1>
+    <form class="flex flex-col gap-7 w-11/12" @submit.prevent="handleEventUpdate(eventId)">
+      <h1 class="text-4xl">Edit event</h1>
+
+      <p v-if="eventStore.loaders.getEvent">Loading...</p>
 
       <div class="flex flex-col gap-5">
         <div class="flex flex-col gap-2">
@@ -40,12 +32,12 @@
 
         <div class="flex flex-col gap-2">
           <label class="text-md font-medium">Event start date:</label>
-          <input type="datetime-local" name="startDate" v-model="startDate" required />
+          <input type="datetime-local" name="startDate" v-model="startDate" />
         </div>
 
         <div class="flex flex-col gap-2">
           <label class="text-md font-medium">Event end date:</label>
-          <input type="datetime-local" name="endDate" v-model="endDate" required />
+          <input type="datetime-local" name="endDate" v-model="endDate" />
         </div>
 
         <div class="flex gap-2 items-center">
@@ -58,18 +50,25 @@
 
         <div class="mx-auto w-1/2">
           <button
-            v-if="!eventStore.loaders.addEvent"
+            v-if="!eventStore.loaders.getEvent && !eventStore.loaders.updateEvent"
             type="submit"
             class="button w-full bg-blue-600 p-3 text-lg font-medium"
           >
-            Save
+            Update
           </button>
           <button
-            v-else-if="eventStore.loaders.addEvent"
+            v-else-if="eventStore.loaders.updateEvent"
             type="submit"
             class="button w-full bg-blue-300 p-3 text-lg font-medium cursor-not-allowed"
           >
-            Saving...
+            Updating...
+          </button>
+          <button
+            v-else-if="eventStore.loaders.getEvent"
+            type="submit"
+            class="button w-full bg-blue-300 p-3 text-lg font-medium cursor-not-allowed"
+          >
+            Loading...
           </button>
         </div>
       </div>
@@ -79,30 +78,43 @@
 
 <script lang="ts">
 import { useEventStore } from '../../stores/events'
-import ToastNotification from '../toast/ToastNotification.vue'
 import { RouterLink } from 'vue-router'
+import moment from 'moment'
 
 const eventStore = useEventStore()
 
 export default {
-  name: 'AddEventForm',
+  name: 'EditEventForm',
   components: {
-    ToastNotification,
     RouterLink
   },
+  props: ['eventDetails', 'fetchEvent'],
   data() {
     return {
-      name: '',
-      description: '',
-      startDate: '',
-      endDate: '',
-      reminder: false,
+      name: this.eventDetails.name,
+      description: this.eventDetails.description,
+      startDate: moment(this.eventDetails.startDate).format('YYYY-MM-DDTHH:MM'),
+      endDate: moment(this.eventDetails.endDate).format('YYYY-MM-DDTHH:MM'),
+      reminder: this.eventDetails.reminder,
+      eventId: this.eventDetails._id,
       eventStore
     }
   },
+  async mounted() {
+    await this.fetchEvent()
+
+    this.name = eventStore.$state.event?.name
+    this.description = eventStore.$state.event?.description
+    this.startDate = moment(eventStore.$state.event?.startDate).format('YYYY-MM-DDTHH:MM')
+    this.endDate = moment(eventStore.$state.event?.endDate).format('YYYY-MM-DDTHH:MM')
+    this.reminder = eventStore.$state.event?.reminder
+    this.eventId = eventStore.$state.event?._id
+  },
   methods: {
-    async handleSaveEvent() {
-      const eventData = {
+    async handleEventUpdate(eventId: string) {
+      const { updateEventDetails } = eventStore
+
+      const eventInfo = {
         name: this.name,
         description: this.description,
         startDate: new Date(this.startDate),
@@ -110,18 +122,12 @@ export default {
         reminder: this.reminder
       }
 
-      const { addNewEvent } = eventStore
+      console.log(eventInfo)
 
-      const res = await addNewEvent(eventData)
+      const res = await updateEventDetails(eventId, eventInfo)
 
       if (res === 'success') {
-        this.name = ''
-        this.description = ''
-        this.startDate = ''
-        this.endDate = ''
-        this.reminder = false
-
-        console.log(eventStore.$state.successMsgs.addEvent)
+        console.log(eventStore.event)
       }
     }
   }

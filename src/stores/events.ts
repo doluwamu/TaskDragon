@@ -5,6 +5,14 @@ import { events, stats } from '../Constants'
 // Event constants
 const { upcoming, ongoing, ended } = events
 
+type eventInfo = {
+  name: string
+  description?: string
+  startDate: Date
+  endDate: Date
+  reminder: boolean
+}
+
 export const useEventStore = defineStore('event', {
   state: () => ({
     events: [],
@@ -64,13 +72,7 @@ export const useEventStore = defineStore('event', {
         return 'fail'
       }
     },
-    async addNewEvent(eventData: {
-      name: string
-      description?: string
-      startDate: string
-      endDate: string
-      reminder: boolean
-    }): Promise<'success' | 'fail'> {
+    async addNewEvent(eventData: eventInfo): Promise<'success' | 'fail'> {
       this.loaders.addEvent = true
       try {
         const { data } = await axiosJwt.post('events', eventData, {
@@ -131,6 +133,26 @@ export const useEventStore = defineStore('event', {
         this.errorMsg = error.response.data.message || error.response.message || error.message
         setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.reminder = false
+        return 'fail'
+      }
+    },
+    async updateEventDetails(eventId: string, eventData: eventInfo): Promise<'success' | 'fail'> {
+      this.loaders.updateEvent = true
+      try {
+        const { data } = await axiosJwt.put(`events/${eventId}`, eventData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        this.event = data.event
+        this.successMsgs.updateEvent = data.message
+        setTimeout(() => (this.successMsgs.updateEvent = ''), 5000)
+        this.loaders.updateEvent = false
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
+        this.loaders.updateEvent = false
         return 'fail'
       }
     }
