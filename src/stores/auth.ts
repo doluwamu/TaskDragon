@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('auth', {
         this.loaders.loading = false
         this.userInfo = data.user
         this.loggedIn = true
-        Cookie.set('auth-stat', 'logged-in', { expires: 7 })
+        Cookie.set('auth-stat', 'logged-in')
         // Cookie.set('auth_session', this.token.slice(50, 80))
         Cookie.set('auth_info', JSON.stringify(this.userInfo))
         return 'success'

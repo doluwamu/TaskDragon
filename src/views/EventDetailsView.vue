@@ -2,6 +2,20 @@
   <div class="text-white">
     <Navbar />
 
+    <!-- Toast Notifications start -->
+    <div v-if="eventStore.successMsgs.setReminder.length > 0">
+      <ToastNotification :message="eventStore.successMsgs.setReminder" messageType="success" />
+    </div>
+
+    <div v-if="eventStore.successMsgs.stopReminder.length > 0">
+      <ToastNotification :message="eventStore.successMsgs.stopReminder" messageType="success" />
+    </div>
+
+    <div v-if="eventStore.errorMsg.length > 0">
+      <ToastNotification :message="eventStore.errorMsg" messageType="error" />
+    </div>
+    <!-- Toast Notifications end -->
+
     <!-- Back button -->
     <RouterLink to="/events" class="absolute top-28 left-4 z-40">
       <i class="fa-solid fa-arrow-left"></i>
@@ -34,9 +48,25 @@
       </div>
 
       <div class="flex flex-col justify-center items-center text-sm font-medium sm:flex-row">
-        <button v-if="eventData?.reminder" class="p-2 rounded-xl bg-red-700">Stop reminder</button>
-        <button v-if="!eventData?.reminder" class="p-2 rounded-xl bg-green-700">
+        <button
+          v-if="eventData?.reminder && !eventStore.$state.loaders.reminder"
+          class="p-2 rounded-xl bg-red-700"
+          @click="endReminder(eventData?._id)"
+        >
+          Stop reminder
+        </button>
+        <button
+          v-else-if="!eventData?.reminder && !eventStore.$state.loaders.reminder"
+          class="p-2 rounded-xl bg-green-700"
+          @click="startReminder(eventData?._id)"
+        >
           Set reminder
+        </button>
+        <button
+          v-if="eventStore.$state.loaders.reminder"
+          class="p-2 rounded-xl bg-[#fff3] cursor-not-allowed"
+        >
+          Loading...
         </button>
       </div>
 
@@ -72,6 +102,7 @@ import { useEventStore } from '../stores/events'
 import Navbar from '../components/app/Navbar.vue'
 import moment from 'moment'
 import { RouterLink } from 'vue-router'
+import ToastNotification from '../components/toast/ToastNotification.vue'
 
 const eventStore = useEventStore()
 
@@ -79,7 +110,8 @@ export default {
   name: 'EventDetails',
   components: {
     Navbar,
-    RouterLink
+    RouterLink,
+    ToastNotification
   },
   data() {
     return {
@@ -94,10 +126,26 @@ export default {
   methods: {
     async fetchEvents(eventId: string) {
       const { getEvent } = eventStore
-      const req = await getEvent(eventId)
+      const res = await getEvent(eventId)
 
-      if (req === 'success') {
+      if (res === 'success') {
         this.eventData = eventStore.$state.event
+      }
+    },
+    async startReminder(eventId: string) {
+      const { setReminder } = eventStore
+      const res = await setReminder(eventId)
+
+      if (res === 'success') {
+        await this.fetchEvents(eventId)
+      }
+    },
+    async endReminder(eventId: string) {
+      const { stopReminder } = eventStore
+      const res = await stopReminder(eventId)
+
+      if (res === 'success') {
+        await this.fetchEvents(eventId)
       }
     }
   }

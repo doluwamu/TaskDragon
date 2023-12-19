@@ -16,12 +16,15 @@ export const useEventStore = defineStore('event', {
       getEvents: false,
       updateEvent: false,
       getEvent: false,
-      removeEvent: false
+      removeEvent: false,
+      reminder: false
     },
     successMsgs: {
       addEvent: '',
       updateEvent: '',
-      removeEvent: ''
+      removeEvent: '',
+      setReminder: '',
+      stopReminder: ''
     },
     event: {}
   }),
@@ -98,6 +101,36 @@ export const useEventStore = defineStore('event', {
         this.errorMsg = error.response.data.message || error.response.message || error.message
         setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.removeEvent = false
+        return 'fail'
+      }
+    },
+    async setReminder(eventId: string): Promise<'success' | 'fail'> {
+      this.loaders.reminder = true
+      try {
+        const { data } = await axiosJwt.put(`events/${eventId}/reminder`)
+        this.successMsgs.setReminder = data.message
+        setTimeout(() => (this.successMsgs.setReminder = ''), 5000)
+        this.loaders.reminder = false
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
+        this.loaders.reminder = false
+        return 'fail'
+      }
+    },
+    async stopReminder(eventId: string): Promise<'success' | 'fail'> {
+      this.loaders.reminder = true
+      try {
+        const { data } = await axiosJwt.put(`events/${eventId}/reminder/stop`)
+        this.successMsgs.stopReminder = data.message
+        setTimeout(() => (this.successMsgs.stopReminder = ''), 5000)
+        this.loaders.reminder = false
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
+        this.loaders.reminder = false
         return 'fail'
       }
     }
