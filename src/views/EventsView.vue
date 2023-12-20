@@ -40,6 +40,14 @@ export default {
         this.events = eventStore.$state.events
       }
     }
+    // async searchEvent() {
+    //   const { getEvents } = eventStore
+
+    //   const res = await getEvents({ search: this.search })
+
+    //   if (res === 'success') {
+    //   }
+    // },
   }
 }
 </script>

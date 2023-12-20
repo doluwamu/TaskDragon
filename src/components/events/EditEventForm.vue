@@ -105,8 +105,8 @@ export default {
 
     this.name = eventStore.$state.event?.name
     this.description = eventStore.$state.event?.description
-    this.startDate = moment(eventStore.$state.event?.startDate).format('YYYY-MM-DDTHH:MM')
-    this.endDate = moment(eventStore.$state.event?.endDate).format('YYYY-MM-DDTHH:MM')
+    this.startDate = moment(eventStore.$state.event?.startDate).format('YYYY-MM-DDThh:mm')
+    this.endDate = moment(eventStore.$state.event?.endDate).format('YYYY-MM-DDThh:mm')
     this.reminder = eventStore.$state.event?.reminder
     this.eventId = eventStore.$state.event?._id
   },

@@ -15,12 +15,17 @@
       <p class="text-white text-4xl text-center py-5">Your Events</p>
       <!-- Event search and filter -->
       <div class="flex justify-center items-center gap-2">
-        <input
-          type="text"
-          placeholder="Search event..."
-          v-model="search"
-          class="rounded-xl bg-inherit outline-none border border-white w-[300px]"
-        />
+        <form @submit.prevent="fetchEvents({ search })" class="relative">
+          <input
+            type="text"
+            placeholder="Search event..."
+            v-model="search"
+            class="rounded-xl bg-inherit outline-none border border-white w-[300px]"
+          />
+          <button type="submit" class="absolute right-3 top-2 cursor-pointer">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
         <div
           class="flex-col justify-center items-center relative"
           @mouseover="openFilter()"
@@ -73,7 +78,7 @@
           :to="`/event/${event._id}`"
           class="event-card flex flex-col gap-1 border p-3 rounded-lg hover:bg-[#fff1] cursor-pointer"
         >
-          <p class="font-medium text-2xl">
+          <p class="font-medium text-2xl" :title="event?.name">
             {{ event?.name.length > 8 ? event.name.substring(0, 8) + '...' : event?.name }}
           </p>
           <p class="text-lg">
@@ -130,7 +135,7 @@ export default {
     RouterLink,
     ToastNotification
   },
-  props: ['events', 'eventStore', 'fetchEvents'],
+  props: ['events', 'eventStore', 'fetchEvents', 'searchEvent'],
   data() {
     return {
       search: '',
@@ -149,6 +154,7 @@ export default {
     async filterEvents(status: string) {
       await this.fetchEvents({ status })
     },
+
     async deleteEvent(eventId: string) {
       const confirm = window.confirm('Do you want to delete this event')
 
