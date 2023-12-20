@@ -23,9 +23,19 @@ const getEvents = asyncHandler(async (req, res) => {
 
   let foundEvents = null;
 
-  if (status && status.length > 0) {
-    foundEvents = await Event.find({ ...search })
-      .where({ status })
+  if (status && status === "upcoming") {
+    foundEvents = await Event.find({ startDate: { $gt: Date.now() } })
+      .sort({ updatedAt: 1 })
+      .limit(Number(number) || baseNumber);
+  } else if (status && status === "ongoing") {
+    foundEvents = await Event.find({
+      startDate: { $lte: Date.now() },
+      endDate: { $gte: Date.now() },
+    })
+      .sort({ updatedAt: 1 })
+      .limit(Number(number) || baseNumber);
+  } else if (status && status === "ended") {
+    foundEvents = await Event.find({ endDate: { $lt: Date.now() } })
       .sort({ updatedAt: 1 })
       .limit(Number(number) || baseNumber);
   } else {
