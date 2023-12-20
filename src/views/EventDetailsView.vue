@@ -91,7 +91,15 @@
         Ends on: <span>{{ moment(eventData?.endDate).format('Do MMM, YYYY h:mm a') }}</span>
       </p>
       <p class="text-xs">
-        Status: <span>{{ eventData?.status }}</span>
+        Status:
+        <span>{{
+          new Date(eventData?.startDate).getTime() <= Date.now() &&
+          new Date(eventData?.endDate).getTime() >= Date.now()
+            ? 'ongoing'
+            : new Date(eventData?.startDate).getTime() > Date.now()
+            ? 'upcoming'
+            : 'ended'
+        }}</span>
       </p>
     </div>
   </div>
@@ -121,10 +129,10 @@ export default {
     }
   },
   async mounted() {
-    await this.fetchEvents(String(this.$route.params.eventId))
+    await this.fetchEvent(String(this.$route.params.eventId))
   },
   methods: {
-    async fetchEvents(eventId: string) {
+    async fetchEvent(eventId: string) {
       const { getEvent } = eventStore
       const res = await getEvent(eventId)
 
@@ -137,7 +145,7 @@ export default {
       const res = await setReminder(eventId)
 
       if (res === 'success') {
-        await this.fetchEvents(eventId)
+        await this.fetchEvent(eventId)
       }
     },
     async endReminder(eventId: string) {
@@ -145,7 +153,7 @@ export default {
       const res = await stopReminder(eventId)
 
       if (res === 'success') {
-        await this.fetchEvents(eventId)
+        await this.fetchEvent(eventId)
       }
     }
   }
