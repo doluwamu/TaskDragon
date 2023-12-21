@@ -37,16 +37,27 @@ export const useEventStore = defineStore('event', {
     event: {}
   }),
   actions: {
-    async getEvents(params: { status?: string; search?: string }): Promise<'success' | 'fail'> {
+    async getEvents(params: {
+      status?: string
+      search?: string
+      number?: number
+    }): Promise<'success' | 'fail'> {
       this.loaders.getEvents = true
-      const req =
-        params.status && params.search && params.status.length > 0 && params.search.length > 0
-          ? `events?status=${params.status}&search=${params.search}`
-          : params.status && params.status.length > 0
-          ? `events?status=${params.status}`
-          : params.search && params.search.length > 0
-          ? `events?search=${params.search}`
-          : 'events'
+      // const req =
+      //   params.status && params.search && params.status.length > 0 && params.search.length > 0
+      //     ? `events?status=${params.status}&search=${params.search}`
+      //     : params.status && params.search && params.num && params.status.length > 0 && params.search.length > 0
+      //     ? ``
+      //     : params.status && params.status.length > 0
+      //     ? `events?status=${params.status}`
+      //     : params.search && params.search.length > 0
+      //     ? `events?search=${params.search}`
+      //     : 'events'
+
+      const req = `events?status=${params.status || ''}&search=${params.search || ''}&number=${
+        params.number || 20
+      }`
+
       try {
         const { data } = await axiosJwt.get(req)
         this.events = data.events

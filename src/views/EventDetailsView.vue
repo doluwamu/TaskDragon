@@ -21,7 +21,7 @@
       <i class="fa-solid fa-arrow-left"></i>
     </RouterLink>
 
-    <div v-if="eventData?.status === 'ended'" class="bg-red-600 px-4 py-2 text-lg text-center">
+    <!-- <div v-if="eventData?.status === 'ended'" class="bg-red-600 px-4 py-2 text-lg text-center">
       This event has ended
     </div>
     <div
@@ -29,7 +29,8 @@
       class="bg-red-600 px-4 py-2 text-lg text-center"
     >
       This event is currently ongoing
-    </div>
+    </div> -->
+
     <div
       class="flex justify-center items-center max-w-[1440px] max-h-[50px] bg-blue-900 py-6 px-3 text-center"
     ></div>
@@ -37,7 +38,7 @@
     <div class="flex justify-center items-center max-w-[1440px] min-h-[150px] bg-blue-900 p-3">
       <!-- <h1 class="text-2xl">Event name:</h1> -->
       <p v-if="eventStore.$state.loaders.getEvent" class="text-center">Loading...</p>
-      <p v-else class="text-5xl text-center">{{ eventData?.name }}</p>
+      <p v-else class="text-xl text-center md:text-5xl">{{ eventData?.name }}</p>
     </div>
 
     <div class="flex flex-col gap-8 justify-center items-center py-8 px-2 md:px-4">

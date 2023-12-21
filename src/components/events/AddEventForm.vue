@@ -96,7 +96,7 @@ export default {
       description: '',
       startDate: '',
       endDate: '',
-      reminder: false,
+      reminder: true,
       eventStore
     }
   },

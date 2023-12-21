@@ -15,12 +15,12 @@
       <p class="text-white text-4xl text-center py-5">Your Events</p>
       <!-- Event search and filter -->
       <div class="flex justify-center items-center gap-2">
-        <form @submit.prevent="fetchEvents({ search })" class="relative">
+        <form @submit.prevent="fetchEvents({ search, status: filterOption })" class="relative">
           <input
             type="text"
             placeholder="Search event..."
             v-model="search"
-            class="rounded-xl bg-inherit outline-none border border-white w-[300px]"
+            class="rounded-xl bg-inherit outline-none border border-white w-[200px] sm:w-[300px]"
           />
           <button type="submit" class="absolute right-3 top-2 cursor-pointer">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -67,7 +67,7 @@
     <!-- Events -->
     <div
       v-if="!eventStore.loaders.getEvents && events && events.length > 0"
-      class="event-container flex flex-col justify-center flex-wrap py-8 px-5 sm:flex-row"
+      class="event-container flex flex-col justify-center flex-wrap pt-8 pb-5 px-5 sm:flex-row"
     >
       <div
         v-for="(event, i) in events"
@@ -118,6 +118,16 @@
     >
       No events found
     </div>
+
+    <div class="flex items-center justify-center pb-5">
+      <button
+        v-if="events.length >= 20"
+        @click="fetchEvents({ number: events.length + number, search, status: filterOption })"
+        class="button bg-red-700 px-3 py-2 rounded-md"
+      >
+        Load more
+      </button>
+    </div>
   </div>
 </template>
 
@@ -140,8 +150,10 @@ export default {
     return {
       search: '',
       filterOpened: false,
+      filterOption: '',
       moment,
-      eventStore
+      eventStore,
+      number: 10
     }
   },
   methods: {
@@ -152,15 +164,15 @@ export default {
       this.filterOpened = false
     },
     async filterEvents(status: string) {
-      await this.fetchEvents({ status })
+      await this.fetchEvents({ status, search: this.search })
+      this.filterOption = status
     },
-
     async deleteEvent(eventId: string) {
       const confirm = window.confirm('Do you want to delete this event')
 
       if (!confirm) return
 
-      const { removeEvent, getEvents } = eventStore
+      const { removeEvent } = eventStore
 
       const res = await removeEvent(eventId)
       if (res === 'success') {

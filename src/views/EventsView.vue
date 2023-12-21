@@ -29,7 +29,7 @@ export default {
     await this.fetchEvents()
   },
   methods: {
-    async fetchEvents(params?: { status?: string; search?: string }) {
+    async fetchEvents(params?: { status?: string; search?: string; number?: number }) {
       const { getEvents } = eventStore
 
       const args = params ? params : {}
@@ -40,14 +40,6 @@ export default {
         this.events = eventStore.$state.events
       }
     }
-    // async searchEvent() {
-    //   const { getEvents } = eventStore
-
-    //   const res = await getEvents({ search: this.search })
-
-    //   if (res === 'success') {
-    //   }
-    // },
   }
 }
 </script>
