@@ -88,7 +88,16 @@
                 : event?.description
             }}
           </p>
-          <p class="text-sm">{{ event.status }}</p>
+          <p class="text-sm">
+            {{
+              new Date(event?.startDate).getTime() <= Date.now() &&
+              new Date(event?.endDate).getTime() >= Date.now()
+                ? 'ongoing'
+                : new Date(event?.startDate).getTime() > Date.now()
+                ? 'upcoming'
+                : 'ended'
+            }}
+          </p>
           <br />
           <p class="text-xs">{{ moment(event?.startDate).format('MMM Do, YYYY') }}</p>
         </RouterLink>
