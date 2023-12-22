@@ -23,7 +23,6 @@ axiosJwt.interceptors.response.use(
         Cookie.set('auth_info', JSON.stringify(response.data.user))
         return axios(error.config)
       } else {
-        console.log('error')
         return Promise.reject(error)
       }
     } else {
