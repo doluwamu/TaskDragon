@@ -4,7 +4,7 @@
 
     <div class="flex">
       <AddEventForm />
-      <AdsBar />
+      <!-- <AdsBar /> -->
     </div>
   </div>
 </template>
