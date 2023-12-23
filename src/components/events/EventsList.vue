@@ -32,7 +32,7 @@
           @mouseout="closeFilter()"
         >
           <button class="icon cursor-pointer z-30" title="filter events">
-            <i class="fa-solid fa-filter text-white text-xl"></i>
+            <i class="fa-solid fa-filter text-white text-md"></i>
           </button>
 
           <div
@@ -60,7 +60,7 @@
       </RouterLink>
     </div>
 
-    <!-- Loader -->
+    <!-- Loaders -->
     <div v-if="eventStore.loaders.getEvents" class="text-center py-10 px-2">Loading...</div>
     <div v-if="eventStore.loaders.removeEvent" class="text-center py-10 px-2">Deleting...</div>
 
