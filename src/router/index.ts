@@ -68,6 +68,15 @@ const router = createRouter({
       name: 'userProfile',
       component: () => import('../views/UserProfileView.vue'),
       beforeEnter: authGuard
+    },
+    {
+      path: '/404',
+      name: 'notFound',
+      component: () => import('../views/404View.vue')
+    },
+    {
+      path: '/:catchAll(.*)',
+      redirect: '404'
     }
   ]
 })
