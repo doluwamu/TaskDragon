@@ -24,12 +24,12 @@ const eventSchema = new Schema(
       type: String,
       maxLength: 2000,
     },
-    status: {
-      type: String,
-      required: true,
-      default: upcoming,
-      enum: [upcoming, ongoing, ended],
-    },
+    // status: {
+    //   type: String,
+    //   required: true,
+    //   default: upcoming,
+    //   enum: [upcoming, ongoing, ended],
+    // },
     reminder: {
       type: Boolean,
       required: true,
