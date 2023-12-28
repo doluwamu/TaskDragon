@@ -5,6 +5,10 @@
       <ToastNotification :message="eventStore.successMsgs.removeEvent" messageType="success" />
     </div>
 
+    <div v-if="eventStore.successMsgs.clearEvents.length > 0">
+      <ToastNotification :message="eventStore.successMsgs.clearEvents" messageType="success" />
+    </div>
+
     <div v-if="eventStore.errorMsg.length > 0">
       <ToastNotification :message="eventStore.errorMsg" messageType="error" />
     </div>
@@ -51,18 +55,28 @@
       </div>
     </div>
 
-    <div class="flex justify-center items-center pt-8">
+    <div class="flex justify-center items-center gap-5 pt-8">
       <RouterLink
         to="/event/add"
-        class="button bg-blue-700 text-white text-lg px-2 rounded-full text-center"
+        class="button bg-blue-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center"
       >
         <i class="fa-solid fa-plus"></i>
       </RouterLink>
+      <button
+        class="button bg-red-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center"
+        title="Clear all events"
+        @click="removeAllEvents"
+      >
+        <i class="fa-solid fa-trash"></i>
+      </button>
     </div>
 
     <!-- Loaders -->
     <div v-if="eventStore.loaders.getEvents" class="text-center py-10 px-2">Loading...</div>
     <div v-if="eventStore.loaders.removeEvent" class="text-center py-10 px-2">Deleting...</div>
+    <div v-if="eventStore.loaders.clearEvents" class="text-center py-10 px-2">
+      Deleting all events...
+    </div>
 
     <!-- Events -->
     <div
@@ -184,6 +198,20 @@ export default {
       const { removeEvent } = eventStore
 
       const res = await removeEvent(eventId)
+      if (res === 'success') {
+        this.fetchEvents({})
+      }
+    },
+    async removeAllEvents() {
+      const confirm = window.confirm(
+        'This will clear all your events. Are you sure you want to do this?'
+      )
+
+      if (!confirm) return
+
+      const { clearEvents } = eventStore
+
+      const res = await clearEvents()
       if (res === 'success') {
         this.fetchEvents({})
       }

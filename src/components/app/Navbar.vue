@@ -40,8 +40,8 @@
           <RouterLink to="/events" v-if="userInfo?._id">Events</RouterLink>
         </div>
 
-        <div v-if="!userInfo?._id" class="flex flex-col gap-8 md:gap-5 md:flex-row">
-          <RouterLink to="/">Home</RouterLink>
+        <div v-if="!userInfo?._id" class="flex flex-col gap-8 md:gap-5 md:items-center md:flex-row">
+          <RouterLink to="/" class="text-white">Home</RouterLink>
 
           <RouterLink to="/signup" class="button bg-white px-4 py-2 rounded-lg font-medium"
             >Get started</RouterLink

@@ -19,12 +19,12 @@ export const useEventStore = defineStore('event', {
     number: 0,
     errorMsg: '',
     loaders: {
-      events: false,
       addEvent: false,
       getEvents: false,
       updateEvent: false,
       getEvent: false,
       removeEvent: false,
+      clearEvents: false,
       reminder: false
     },
     successMsgs: {
@@ -32,7 +32,8 @@ export const useEventStore = defineStore('event', {
       updateEvent: '',
       removeEvent: '',
       setReminder: '',
-      stopReminder: ''
+      stopReminder: '',
+      clearEvents: ''
     },
     event: {}
   }),
@@ -164,6 +165,21 @@ export const useEventStore = defineStore('event', {
         this.errorMsg = error.response.data.message || error.response.message || error.message
         setTimeout(() => (this.errorMsg = ''), 5000)
         this.loaders.updateEvent = false
+        return 'fail'
+      }
+    },
+    async clearEvents(): Promise<'success' | 'fail'> {
+      this.loaders.clearEvents = true
+      try {
+        const { data } = await axiosJwt.delete('events')
+        this.successMsgs.clearEvents = data.message
+        setTimeout(() => (this.successMsgs.clearEvents = ''), 5000)
+        this.loaders.clearEvents = false
+        return 'success'
+      } catch (error: any) {
+        this.errorMsg = error.response.data.message || error.response.message || error.message
+        setTimeout(() => (this.errorMsg = ''), 5000)
+        this.loaders.clearEvents = false
         return 'fail'
       }
     }
