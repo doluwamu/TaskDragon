@@ -1,5 +1,5 @@
 <template>
-  <nav id="navbar" class="nav-bar sticky top-0 z-40 overflow-hidden bg-[#000216] md:bg-inherit">
+  <nav id="navbar" class="nav-bar sticky top-0 z-40 overflow-hidden bg-[#000216]">
     <div
       class="flex flex-col justify-between items-center text-center py-6 px-4 mx-auto gap-6 md:gap-0 md:flex-row"
       style="max-width: 1200px"

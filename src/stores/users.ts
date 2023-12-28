@@ -36,7 +36,7 @@ export const useUserStore = defineStore('user', {
         this.loaders.loading = false
         this.sucessMsg = data.message
         this.userInfo = data.user
-        Cookie.set('auth_info', JSON.stringify(this.userInfo), { expires: 7 })
+        Cookie.set('auth_info', JSON.stringify(this.userInfo))
 
         setTimeout(() => (this.sucessMsg = ''), 5000)
         return 'success'
@@ -54,7 +54,7 @@ export const useUserStore = defineStore('user', {
         this.loaders.loading = false
         this.sucessMsg = data.message
         this.userInfo = data.user
-        Cookie.set('auth_info', JSON.stringify(this.userInfo), { expires: 7 })
+        Cookie.set('auth_info', JSON.stringify(this.userInfo))
 
         setTimeout(() => (this.sucessMsg = ''), 5000)
 
@@ -70,7 +70,7 @@ export const useUserStore = defineStore('user', {
         this.loaders.userProfile = true
         const { data } = await axiosJwt.get('users/me')
         this.userInfo = data
-        Cookie.set('auth_info', JSON.stringify(this.userInfo), { expires: 7 })
+        Cookie.set('auth_info', JSON.stringify(this.userInfo))
         this.loaders.userProfile = false
         ;(this.username = data.username), (this.email = data.email)
         return 'success'
@@ -96,7 +96,7 @@ export const useUserStore = defineStore('user', {
         this.sucessMsg = data.message
 
         setTimeout(() => (this.sucessMsg = ''), 5000)
-        Cookie.set('auth_info', JSON.stringify(this.userInfo), { expires: 7 })
+        Cookie.set('auth_info', JSON.stringify(this.userInfo))
         return 'success'
       } catch (error: any) {
         this.loaders.updateProfile = false
