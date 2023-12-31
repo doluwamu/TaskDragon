@@ -35,7 +35,7 @@
         <RouterLink
           :to="`/tasks?add=${true}`"
           @click="openModal"
-          class="button bg-blue-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center"
+          class="button bg-blue-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center hover:bg-blue-900"
         >
           <i class="fa-solid fa-plus"></i>
         </RouterLink>

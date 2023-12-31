@@ -58,12 +58,12 @@
     <div class="flex justify-center items-center gap-5 pt-8">
       <RouterLink
         to="/event/add"
-        class="button bg-blue-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center"
+        class="button bg-blue-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center hover:bg-blue-900"
       >
         <i class="fa-solid fa-plus"></i>
       </RouterLink>
       <button
-        class="button bg-red-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center"
+        class="button bg-red-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center cursor-pointer hover:bg-red-900"
         title="Clear all events"
         @click="removeAllEvents"
       >
