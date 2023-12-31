@@ -104,7 +104,7 @@ export const useEventStore = defineStore('event', {
       }
     },
     async removeEvent(eventId: string): Promise<'success' | 'fail'> {
-      this.loaders.removeEvent = false
+      this.loaders.removeEvent = true
       try {
         const { data } = await axiosJwt.delete(`events/${eventId}`)
         this.successMsgs.removeEvent = data.message

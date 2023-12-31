@@ -1,5 +1,5 @@
 <template>
-  <section class="flex items-center justify-center">
+  <section class="flex items-center justify-center min-h-screen">
     <div id="signin" class="text-white w-full my-4 p-5 rounded-3xl max-w-[600px] md:p-10">
       <h1 class="text-4xl pb-8 text-center">Login to TaskDragon</h1>
 
@@ -36,9 +36,9 @@
         <button
           v-if="authStore.loaders.loading"
           type="button"
-          class="bg-blue-400 text-lg py-2 px-4 mx-auto rounded-lg"
+          class="bg-blue-400 text-lg py-2 px-4 mx-auto rounded-lg cursor-not-allowed"
         >
-          Loading...
+          Login
         </button>
         <button v-else type="submit" class="bg-blue-700 text-lg py-2 px-4 mx-auto rounded-lg">
           Login
