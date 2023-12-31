@@ -18,7 +18,7 @@
       <!-- Section title -->
       <p class="text-white text-4xl text-center py-5">Your Events</p>
       <!-- Event search and filter -->
-      <div class="flex justify-center items-center gap-2">
+      <div class="flex justify-center items-center gap-1">
         <form @submit.prevent="fetchEvents({ search, status: filterOption })" class="relative">
           <input
             type="text"
@@ -35,8 +35,11 @@
           @mouseover="openFilter()"
           @mouseout="closeFilter()"
         >
-          <button class="icon cursor-pointer z-30" title="filter events">
-            <i class="fa-solid fa-filter text-white text-md"></i>
+          <button
+            class="icon cursor-pointer bg-blue-700 w-[35px] h-[35px] rounded-md z-30 hover:bg-blue-900"
+            title="filter events"
+          >
+            <i class="fa-solid fa-list-ul text-white text-md"></i>
           </button>
 
           <div
@@ -58,12 +61,12 @@
     <div class="flex justify-center items-center gap-5 pt-8">
       <RouterLink
         to="/event/add"
-        class="button bg-blue-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center hover:bg-blue-900"
+        class="button bg-blue-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center transition hover:bg-blue-900"
       >
         <i class="fa-solid fa-plus"></i>
       </RouterLink>
       <button
-        class="button bg-red-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center cursor-pointer hover:bg-red-900"
+        class="button bg-red-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center cursor-pointer transition hover:bg-red-900"
         title="Clear all events"
         @click="removeAllEvents"
       >
