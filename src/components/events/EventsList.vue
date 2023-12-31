@@ -36,7 +36,7 @@
           @mouseout="closeFilter()"
         >
           <button
-            class="icon cursor-pointer bg-blue-700 w-[35px] h-[35px] rounded-md z-30 hover:bg-blue-900"
+            class="icon cursor-pointer bg-blue-700 w-[35px] h-[35px] rounded-md z-30 transition hover:bg-blue-900"
             title="filter events"
           >
             <i class="fa-solid fa-list-ul text-white text-md"></i>
@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <div class="flex justify-center items-center gap-5 pt-8">
+    <div class="flex justify-center items-center gap-3 pt-8">
       <RouterLink
         to="/event/add"
         class="button bg-blue-700 text-white text-sm p-2 w-[35px] h-[35px] rounded-full text-center transition hover:bg-blue-900"
