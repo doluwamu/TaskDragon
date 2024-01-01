@@ -36,9 +36,9 @@ export const userLoggedIn = (req, res, next) => {
 };
 
 export const userIsVerified = (req, res, next) => {
-  const { verified } = req;
+  const { user } = req;
 
-  if (verified === false)
+  if (user.verified === false)
     return res.status(400).json({ message: "User not verified" });
 
   next();
