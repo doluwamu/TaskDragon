@@ -95,6 +95,13 @@
           :to="`/event/${event._id}`"
           class="event-card flex flex-col gap-1 border p-3 rounded-lg hover:bg-[#fff1] cursor-pointer"
         >
+          <div
+            v-if="event.reminder"
+            class="absolute right-5 top-5 bg-blue-700 px-2 py-1 rounded-md"
+            title="Reminder"
+          >
+            <i class="fa-regular fa-flag"></i>
+          </div>
           <p class="font-medium text-2xl" :title="event?.name">
             {{ event?.name.length > 8 ? event.name.substring(0, 8) + '...' : event?.name }}
           </p>
