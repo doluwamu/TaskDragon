@@ -28,7 +28,7 @@ const getEvents = asyncHandler(async (req, res) => {
       ...search,
       startDate: { $gt: Date.now() },
     })
-      .sort({ updatedAt: 1 })
+      .sort({ reminder: -1 })
       .limit(Number(number) || baseNumber);
   } else if (status && status === "ongoing") {
     foundEvents = await Event.find({
@@ -36,17 +36,19 @@ const getEvents = asyncHandler(async (req, res) => {
       startDate: { $lte: Date.now() },
       endDate: { $gte: Date.now() },
     })
-      .sort({ updatedAt: 1 })
+      .sort({ reminder: -1 })
       .limit(Number(number) || baseNumber);
   } else if (status && status === "ended") {
     foundEvents = await Event.find({ ...search, endDate: { $lt: Date.now() } })
-      .sort({ updatedAt: 1 })
+      .sort({ reminder: -1 })
       .limit(Number(number) || baseNumber);
   } else {
     foundEvents = await Event.find({ ...search })
-      .sort({ updatedAt: 1 })
+      .sort({ reminder: -1 })
       .limit(Number(number) || baseNumber);
   }
+
+  // foundEvents.sort({rem})
 
   return res.json({ events: foundEvents, number: foundEvents.length });
 });
