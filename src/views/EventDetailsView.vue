@@ -42,12 +42,12 @@
     </div>
 
     <div
-      class="flex flex-col gap-8 justify-center items-center py-8 px-2 max-w-[700px] mx-auto md:px-4"
+      class="flex flex-col gap-8 justify-center items-center py-8 px-2 max-w-[700px] mx-auto mb-32 md:px-4"
     >
       <!-- <h1 class="text-5xl px-2 py-10 text-center">Event Details</h1> -->
       <div class="flex flex-col">
         <!-- <h1 class="text-2xl">Event Description:</h1> -->
-        <p class="text-xl font-light text-justify">{{ eventData?.description }}</p>
+        <p class="text-md font-light text-justify sm:text-xl">{{ eventData?.description }}</p>
       </div>
 
       <div class="flex flex-col justify-center items-center text-sm font-medium sm:flex-row">
