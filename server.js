@@ -25,7 +25,7 @@ dotenv.config();
 
 connectDB();
 
-const PORT = process.env.PORT;
+const { PORT, NODE_ENV } = process.env;
 
 const app = express();
 
@@ -57,8 +57,10 @@ app.use("/api/v1/users", UserRoutes);
 app.use("/api/v1/tasks", TaskRoutes);
 app.use("/api/v1/events", EventRoutes);
 
-// Danger zone(Remove after development)
-app.use("/api/v1/danger", DangerRoutes);
+if (NODE_ENV === "development") {
+  // Danger zone(Remove after development)
+  app.use("/api/v1/danger", DangerRoutes);
+}
 
 app.all("*", (req, res) => {
   res.status(404);

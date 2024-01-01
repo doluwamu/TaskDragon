@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Task from "../models/Task.js";
+import Event from "../models/Event.js";
 import asyncHandler from "express-async-handler";
 import bcrypt from "bcryptjs";
 import { User as user } from "../constants/index.js";
@@ -8,6 +9,7 @@ import { User as user } from "../constants/index.js";
 const clearDB = asyncHandler(async (req, res) => {
   await User.deleteMany({});
   await Task.deleteMany({});
+  await Event.deleteMany({});
 
   return res.json({ message: "DB cleared" });
 });
@@ -22,7 +24,8 @@ const createAdmin = asyncHandler(async (req, res) => {
     (await User.findOne({ username: "admin" })) ||
     (await User.findOne({ email: "admin@gmail.com" }));
 
-  if (foundAdmin) return res.status(403).json({ message: "Admin exists" });
+  if (foundAdmin)
+    return res.status(403).json({ message: "Admin user already exists" });
 
   const newAdmin = {
     username: "admin",
