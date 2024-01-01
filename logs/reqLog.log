@@ -21644,3 +21644,4 @@
 20240101	21:20:03	e6fb0166-4e99-4151-b7f7-7a281dbbd299	OPTIONS	/api/v1/events/65931e57fd6faa452bc23eb5/reminder	http://localhost:5173
 20240101	21:20:03	1d353de2-f6a7-4812-abe0-76d9bfc43ac5	PUT	/api/v1/events/65931e57fd6faa452bc23eb5/reminder	http://localhost:5173
 20240101	21:20:05	05739b06-9d77-478d-aa90-a123068ccbed	GET	/api/v1/events/65931e57fd6faa452bc23eb5	http://localhost:5173
+20240101	21:22:49	312a454c-38ef-4e66-a197-4332185ce1ce	GET	/api/v1/events/65931e57fd6faa452bc23eb5	http://localhost:5173

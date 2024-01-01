@@ -33,11 +33,11 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
-// const origin = "http://localhost:5173" || "https://taskdragon.netlify.app";
-const origin =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5173"
-    : "https://taskdragon-test.netlify.app";
+const origin = "https://taskdragon.netlify.app";
+// const origin =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:5173"
+//     : "https://taskdragon-test.netlify.app";
 
 app.use(cookieParser());
 app.use(logger);
