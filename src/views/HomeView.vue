@@ -15,7 +15,7 @@ import Navbar from '../components/app/Navbar.vue'
         <p class="font-light text-center md:text-left">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veritatis nisi, neque earum hic,
           vitae eos, sapiente quam nihil officiis nulla ducimus ratione quae quo impedit at!
-          Repudiandae nostrum non odit.
+          Repudiandae nostrum non odittes.
         </p>
         <a
           href="/signup"
