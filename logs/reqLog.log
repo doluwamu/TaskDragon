@@ -21586,3 +21586,14 @@
 20240101	14:04:11	8f4514e1-a0fe-4516-942a-29e743342d06	GET	/api/v1/tasks/mine?status=doing&number=10	http://localhost:5173
 20240101	14:04:12	5bbc10dd-4c41-49bd-9fd6-e849164bc631	GET	/api/v1/tasks/mine?status=done&number=10	http://localhost:5173
 20240101	14:04:20	1a9a0270-2a4d-4d80-a1e2-426abb978b39	POST	/api/v1/auth/logout	http://localhost:5173
+20240101	14:15:37	0daf17c7-0ba3-4398-bfdc-a8b166339b31	OPTIONS	/api/v1/auth/login	http://localhost:5173
+20240101	14:15:37	e794242f-7ef2-4fb0-9295-771d502789b8	POST	/api/v1/auth/login	http://localhost:5173
+20240101	14:15:39	37749bc3-a5d8-4fd3-969d-6e331d5a2c49	GET	/api/v1/tasks/mine?status=undone&number=10	http://localhost:5173
+20240101	14:15:40	994dd633-1393-40ce-94ad-781427ccef72	GET	/api/v1/tasks/mine?status=doing&number=10	http://localhost:5173
+20240101	14:15:41	a17578c9-1f5c-4843-a209-78075e62b871	GET	/api/v1/tasks/mine?status=done&number=10	http://localhost:5173
+20240101	14:17:55	d1e23c82-e0e2-4631-88e3-614af684ae43	GET	/api/v1/tasks/mine?status=undone&number=10	http://localhost:5173
+20240101	14:18:25	c2084e2f-5d71-4ece-af9b-763f8b6483e1	GET	/api/v1/tasks/mine?status=doing&number=10	http://localhost:5173
+20240101	14:27:10	744e7114-9b67-49a7-838d-691d9a804d6c	OPTIONS	/api/v1/auth/signup	http://localhost:5173
+20240101	14:27:10	2f717e68-d857-4122-b0b4-df563e4ed21b	POST	/api/v1/auth/signup	http://localhost:5173
+20240101	14:27:20	1e0ee1c2-21ff-481b-a810-075f9ba38744	OPTIONS	/api/v1/auth/login	http://localhost:5173
+20240101	14:27:20	19fbc467-3e46-4ed1-8a5c-00e3c976bc1b	POST	/api/v1/auth/login	http://localhost:5173
