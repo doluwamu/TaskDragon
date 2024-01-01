@@ -32,8 +32,6 @@ const setUserSecrets = asyncHandler(async (req, res) => {
   )
     return res.status(400).json({ message: "Secrets are already set" });
 
-  console.log(color, DOB, food);
-
   foundUser.userSecrets.color = color && color;
   foundUser.userSecrets.DOB = DOB && DOB; //format to pass in req.body= YYYY-MM-DD
   foundUser.userSecrets.food = food && food;
