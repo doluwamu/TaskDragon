@@ -29,3 +29,8 @@ coverage
 
 # Local Netlify folder
 .netlify
+
+# Environment
+.env
+.env.dev
+.env.development
