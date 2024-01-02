@@ -2,7 +2,7 @@ import axios from 'axios'
 import Cookie from 'js-cookie'
 
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:5000/api/v1/'
+axios.defaults.baseURL = 'https://taskdragon.onrender.com/api/v1/'
 
 // https://taskdragon.onrender.com/api/v1/
 // http://localhost:5000/api/v1/
