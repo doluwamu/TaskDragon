@@ -5,7 +5,7 @@
   >
     <RouterLink to="/tasks" class="absolute top-0 left-0 bg-[#0007] h-full w-full"></RouterLink>
     <div
-      class="modal-form bg-gray-800 text-white py-5 px-3 z-50 w-11/12 overflow-y-auto md:w-2/3 md:px-5"
+      class="modal-form bg-gray-800 text-white py-5 px-3 z-50 w-11/12 overflow-y-auto max-h-[500px] md:w-2/3 md:px-5"
     >
       <div class="flex justify-between items-center md:gap-4">
         <div></div>
